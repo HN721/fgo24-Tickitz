@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme{
+  --font-display:"DM Sans", sans-serif;
+  --font-secondary:'Satoshi', sans-serif;
+  --color-primary:#0F100D;
+  --color-secondary:#E95102;
+  --color-brand:#FDECE3;
+  --color-gray:#E0E0E0;
+  --color-font-secondary:#E95102;
+  --color-font-navbar:#646464;
+  --color-font-white:#fff;
+  --color-font-gray:#333333;
+  --font-weight-xl:900;
+  --font-weight-lg:700;
+  --font-weight-med:600;
+  --font-weight-md:500;
+  --font-weight-sm:400;
+  --font-weight-small:300;
+}
