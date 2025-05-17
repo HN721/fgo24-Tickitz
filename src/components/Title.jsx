@@ -3,7 +3,7 @@ import React from "react";
 export default function Title() {
   return (
     <>
-      <section className="flex items-center w-auto flex-col mt-12 mx-6 ">
+      <section className="flex items-center w-auto flex-col pt-24 mx-6 ">
         <div className="bg-brand flex justify-center rounded-full w-[479px] mt-6">
           <h1 className="font-display text-font-secondary font-large text-xl text-center">
             MOVIE TICKET PURCHASES #1 IN INDONESIA
