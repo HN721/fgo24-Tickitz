@@ -14,7 +14,7 @@ export default function Benefit() {
           </h2>
         </div>
 
-        <div className="flex mx-12 gap-4 lg:w-1/2">
+        <div className="flex  lg:flex-row  flex-col mx-12 gap-4 lg:w-1/2">
           <BenefitCard
             icon={<ShieldCheck className="w-6 h-6 text-brand" />}
             title="Guaranted"

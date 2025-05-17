@@ -6,7 +6,7 @@ import Button from "./Button";
 export default function Cinema() {
   return (
     <>
-      <section className="mt-12 mx-6">
+      <section className="mt-12 mx-6 ">
         <div className="flex justify-between items-center">
           <img src={arrow} />
           <p className="font-display font-med text-primary text-4xl">
@@ -21,7 +21,6 @@ export default function Cinema() {
           </Button>
         </div>
       </section>
-      c
     </>
   );
 }
