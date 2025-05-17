@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import getData from "../services/fetchMovie";
-
+/**
+ * Peta ID genre ke nama genre berdasarkan standar TMDB (The Movie Database).
+ * @type {Object<number, string>}
+ */
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -22,7 +25,22 @@ const genreMap = {
   10752: "War",
   37: "Western",
 };
-
+/**
+ * Komponen `Movielist` bertanggung jawab untuk menampilkan daftar film populer dari API TMDB.
+ * Hanya menampilkan 4 film dalam satu baris horizontal dan dapat discroll ke kanan jika lebih.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Movielist />
+ * )
+ *
+ * @returns {JSX.Element} Elemen React yang menampilkan daftar film dengan poster, judul, dan genre.
+ */
+/**
+ * @param {Array} movie Harus Berisi Array Pf Object
+ * @returns
+ */
 export default function Movielist() {
   const [movie, setMovie] = useState([]);
 
