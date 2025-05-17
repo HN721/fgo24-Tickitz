@@ -41,7 +41,7 @@ const genreMap = {
  * @param {Array} movie Harus Berisi Array Pf Object
  * @returns
  */
-export default function Movielist() {
+export default function Movielist({ classType }) {
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function Movielist() {
   return (
     <div className="py-6">
       <div className="relative">
-        <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-thin max-w-[calc(12rem*5+1.5rem*3)] scrollbar-thumb-secondary scrollbar-track-gray-200">
+        <div className={classType}>
           {movie.map((item) => (
             <div key={item.id} className="relative flex-none w-48 rounded-lg  ">
               {/* Badge "Recommended" */}

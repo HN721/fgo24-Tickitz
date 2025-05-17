@@ -5,6 +5,7 @@ import Cinema from "../components/Cinema";
 import Benefit from "../components/Benefit";
 import Subscribe from "../components/Subscribe";
 import Footer from "../components/Footer";
+import ComingSoon from "../components/ComingSoon";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Title />
       <Cinema />
       <Benefit />
+      <ComingSoon />
       <Subscribe />
       <Footer />
     </div>

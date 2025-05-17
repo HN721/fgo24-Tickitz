@@ -17,11 +17,6 @@ export default function Footer() {
       <div className="flex items-center justify-between mx-22">
         <div>
           <img src={logo} alt="" />
-
-          <p className="text-white">
-            Stop waiting in line. Buy tickets conveniently, watch movies
-            quietly.
-          </p>
         </div>
         <div className="flex justify-between  gap-12">
           <div>
@@ -75,6 +70,14 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mx-22 flex justify-between">
+        <p className="text-white font-display font-small text-sm ">
+          Stop waiting in line. Buy tickets conveniently, watch movies quietly.
+        </p>
+        <p className="text-white font-display font-small text-sm ">
+          © 2025 Tickitz. All Rights Reserved.
+        </p>
       </div>
     </div>
   );
