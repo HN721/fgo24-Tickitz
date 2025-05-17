@@ -12,7 +12,7 @@ export default function Navbar() {
       <div>
         <img src={logo} alt="" />
       </div>
-      <div className="flex gap-8">
+      <div className="flex gap-12 items-center">
         <p className="text-primary font-display font-lg">HOME</p>
         <p className="text-font-navbar font-display font-md">MOVIE</p>
         <p className="text-font-navbar font-display font-md">BUY TICKET</p>

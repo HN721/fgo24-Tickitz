@@ -5,7 +5,7 @@ export default function Title() {
     <>
       <section className="flex items-center w-auto flex-col mt-12 mx-6 ">
         <div className="bg-brand flex justify-center rounded-full w-[479px] mt-6">
-          <h1 className="font-display text-font-secondary font-xl text-xl text-center">
+          <h1 className="font-display text-font-secondary font-large text-xl text-center">
             MOVIE TICKET PURCHASES #1 IN INDONESIA
           </h1>
         </div>
@@ -13,7 +13,7 @@ export default function Title() {
           <h1 className="font-display text-6xl leading-20 font-sm">
             Experience the Magic of Cinema:
           </h1>
-          <h1 className=" text-6xl font-md font-secondary text-secondary">
+          <h1 className=" text-6xl font-large font-display text-secondary">
             Book Your Tickets Today
           </h1>
         </div>
