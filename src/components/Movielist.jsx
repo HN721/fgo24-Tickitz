@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import getData from "../services/fetchMovie";
-/**
- * Peta ID genre ke nama genre berdasarkan standar TMDB (The Movie Database).
- * @type {Object<number, string>}
- */
+
+// Pemetaan ID genre ke nama genre
 const genreMap = {
   28: "Action",
   12: "Adventure",
@@ -25,75 +23,81 @@ const genreMap = {
   10752: "War",
   37: "Western",
 };
-/**
- * Komponen `Movielist` bertanggung jawab untuk menampilkan daftar film populer dari API TMDB.
- * Hanya menampilkan 4 film dalam satu baris horizontal dan dapat discroll ke kanan jika lebih.
- *
- * @component
- * @example
- * return (
- *   <Movielist />
- * )
- *
- * @returns {JSX.Element} Elemen React yang menampilkan daftar film dengan poster, judul, dan genre.
- */
-/**
- * @param {Array} movie Harus Berisi Array Pf Object
- * @returns
- */
-export default function Movielist({ classType }) {
+
+export default function Movielist({ classType, movies }) {
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      const res = await getData();
-      setMovie(res);
-    };
-    fetchMovie();
-  }, []);
+    if (!movies) {
+      const fetchMovie = async () => {
+        const res = await getData();
+        setMovie(res);
+      };
+      fetchMovie();
+    }
+  }, [movies]);
+
+  const displayedMovies = movies || movie;
 
   return (
     <div className="py-6">
       <div className="relative">
         <div className={classType}>
-          {movie.map((item) => (
-            <div key={item.id} className="relative flex-none w-48 rounded-lg  ">
-              {/* Badge "Recommended" */}
-              <span className="absolute -top-1 -left-0 px-2 py-1 text-xs font-md font-display text-secondary bg-brand rounded-tl-xl rounded-br-xl shadow-sm z-10">
-                Recommended
-              </span>
+          {displayedMovies.length === 0 ? (
+            <p className="text-center text-gray-500 col-span-full">
+              No movies found.
+            </p>
+          ) : (
+            displayedMovies.map((item) => (
+              <div
+                key={item.id}
+                className="relative flex-none w-48 rounded-lg group overflow-hidden"
+              >
+                {/* Label */}
+                <span className="absolute -top-1 -left-0 px-2 py-1 text-xs font-md font-display text-secondary bg-brand rounded-tl-xl rounded-br-xl shadow-sm z-10">
+                  Recommended
+                </span>
 
-              {/* Poster */}
-              <img
-                src={
-                  item.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-                    : "https://via.placeholder.com/192x288?text=Poster"
-                }
-                alt={item.title}
-                className="w-full h-72 object-cover rounded-lg"
-              />
+                {/* Poster */}
+                <img
+                  src={
+                    item.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+                      : "https://via.placeholder.com/192x288?text=Poster"
+                  }
+                  alt={item.title}
+                  className="w-full h-72 object-cover rounded-lg"
+                />
 
-              {/* Movie title */}
-              <div className="p-2 text-center">
-                <h3 className="text-sm font-bold uppercase truncate">
-                  {item.title}
-                </h3>
+                {/* Overlay Blur */}
+                <div className="absolute top-0 left-0 w-full h-72 backdrop-blur-sm bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center">
+                  <button className="mb-2 px-4 py-1 border font-display border-white rounded-full text-white text-lg font-lg hover:bg-white hover:text-black transition">
+                    View Details
+                  </button>
+                  <button className="px-4 py-1 rounded-full font-display bg-secondary text-white text-lg font-lg hover:bg-orange-500 transition">
+                    Buy Ticket
+                  </button>
+                </div>
 
-                {/* Genre badges */}
-                <div className="flex justify-center space-x-2 mt-2 flex-wrap">
-                  {item.genre_ids.slice(0, 2).map((genreId) => (
-                    <span
-                      key={genreId}
-                      className="text-xs text-gray-700 bg-gray rounded-full px-2 py-0.5"
-                    >
-                      {genreMap[genreId] || "Unknown"}
-                    </span>
-                  ))}
+                {/* Title & Genres */}
+                <div className="p-2 text-center bg-white">
+                  <h3 className="text-sm font-bold uppercase truncate">
+                    {item.title}
+                  </h3>
+                  <div className="flex justify-center space-x-2 mt-2 flex-wrap">
+                    {(item.genre_ids || []).slice(0, 2).map((genreId) => (
+                      <span
+                        key={genreId}
+                        className="text-xs text-gray-700 bg-gray rounded-full px-2 py-0.5"
+                      >
+                        {genreMap[genreId] || "Unknown"}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

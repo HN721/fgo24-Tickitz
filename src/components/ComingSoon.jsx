@@ -36,9 +36,22 @@ export default function ComingSoon() {
   const genres = ["ACTION", "ADVENTURE", "COMEDY", "SCI-FI"];
 
   return (
-    <div className="bg-back">
-      <div className="flex flex-col">
-        <div className="flex justify-center mt-8">
+    <div className="bg-back py-8">
+      <div className="flex flex-col items-center">
+        {/* Teks Header: Atas saat mobile */}
+        <div className="block md:hidden text-center px-4 mb-6">
+          <div className="bg-brand text-secondary px-4 py-2 rounded-full font-medium text-sm inline-block mb-3">
+            UPCOMING MOVIES
+          </div>
+          <h2 className="font-med text-3xl font-display">
+            Exciting Movie
+            <br />
+            Coming Soon
+          </h2>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:flex justify-center mt-8">
           <div className="flex gap-12 max-w-[calc(8rem*5+1.5rem*3)]">
             {movies.map((movie) => (
               <div key={movie.id} className="flex flex-col">
@@ -69,12 +82,34 @@ export default function ComingSoon() {
             </h2>
           </div>
         </div>
-        <div className="flex justify-around mt-12 items-center ">
-          <div className="flex space-x-3 ">
+
+        {/* Mobile Layout */}
+        <div className="flex md:hidden overflow-x-auto px-4 space-x-4 w-full">
+          {movies.map((movie) => (
+            <div
+              key={movie.id}
+              className="flex-shrink-0 w-48 flex flex-col items-center"
+            >
+              <img
+                src={movie.poster}
+                alt={movie.title}
+                className="w-full rounded-lg border border-gray-200 mb-2"
+              />
+              <h3 className="font-bold text-center text-sm">{movie.title}</h3>
+              <span className="mt-2 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs">
+                {movie.releaseDate}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Genre & Control Buttons */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 px-4 mt-10 w-full max-w-6xl">
+          <div className="flex flex-wrap justify-center gap-3">
             {genres.map((genre, index) => (
               <button
                 key={index}
-                className={`px-6 py-3 rounded-full text-sm font-medium ${
+                className={`px-6 py-2 rounded-full text-sm font-medium ${
                   index === 0
                     ? "bg-orange-600 text-white"
                     : "bg-white text-gray-800 border border-gray-300"
@@ -85,8 +120,8 @@ export default function ComingSoon() {
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
-            <div className="flex space-x-2">
+          <div className="flex flex-wrap gap-3 justify-center">
+            <div className="flex gap-2">
               <button className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center">
                 <ChevronLeft size={20} className="text-gray-600" />
               </button>
@@ -94,11 +129,10 @@ export default function ComingSoon() {
                 <ChevronRight size={20} className="text-white" />
               </Button>
             </div>
-
-            <Button className="flex items-center px-5 py-3 bg-secondary text-white rounded-full text-sm font-medium">
+            <button className="flex items-center px-5 py-3 bg-secondary text-white rounded-full text-sm font-medium">
               <span>VIEW ALL</span>
               <ArrowRight size={18} className="ml-2" />
-            </Button>
+            </button>
           </div>
         </div>
       </div>

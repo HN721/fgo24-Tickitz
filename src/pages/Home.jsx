@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Title from "../components/Title";
 import Cinema from "../components/Cinema";
@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import ComingSoon from "../components/ComingSoon";
 
 export default function Home() {
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <div>
       <Navbar />
