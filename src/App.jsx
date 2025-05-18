@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import MoviePage from "./pages/MoviePage";
 import DetailMoviePage from "./pages/DetailMoviePage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import SeatPage from "./pages/SeatPage";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -13,6 +14,14 @@ export default function App() {
     {
       path: "/Movie-list",
       element: <MoviePage />,
+    },
+    {
+      path: "/Detail-movie:id",
+      element: <DetailMoviePage />,
+    },
+    {
+      path: "/Seat",
+      element: <SeatPage />,
     },
   ]);
 

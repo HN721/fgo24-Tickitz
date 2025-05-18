@@ -24,7 +24,10 @@ export default function Navbar() {
             {" "}
             <p className="text-font-navbar font-display text-md">MOVIE</p>
           </Link>
-          <p className="text-font-navbar font-display text-md">BUY TICKET</p>
+          <Link to={"/Detail-movie:id"}>
+            {" "}
+            <p className="text-font-navbar font-display text-md">BUY TICKET</p>
+          </Link>
         </div>
 
         {/* Desktop Buttons */}

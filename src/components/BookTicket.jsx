@@ -1,11 +1,18 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BookTicket() {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-50 p-6 md:p-8 rounded-lg">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold">Book Tickets</h2>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-full">
+        <button
+          onClick={() => {
+            navigate("/Seat");
+          }}
+          className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-full"
+        >
           BOOK NOW
         </button>
       </div>
