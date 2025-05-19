@@ -4,6 +4,7 @@ import MoviePage from "./pages/MoviePage";
 import DetailMoviePage from "./pages/DetailMoviePage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SeatPage from "./pages/SeatPage";
+import LoginPage from "./pages/LoginPage";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -16,12 +17,16 @@ export default function App() {
       element: <MoviePage />,
     },
     {
-      path: "/Detail-movie:id",
+      path: "/Detail-movie/:id",
       element: <DetailMoviePage />,
     },
     {
       path: "/Seat",
       element: <SeatPage />,
+    },
+    {
+      path: "/Login",
+      element: <LoginPage />,
     },
   ]);
 

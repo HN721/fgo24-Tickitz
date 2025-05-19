@@ -5,7 +5,7 @@ import Filtering from "../components/Filtering";
 import Movielist from "../components/Movielist";
 import Subscribe from "../components/Subscribe";
 import Footer from "../components/Footer";
-import getData, { getPage } from "../services/fetchMovie";
+import { getPage, getData } from "../services/fetchMovie";
 import Pagination from "../components/Pagination";
 
 export default function MoviePage() {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import getData from "../services/fetchMovie";
+import { getData } from "../services/fetchMovie";
+import { useNavigate } from "react-router-dom";
 
 // Pemetaan ID genre ke nama genre
 const genreMap = {
@@ -25,6 +26,7 @@ const genreMap = {
 };
 
 export default function Movielist({ classType, movies }) {
+  const navigate = useNavigate();
   const [movie, setMovie] = useState([]);
 
   useEffect(() => {
@@ -38,7 +40,9 @@ export default function Movielist({ classType, movies }) {
   }, [movies]);
 
   const displayedMovies = movies || movie;
-
+  function handleClick(id) {
+    navigate(`/Detail-movie/${id}`);
+  }
   return (
     <div className="py-6">
       <div className="relative">
@@ -71,7 +75,10 @@ export default function Movielist({ classType, movies }) {
 
                 {/* Overlay Blur */}
                 <div className="absolute top-0 left-0 w-full h-72 backdrop-blur-sm bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center">
-                  <button className="mb-2 px-4 py-1 border font-display border-white rounded-full text-white text-lg font-lg hover:bg-white hover:text-black transition">
+                  <button
+                    onClick={() => handleClick(item.id)}
+                    className="mb-2 px-4 py-1 border font-display border-white rounded-full text-white text-lg font-lg hover:bg-white hover:text-black transition"
+                  >
                     View Details
                   </button>
                   <button className="px-4 py-1 rounded-full font-display bg-secondary text-white text-lg font-lg hover:bg-orange-500 transition">

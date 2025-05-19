@@ -9,13 +9,14 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md px-6 py-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
+      <div
+        className="max-w-7xl mx-auto flex justify-between
+       items-center"
+      >
         <div>
           <img src={logo} alt="Logo" className="h-8 w-auto" />
         </div>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex gap-12 items-center">
           <Link to={"/"}>
             <p className="text-primary font-display text-lg">HOME</p>
@@ -30,17 +31,17 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop Buttons */}
         <div className="hidden md:flex gap-3">
-          <Button className="bg-font-white border border-primary text-primary">
-            LOGIN
-          </Button>
+          <Link to={"/login"}>
+            <Button className="bg-font-white border border-primary text-primary">
+              LOGIN
+            </Button>
+          </Link>
           <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary">
             SIGNUP
           </Button>
         </div>
 
-        {/* Hamburger Menu - Mobile */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-primary">
             {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -48,7 +49,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
       {isOpen && (
         <div className="md:hidden mt-4 bg-white shadow-md rounded-lg px-6 py-4 space-y-4">
           <Link to={"/"}>

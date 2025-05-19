@@ -3,7 +3,6 @@ import spiderman from "../assets/spiderman.png";
 export default function MovieSeatBooking() {
   const [selectedSeats, setSelectedSeats] = useState(["C4", "C5", "C6"]);
 
-  // Movie details
   const movieDetails = {
     title: "Spider-Man: Homecoming",
     genres: ["Action", "Adventure"],
@@ -13,10 +12,8 @@ export default function MovieSeatBooking() {
     price: 10,
   };
 
-  // Generate seat grid
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
 
-  // Define sold seats
   const soldSeats = [
     "A5",
     "A9",
@@ -34,13 +31,11 @@ export default function MovieSeatBooking() {
     "G8",
   ];
 
-  // Define love seat
   const loveSeats = ["F6"];
 
-  // Handle seat selection
   const toggleSeat = (seatId) => {
     if (soldSeats.includes(seatId) || loveSeats.includes(seatId)) {
-      return; // Can't select sold or love seats
+      return;
     }
 
     if (selectedSeats.includes(seatId)) {
@@ -50,7 +45,6 @@ export default function MovieSeatBooking() {
     }
   };
 
-  // Check seat status
   const getSeatStatus = (seatId) => {
     if (selectedSeats.includes(seatId)) return "selected";
     if (soldSeats.includes(seatId)) return "sold";
@@ -58,7 +52,6 @@ export default function MovieSeatBooking() {
     return "available";
   };
 
-  // Get CSS class based on seat status
   const getSeatClass = (status) => {
     switch (status) {
       case "selected":
@@ -72,13 +65,11 @@ export default function MovieSeatBooking() {
     }
   };
 
-  // Calculate total payment
   const totalPayment = selectedSeats.length * movieDetails.price;
 
   return (
     <div className="flex justify-center p-4 mt-12 bg-gray-100 min-h-screen">
       <div className="w-full max-w-5xl flex flex-col md:flex-row gap-4">
-        {/* Left column - Seat selection */}
         <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
           <div className="flex items-center mb-6">
             <img
@@ -106,13 +97,10 @@ export default function MovieSeatBooking() {
 
           <h3 className="font-bold text-lg mb-6">Choose Your Seat</h3>
 
-          {/* Screen indication */}
           <div className="text-center mb-6 text-xs text-gray-500">Screen</div>
 
-          {/* Seat grid */}
           <div className="mb-8">
             <div className="flex">
-              {/* Row labels */}
               <div className="w-6 mr-2">
                 {rows.map((row, rowIndex) => (
                   <div
@@ -124,7 +112,6 @@ export default function MovieSeatBooking() {
                 ))}
               </div>
 
-              {/* Left section seats */}
               <div className="flex-1 mr-4">
                 {rows.map((row, rowIndex) => (
                   <div key={rowIndex} className="flex">
@@ -168,7 +155,6 @@ export default function MovieSeatBooking() {
             </div>
           </div>
 
-          {/* Column numbers */}
           <div className="flex">
             <div className="w-6 mr-2"></div>
             <div className="flex-1 flex mr-4">
@@ -193,7 +179,6 @@ export default function MovieSeatBooking() {
             </div>
           </div>
 
-          {/* Seating key */}
           <div className="mt-8">
             <h4 className="text-sm font-medium mb-2">Seating key</h4>
             <div className="flex gap-4">
@@ -217,7 +202,6 @@ export default function MovieSeatBooking() {
           </div>
         </div>
 
-        {/* Right column - Order summary */}
         <div className="w-full md:w-64">
           <div className="bg-white p-6 rounded-lg shadow-md mb-4">
             <div className="flex justify-center mb-2">

@@ -9,6 +9,7 @@ import React from "react";
 export default function Button({ children, className, ...props }) {
   return (
     <button
+      type="submit"
       className={` flex items-center justify-center px-4 py-3 text-center rounded-full 
       font-lg ${className}`}
       {...props}

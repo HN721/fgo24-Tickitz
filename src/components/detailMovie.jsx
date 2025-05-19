@@ -1,47 +1,88 @@
-import React from "react";
-import movie from "../assets/jumbo.png";
+import React, { useEffect, useState } from "react";
 import poster from "../assets/poster.png";
+import background from "../assets/jumbo.png";
+import { getMoviebyId } from "../services/fetchMovie";
 
-export default function DetailMovie() {
-  return (
-    <div className="relative rounded-[48px] overflow-hidden mt-20 max-w-7xl mx-auto">
-      <div className="relative h-[480px] md:h-[520px]">
-        <img
-          src={movie}
-          alt="Movie Background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-        <div className="absolute inset-0 bg-opacity-50 z-10" />
+export default function DetailMovie({ id }) {
+  const [movies, setMovies] = useState();
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getMoviebyId(id);
+      console.log(res);
+      setMovies(res);
+    };
+    getData();
+  }, []);
 
-        <div className="relative z-20 flex p-6 md:p-10 h-full items-end gap-6">
-          <div className="hidden w-70 h-70 md:block flex-shrink-0">
-            <img
-              src={poster}
-              alt="Poster"
-              className=" rounded shadow-lg object-cover translate-y-10"
-            />
-          </div>
+  console.log(movies);
+  if (!movies) {
+    return <p>Data Tidak Ditemukan</p>;
+  } else {
+    return (
+      <div className="relative mb-25">
+        <div className=" mt-20 md:flex-row bg-black  overflow-hidden rounded-[48px]">
+          <img
+            src={`https://image.tmdb.org/t/p/w500${
+              movies.belongs_to_collection &&
+              movies.belongs_to_collection.backdrop_path
+                ? movies.belongs_to_collection.backdrop_path
+                : movies.backdrop_path
+            }`}
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-40 z-2  gap-6  text-white flex-1 flex   px-6 py-16">
+            <div className="bg-white rounded-[24px] overflow-hidden shadow-xl w-[200px] md:w-[240px]">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
+                alt="Poster"
+                className="w-full object-cover"
+              />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold mb-4"></h1>
+              <p className="text-sm md:text-base max-w-2xl leading-relaxed mb-4">
+                {movies.overview}
+              </p>
 
-          {/* Info */}
-          <div className="text-white max-w-3xl">
-            <h1 className="text-3xl md:text-5xl font-bold mb-3">JUMBO</h1>
-            <p className="text-sm md:text-base mb-4">
-              Don (Prince Poeltray), a chubby boy often mocked with the nickname
-              "Jumbo," wants to get back at the kids who bully him. However, a
-              spirit named Meri (Quinn Salman) asks for Don's help to be
-              reunited with her family's grave, which has been vandalized.
-            </p>
-            <div className="flex gap-3">
-              <span className="px-4 py-1 rounded-full border border-white text-white text-xs">
-                Action
-              </span>
-              <span className="px-4 py-1 rounded-full border border-white text-white text-xs">
-                Adventure
-              </span>
+              {/* Tags */}
+              <div className="flex gap-2">
+                <span className="px-4 py-1 rounded-full border border-white text-sm">
+                  Action
+                </span>
+                <span className="px-4 py-1 rounded-full border border-white text-sm">
+                  Adventure
+                </span>
+              </div>
+              <div className="flex text-black pt-14 gap-2">
+                <div className="flex flex-col">
+                  <div>
+                    <p>Release Date</p>
+                    <p>March 31, 2025</p>
+                  </div>
+                  <div>
+                    <p>Duration</p>
+                    <p>1 hours 42 minutes</p>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div>
+                    <p>Directed By</p>
+                    <p>Ryan Adriandhy</p>
+                  </div>
+                  <div>
+                    <p>Cast</p>
+                    <p>
+                      Prince Poetiray, Quinn Salman, Graciella Abigail, M. Yusuf
+                      Ozkan, M. Adhiyat, Angga Yunanda
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
