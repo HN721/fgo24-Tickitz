@@ -1,10 +1,13 @@
-import React from "react";
+import React, { createContext } from "react";
 import Home from "./pages/Home";
 import MoviePage from "./pages/MoviePage";
 import DetailMoviePage from "./pages/DetailMoviePage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import SeatPage from "./pages/SeatPage";
 import LoginPage from "./pages/LoginPage";
+import PaymentPage from "./pages/PaymentPage";
+import Dashboard from "./Admin/page/Dashboard";
+export const dataContext = createContext();
 
 export default function App() {
   const router = createBrowserRouter([
@@ -28,12 +31,22 @@ export default function App() {
       path: "/Login",
       element: <LoginPage />,
     },
+    {
+      path: "/Payment",
+      element: <PaymentPage />,
+    },
+    {
+      path: "/dashboard",
+      element: <Dashboard />,
+    },
   ]);
 
   return (
     <>
       <div className="w-full">
-        <RouterProvider router={router} />
+        <dataContext.Provider value={[]}>
+          <RouterProvider router={router} />
+        </dataContext.Provider>
       </div>
     </>
   );
