@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRegister } from "../hooks/useRegister";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -8,11 +9,13 @@ export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
+  const getItem = JSON.parse(localStorage.getItem("Auth") || "[]");
+  console.log(getItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login submitted:", { email, password, rememberMe });
-    navigate("/", { replace: true });
+    const data = { username, phone, email, phone, password };
+    const result = useRegister(data);
+    return result;
   };
 
   return (
