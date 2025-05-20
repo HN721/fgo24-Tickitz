@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import spiderman from "../assets/spiderman.png";
 import { useNavigate } from "react-router-dom";
+import { DataContext } from "../App";
 export default function MovieSeatBooking() {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState(["C4", "C5", "C6"]);
-
+  const { bookings } = useContext(DataContext);
   const movieDetails = {
     title: "Spider-Man: Homecoming",
     genres: ["Action", "Adventure"],
@@ -67,7 +68,7 @@ export default function MovieSeatBooking() {
     }
   };
 
-  const totalPayment = selectedSeats.length * movieDetails.price;
+  const totalPayment = selectedSeats.length * bookings.price;
 
   return (
     <div className="flex justify-center p-4 mt-12 bg-gray-100 min-h-screen">
@@ -75,20 +76,20 @@ export default function MovieSeatBooking() {
         <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
           <div className="flex items-center mb-6">
             <img
-              src={spiderman}
+              src={bookings.img}
               alt="Spider-Man: Homecoming"
               className="w-24 h-16 rounded-md mr-4"
             />
             <div>
-              <h2 className="font-bold text-lg">{movieDetails.title}</h2>
+              <h2 className="font-bold text-lg">{bookings.movieName}</h2>
               <div className="flex gap-2 text-xs text-gray-500">
-                {movieDetails.genres.map((genre, index) => (
-                  <span key={index}>{genre}</span>
+                {bookings.genre.map((genre, id) => (
+                  <span key={id}>{genre.name}</span>
                 ))}
               </div>
               <div className="flex items-center mt-2">
                 <span className="text-sm text-gray-700 mr-2">
-                  Regular - {movieDetails.time}
+                  Regular - {bookings.time}
                 </span>
                 <button className="bg-secondary text-white text-xs px-4 py-1 rounded">
                   Change
@@ -99,7 +100,9 @@ export default function MovieSeatBooking() {
 
           <h3 className="font-bold text-lg mb-6">Choose Your Seat</h3>
 
-          <div className="text-center mb-6 text-xs text-gray-500">Screen</div>
+          <div className="text-center flex justify-center items-center w-max-content mb-6 text-xs  bg-gray-500 text-white">
+            Screen
+          </div>
 
           <div className="mb-8">
             <div className="flex">
@@ -210,23 +213,23 @@ export default function MovieSeatBooking() {
               <h3 className="text-secondary font-bold">CineOne21</h3>
             </div>
             <div className="text-center mb-6">
-              <p className="text-sm">{movieDetails.cinema}</p>
+              <p className="text-sm">{bookings.cinema}</p>
             </div>
 
             <div className="space-y-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Movie selected</span>
-                <span className="font-medium">{movieDetails.title}</span>
+                <span className="font-medium">{bookings.movieName}</span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-gray-600">{movieDetails.date}</span>
-                <span className="font-medium">{movieDetails.time}</span>
+                <span className="text-gray-600">{bookings.days}</span>
+                <span className="font-medium">{bookings.time}</span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-gray-600">One ticket price</span>
-                <span className="font-medium">${movieDetails.price}</span>
+                <span className="font-medium">Rp.{bookings.price}</span>
               </div>
 
               <div className="flex justify-between">
@@ -239,7 +242,7 @@ export default function MovieSeatBooking() {
               <div className="flex justify-between items-center">
                 <span className="font-medium">Total Payment</span>
                 <span className="font-bold text-secondary text-lg">
-                  ${totalPayment}
+                  Rp.{totalPayment}
                 </span>
               </div>
             </div>

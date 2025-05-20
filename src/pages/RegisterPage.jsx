@@ -13,7 +13,7 @@ export default function RegisterPage() {
   console.log(getItem);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { username, phone, email, phone, password };
+    const data = { username, email, phone, password };
     const result = useRegister(data);
     return result;
   };

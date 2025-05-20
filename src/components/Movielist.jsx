@@ -73,7 +73,6 @@ export default function Movielist({ classType, movies }) {
                   className="w-full h-72 object-cover rounded-lg"
                 />
 
-                {/* Overlay Blur */}
                 <div className="absolute top-0 left-0 w-full h-72 backdrop-blur-sm bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center">
                   <button
                     onClick={() => handleClick(item.id)}

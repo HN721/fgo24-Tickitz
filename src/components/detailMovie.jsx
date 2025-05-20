@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { getMovieCredits, getMoviebyId } from "../services/fetchMovie";
+import { DataContext } from "../App";
 
-export default function DetailMovie({ id }) {
+export default function DetailMovie({ id, setData }) {
   const [director, setDirector] = useState("");
   const [cast, setCast] = useState([]);
   const [movies, setMovies] = useState();
@@ -11,7 +12,18 @@ export default function DetailMovie({ id }) {
       const res = await getMoviebyId(id);
       const credits = await getMovieCredits(id);
       console.log(credits);
+
       setMovies(res);
+      setData((prev) => ({
+        ...prev,
+        movieName: res.title,
+        IdMovie: res.id,
+        genre: res.genres,
+        price: 50000,
+        img: `https://image.tmdb.org/t/p/original${
+          res.belongs_to_collection?.backdrop_path ?? res.backdrop_path
+        }`,
+      }));
       const directorData = credits.crew.find(
         (person) => person.job === "Director"
       );
@@ -19,12 +31,9 @@ export default function DetailMovie({ id }) {
 
       const castData = credits.cast.slice(0, 6).map((person) => person.name);
       setCast(castData);
-      console.log(castData);
-      console.log(directorData);
     };
     getData();
   }, []);
-
   if (!movies) {
     return <p>Data Tidak Ditemukan</p>;
   } else {

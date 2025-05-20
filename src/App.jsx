@@ -12,24 +12,8 @@ import RegisterPage from "./pages/RegisterPage";
 import TicketPage from "./pages/TicketPage";
 export const DataContext = createContext();
 export default function App() {
-  const [bookings, setBookings] = useState([
-    {
-      name: "",
-      email: "",
-      phone: "",
-      idMovie: "",
-      movieName: "",
-      genre: [],
-      seat: [],
-      payment: null,
-      img: "",
-      cinema: "",
-      date: "",
-      location: "",
-      time: "",
-    },
-  ]);
-
+  const [bookings, setBookings] = useState([]);
+  console.log(bookings);
   const router = createBrowserRouter([
     {
       path: "/",
