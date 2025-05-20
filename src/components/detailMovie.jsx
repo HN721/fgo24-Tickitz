@@ -31,7 +31,7 @@ export default function DetailMovie({ id }) {
     return (
       <div className="relative w-full h-[520px] mt-20  mb-50 ">
         <div
-          className="w-full h-full bg-cover rounded-4xl bg-center flex items-end justify-end pb-10 pr-40"
+          className="w-full h-full bg-cover rounded-4xl bg-center flex items-end justify-end pb-10 pr-5"
           style={{
             backgroundImage: `url(https://image.tmdb.org/t/p/original${
               movies.belongs_to_collection?.backdrop_path ??
@@ -54,7 +54,7 @@ export default function DetailMovie({ id }) {
             </div>
           </div>
         </div>
-        <div className="w-[80rem] h-[29.125rem]">
+        <div className="w-auto h-max-content">
           <div className="absolute top-60 px-6 md:px-12 py-6 flex items-end gap-6">
             <img
               src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}
@@ -62,7 +62,7 @@ export default function DetailMovie({ id }) {
               className=" rounded-lg shadow-lg"
             />
           </div>
-          <div className="detail-container flex w-[59rem] ml-100 mt-6 items-start gap-10">
+          <div className="detail-container flex w-auto ml-100 mt-6 items-start gap-10">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col">
                 <p>Release Date</p>

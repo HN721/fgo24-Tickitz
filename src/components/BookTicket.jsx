@@ -1,9 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import ebu from "../assets/ebu.svg";
-import cineOne from "../assets/cineOne.svg";
-import hiflix from "../assets/hiflix.svg";
+
 export default function BookTicket() {
   const navigate = useNavigate();
   return (
