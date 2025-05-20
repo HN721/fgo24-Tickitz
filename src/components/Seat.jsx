@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import spiderman from "../assets/spiderman.png";
+import { useNavigate } from "react-router-dom";
 export default function MovieSeatBooking() {
+  const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState(["C4", "C5", "C6"]);
 
   const movieDetails = {
@@ -103,12 +105,12 @@ export default function MovieSeatBooking() {
             <div className="flex">
               <div className="w-6 mr-2">
                 {rows.map((row, rowIndex) => (
-                  <div
+                  <button
                     key={rowIndex}
                     className="h-6 flex items-center justify-center text-xs font-medium text-gray-700"
                   >
                     {row}
-                  </div>
+                  </button>
                 ))}
               </div>
 
@@ -243,7 +245,10 @@ export default function MovieSeatBooking() {
             </div>
           </div>
 
-          <button className="w-full bg-secondary text-white py-3 rounded-lg font-medium">
+          <button
+            onClick={() => navigate("/payment")}
+            className="w-full bg-secondary text-white py-3 rounded-lg font-medium"
+          >
             Checkout now
           </button>
         </div>

@@ -37,9 +37,11 @@ export default function Navbar() {
               LOGIN
             </Button>
           </Link>
-          <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary">
-            SIGNUP
-          </Button>
+          <Link to={"/register"}>
+            <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary">
+              SIGNUP
+            </Button>
+          </Link>
         </div>
 
         <div className="md:hidden">

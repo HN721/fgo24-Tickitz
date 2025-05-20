@@ -1,20 +1,28 @@
 import Swal from "sweetalert2";
 
 export function useLogin({ email, password }) {
-  const getItem = JSON.parse(localStorage.getItem("auth") || "[]");
-  if (email !== getItem.email) {
-    Swal.fire({
+  const users = JSON.parse(localStorage.getItem("Auth") || "[]");
+
+  const foundUser = users.find((user) => user.email === email);
+
+  if (!foundUser) {
+    return Swal.fire({
       icon: "error",
       title: "Login Failed",
-      text: "Wrong Email ",
+      text: "Wrong Email",
     });
-  } else if (password !== getItem.password) {
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: "Wrong Password ",
-    });
-  } else {
-    return true;
   }
+
+  if (foundUser.password !== password) {
+    return Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: "Wrong Password",
+    });
+  }
+
+  return Swal.fire({
+    title: "Login Berhasil!",
+    icon: "success",
+  });
 }

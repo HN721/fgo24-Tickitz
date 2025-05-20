@@ -9,6 +9,7 @@ import PaymentPage from "./pages/PaymentPage";
 import Dashboard from "./Admin/page/Dashboard";
 import Movie from "./Admin/page/Movie";
 import RegisterPage from "./pages/RegisterPage";
+import TicketPage from "./pages/TicketPage";
 export const DataContext = createContext();
 export default function App() {
   const [bookings, setBookings] = useState([
@@ -45,6 +46,10 @@ export default function App() {
     {
       path: "/Seat",
       element: <SeatPage />,
+    },
+    {
+      path: "/Ticket",
+      element: <TicketPage />,
     },
     {
       path: "/Login",

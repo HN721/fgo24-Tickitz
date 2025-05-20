@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,8 +10,13 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login submitted:", { email, password, rememberMe });
-    navigate("/", { replace: true });
+    const data = { email, password };
+    const result = useLogin(data);
+    console.log(result);
+    if (result === true) {
+      navigate("/", { replace: true });
+    }
+    return result;
   };
 
   return (
