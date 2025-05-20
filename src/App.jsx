@@ -7,6 +7,7 @@ import SeatPage from "./pages/SeatPage";
 import LoginPage from "./pages/LoginPage";
 import PaymentPage from "./pages/PaymentPage";
 import Dashboard from "./Admin/page/Dashboard";
+import Movie from "./Admin/page/Movie";
 export const dataContext = createContext();
 
 export default function App() {
@@ -38,6 +39,10 @@ export default function App() {
     {
       path: "/dashboard",
       element: <Dashboard />,
+    },
+    {
+      path: "/dashboard/movies",
+      element: <Movie />,
     },
   ]);
 

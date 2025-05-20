@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
 import poster from "../assets/poster.png";
 import background from "../assets/jumbo.png";
-import { getMoviebyId } from "../services/fetchMovie";
+import { getMovieCredits, getMoviebyId } from "../services/fetchMovie";
 
 export default function DetailMovie({ id }) {
+  const [director, setDirector] = useState("");
+  const [cast, setCast] = useState([]);
   const [movies, setMovies] = useState();
   useEffect(() => {
     const getData = async () => {
       const res = await getMoviebyId(id);
-      console.log(res);
+      const credits = await getMovieCredits(id);
+      console.log(credits);
       setMovies(res);
+      const directorData = credits.crew.find(
+        (person) => person.job === "Director"
+      );
+      setDirector(directorData?.name || "Unknown");
+
+      const castData = credits.cast.slice(0, 6).map((person) => person.name);
+      setCast(castData);
+      console.log(castData);
+      console.log(directorData);
     };
     getData();
   }, []);
@@ -19,65 +31,58 @@ export default function DetailMovie({ id }) {
     return <p>Data Tidak Ditemukan</p>;
   } else {
     return (
-      <div className="relative mb-25">
-        <div className=" mt-20 md:flex-row bg-black  overflow-hidden rounded-[48px]">
-          <img
-            src={`https://image.tmdb.org/t/p/w500${
-              movies.belongs_to_collection &&
-              movies.belongs_to_collection.backdrop_path
-                ? movies.belongs_to_collection.backdrop_path
-                : movies.backdrop_path
-            }`}
-            alt="Background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-40 z-2  gap-6  text-white flex-1 flex   px-6 py-16">
-            <div className="bg-white rounded-[24px] overflow-hidden shadow-xl w-[200px] md:w-[240px]">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
-                alt="Poster"
-                className="w-full object-cover"
-              />
+      <div className="relative w-full h-[520px] mt-20  mb-50 ">
+        <div
+          className="w-full h-full bg-cover rounded-4xl bg-center flex items-end justify-end pb-10 pr-40"
+          style={{
+            backgroundImage: `url(https://image.tmdb.org/t/p/original${
+              movies.belongs_to_collection?.backdrop_path ??
+              movies.backdrop_path
+            })`,
+          }}
+        >
+          <div className="flex flex-col justify-end w-[53.1875rem] items-start gap-4">
+            <h1 className="text-white text-3xl font-bold">{movies.title}</h1>
+            <p className="text-white text-sm">{movies.overview}</p>
+            <div className="flex gap-2 flex-wrap">
+              {movies.genres?.map((genre) => (
+                <span
+                  key={genre.id}
+                  className="bg-white/20 border border-white text-white text-xs md:text-sm px-3 py-1 rounded-full"
+                >
+                  {genre.name}
+                </span>
+              ))}
             </div>
-            <div>
-              <h1 className="text-4xl font-bold mb-4"></h1>
-              <p className="text-sm md:text-base max-w-2xl leading-relaxed mb-4">
-                {movies.overview}
-              </p>
-
-              {/* Tags */}
-              <div className="flex gap-2">
-                <span className="px-4 py-1 rounded-full border border-white text-sm">
-                  Action
-                </span>
-                <span className="px-4 py-1 rounded-full border border-white text-sm">
-                  Adventure
-                </span>
+          </div>
+        </div>
+        <div className="w-[80rem] h-[29.125rem]">
+          <div className="absolute top-60 px-6 md:px-12 py-6 flex items-end gap-6">
+            <img
+              src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}
+              alt="Poster"
+              className=" rounded-lg shadow-lg"
+            />
+          </div>
+          <div className="detail-container flex w-[59rem] ml-100 mt-6 items-start gap-10">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
+                <p>Release Date</p>
+                <p>{movies.release_date}</p>
               </div>
-              <div className="flex text-black pt-14 gap-2">
-                <div className="flex flex-col">
-                  <div>
-                    <p>Release Date</p>
-                    <p>March 31, 2025</p>
-                  </div>
-                  <div>
-                    <p>Duration</p>
-                    <p>1 hours 42 minutes</p>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div>
-                    <p>Directed By</p>
-                    <p>Ryan Adriandhy</p>
-                  </div>
-                  <div>
-                    <p>Cast</p>
-                    <p>
-                      Prince Poetiray, Quinn Salman, Graciella Abigail, M. Yusuf
-                      Ozkan, M. Adhiyat, Angga Yunanda
-                    </p>
-                  </div>
-                </div>
+              <div>
+                <p>Duration</p>
+                <p>{movies.runtime}</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
+                <p>Directed By</p>
+                <p>{director}</p>
+              </div>
+              <div className="flex flex-col max-w-90">
+                <p>Cast</p>
+                <p>{cast.join(", ")}</p>
               </div>
             </div>
           </div>
@@ -85,4 +90,31 @@ export default function DetailMovie({ id }) {
       </div>
     );
   }
+}
+
+{
+  /* <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-6 flex items-end gap-6">
+<img
+  src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}
+  alt="Poster"
+  className="w-28 md:w-40 rounded-lg shadow-lg"
+/>
+
+
+</div> */
+}
+
+{
+  /* <div className="text-white max-w-2xl">
+<div className="flex gap-2 flex-wrap">
+  {movies.genres?.map((genre) => (
+    <span
+      key={genre.id}
+      className="bg-white/20 border border-white text-white text-xs md:text-sm px-3 py-1 rounded-full"
+    >
+      {genre.name}
+    </span>
+  ))}
+</div>
+</div> */
 }

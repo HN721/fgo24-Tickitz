@@ -49,7 +49,7 @@ export default function ListMovie() {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-lg   shadow-sm max-w-5xl mx-auto">
+    <div className="bg-white p-6 rounded-lg  mt-12 shadow-sm max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold">List Movie</h1>
         <div className="flex gap-2">
@@ -95,10 +95,10 @@ export default function ListMovie() {
                 <td className="py-3 px-2">{movie.duration}</td>
                 <td className="py-3 px-2">
                   <div className="flex gap-1">
-                    <button className="p-1 bg-secondary rounded text-white">
+                    <button className="p-1 bg-blue-500 rounded text-white">
                       <Eye className="h-4 w-4" />
                     </button>
-                    <button className="p-1 bg-secondary rounded text-white">
+                    <button className="p-1 bg-blue-500 rounded text-white">
                       <Pencil className="h-4 w-4" />
                     </button>
                     <button className="p-1 bg-red-500 rounded text-white">
