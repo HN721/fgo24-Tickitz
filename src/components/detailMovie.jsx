@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import poster from "../assets/poster.png";
-import background from "../assets/jumbo.png";
+
 import { getMovieCredits, getMoviebyId } from "../services/fetchMovie";
 
 export default function DetailMovie({ id }) {
@@ -26,7 +25,6 @@ export default function DetailMovie({ id }) {
     getData();
   }, []);
 
-  console.log(movies);
   if (!movies) {
     return <p>Data Tidak Ditemukan</p>;
   } else {
@@ -72,7 +70,7 @@ export default function DetailMovie({ id }) {
               </div>
               <div>
                 <p>Duration</p>
-                <p>{movies.runtime}</p>
+                <p>{movies.runtime} Minute</p>
               </div>
             </div>
             <div className="flex flex-col gap-2">
@@ -90,31 +88,4 @@ export default function DetailMovie({ id }) {
       </div>
     );
   }
-}
-
-{
-  /* <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 py-6 flex items-end gap-6">
-<img
-  src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}
-  alt="Poster"
-  className="w-28 md:w-40 rounded-lg shadow-lg"
-/>
-
-
-</div> */
-}
-
-{
-  /* <div className="text-white max-w-2xl">
-<div className="flex gap-2 flex-wrap">
-  {movies.genres?.map((genre) => (
-    <span
-      key={genre.id}
-      className="bg-white/20 border border-white text-white text-xs md:text-sm px-3 py-1 rounded-full"
-    >
-      {genre.name}
-    </span>
-  ))}
-</div>
-</div> */
 }

@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import Home from "./pages/Home";
 import MoviePage from "./pages/MoviePage";
 import DetailMoviePage from "./pages/DetailMoviePage";
@@ -8,9 +8,27 @@ import LoginPage from "./pages/LoginPage";
 import PaymentPage from "./pages/PaymentPage";
 import Dashboard from "./Admin/page/Dashboard";
 import Movie from "./Admin/page/Movie";
-export const dataContext = createContext();
-
+import RegisterPage from "./pages/RegisterPage";
+export const DataContext = createContext();
 export default function App() {
+  const [bookings, setBookings] = useState([
+    {
+      name: "",
+      email: "",
+      phone: "",
+      idMovie: "",
+      movieName: "",
+      genre: [],
+      seat: [],
+      payment: null,
+      img: "",
+      cinema: "",
+      date: "",
+      location: "",
+      time: "",
+    },
+  ]);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -33,6 +51,10 @@ export default function App() {
       element: <LoginPage />,
     },
     {
+      path: "/Register",
+      element: <RegisterPage />,
+    },
+    {
       path: "/Payment",
       element: <PaymentPage />,
     },
@@ -49,9 +71,9 @@ export default function App() {
   return (
     <>
       <div className="w-full">
-        <dataContext.Provider value={[]}>
+        <DataContext.Provider value={{ bookings, setBookings }}>
           <RouterProvider router={router} />
-        </dataContext.Provider>
+        </DataContext.Provider>
       </div>
     </>
   );
