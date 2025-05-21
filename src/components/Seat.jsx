@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import spiderman from "../assets/spiderman.png";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
+import { AuthContext } from "../Context/AuthContext";
 export default function MovieSeatBooking() {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState(["C4", "C5", "C6"]);
+  const { token } = useContext(AuthContext);
   const { bookings } = useContext(DataContext);
   const movieDetails = {
     title: "Spider-Man: Homecoming",

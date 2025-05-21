@@ -10,6 +10,7 @@ import Dashboard from "./Admin/page/Dashboard";
 import Movie from "./Admin/page/Movie";
 import RegisterPage from "./pages/RegisterPage";
 import TicketPage from "./pages/TicketPage";
+import AuthLayout from "./components/AuthLayout";
 export const DataContext = createContext();
 export default function App() {
   const [bookings, setBookings] = useState([]);
@@ -23,13 +24,20 @@ export default function App() {
       path: "/Movie-list",
       element: <MoviePage />,
     },
+
     {
-      path: "/Detail-movie/:id",
-      element: <DetailMoviePage />,
-    },
-    {
-      path: "/Seat",
-      element: <SeatPage />,
+      path: "/",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "Seat",
+          element: <SeatPage />,
+        },
+        {
+          path: "Detail-movie/:id",
+          element: <DetailMoviePage />,
+        },
+      ],
     },
     {
       path: "/Ticket",

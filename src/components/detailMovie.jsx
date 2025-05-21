@@ -7,6 +7,7 @@ export default function DetailMovie({ id, setData }) {
   const [director, setDirector] = useState("");
   const [cast, setCast] = useState([]);
   const [movies, setMovies] = useState();
+
   useEffect(() => {
     const getData = async () => {
       const res = await getMoviebyId(id);
@@ -63,7 +64,7 @@ export default function DetailMovie({ id, setData }) {
             </div>
           </div>
         </div>
-        <div className="w-auto h-max-content">
+        <div className="w-auto h-auto">
           <div className="absolute top-60 px-6 md:px-12 py-6 flex items-end gap-6">
             <img
               src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}

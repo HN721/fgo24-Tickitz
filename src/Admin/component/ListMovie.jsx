@@ -1,53 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, Eye, Pencil, Trash } from "lucide-react";
-
+import { getData } from "../../services/fetchMovie";
 export default function ListMovie() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMonth, setSelectedMonth] = useState("November 2023");
 
-  const movies = [
-    {
-      id: 1,
-      thumbnail: "/api/placeholder/40/40",
-      name: "Spiderman HomeComing",
-      category: "Action, Adventure",
-      releaseDate: "07/05/2023",
-      duration: "2 Hours 15 Minute",
-    },
-    {
-      id: 2,
-      thumbnail: "/api/placeholder/40/40",
-      name: "Avengers End Game",
-      category: "Sci-fi, Adventure",
-      releaseDate: "10/06/2023",
-      duration: "2 Hours 15 Minute",
-    },
-    {
-      id: 3,
-      thumbnail: "/api/placeholder/40/40",
-      name: "Spiderman HomeComing",
-      category: "Action, Adventure",
-      releaseDate: "02/03/2023",
-      duration: "2 Hours 15 Minute",
-    },
-    {
-      id: 4,
-      thumbnail: "/api/placeholder/40/40",
-      name: "Avengers End Game",
-      category: "Sci-fi, Adventure",
-      releaseDate: "01/09/2023",
-      duration: "2 Hours 15 Minute",
-    },
-    {
-      id: 5,
-      thumbnail: "/api/placeholder/40/40",
-      name: "Spiderman HomeComing",
-      category: "Action, Adventure",
-      releaseDate: "07/08/2023",
-      duration: "2 Hours 15 Minute",
-    },
-  ];
+  const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    const fetchList = async () => {
+      const res = await getData();
 
+      setMovies(res);
+    };
+    fetchList();
+  }, []);
   return (
     <div className="bg-white p-6 rounded-lg  mt-12 shadow-sm max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
@@ -84,15 +50,15 @@ export default function ListMovie() {
                 <td className="py-3 px-2">{index + 1}</td>
                 <td className="py-3 px-2">
                   <img
-                    src={movie.thumbnail}
-                    alt={movie.name}
+                    src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                    alt={movie.title}
                     className="h-10 w-10 rounded object-cover"
                   />
                 </td>
-                <td className="py-3 px-2 text-secondary">{movie.name}</td>
-                <td className="py-3 px-2 text-secondary">{movie.category}</td>
-                <td className="py-3 px-2">{movie.releaseDate}</td>
-                <td className="py-3 px-2">{movie.duration}</td>
+                <td className="py-3 px-2 text-secondary">{movie.title}</td>
+                <td className="py-3 px-2 text-secondary">Action</td>
+                <td className="py-3 px-2">{movie.release_date}</td>
+                <td className="py-3 px-2">60 Min</td>
                 <td className="py-3 px-2">
                   <div className="flex gap-1">
                     <button className="p-1 bg-blue-500 rounded text-white">
