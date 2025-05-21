@@ -33,6 +33,7 @@ export default function Movielist({ classType, movies }) {
     if (!movies) {
       const fetchMovie = async () => {
         const res = await getData();
+        console.log(res);
         setMovie(res);
       };
       fetchMovie();

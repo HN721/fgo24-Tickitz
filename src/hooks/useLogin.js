@@ -21,8 +21,5 @@ export function useLogin({ email, password }) {
     });
   }
 
-  return Swal.fire({
-    title: "Login Berhasil!",
-    icon: "success",
-  });
+  return true;
 }

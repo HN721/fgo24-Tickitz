@@ -11,6 +11,7 @@ import Movie from "./Admin/page/Movie";
 import RegisterPage from "./pages/RegisterPage";
 import TicketPage from "./pages/TicketPage";
 import AuthLayout from "./components/AuthLayout";
+import ProfilePage from "./User/page/ProfilePage";
 export const DataContext = createContext();
 export default function App() {
   const [bookings, setBookings] = useState([]);
@@ -36,6 +37,10 @@ export default function App() {
         {
           path: "Detail-movie/:id",
           element: <DetailMoviePage />,
+        },
+        {
+          path: "Profile-Page",
+          element: <ProfilePage />,
         },
       ],
     },

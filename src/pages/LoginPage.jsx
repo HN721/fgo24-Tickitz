@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -14,7 +15,12 @@ export default function LoginPage() {
     const result = useLogin(data);
     console.log(result);
     if (result === true) {
-      navigate("/", { replace: true });
+      Swal.fire({
+        title: "Login Berhasil!",
+        icon: "success",
+      }).then((res) => {
+        navigate("/", { replace: true });
+      });
     }
     return result;
   };

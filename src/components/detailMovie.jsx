@@ -25,12 +25,12 @@ export default function DetailMovie({ id, setData }) {
           res.belongs_to_collection?.backdrop_path ?? res.backdrop_path
         }`,
       }));
-      const directorData = credits.crew.find(
+      const directorData = credits.crew?.find(
         (person) => person.job === "Director"
       );
       setDirector(directorData?.name || "Unknown");
 
-      const castData = credits.cast.slice(0, 6).map((person) => person.name);
+      const castData = credits.cast?.slice(0, 6).map((person) => person.name);
       setCast(castData);
     };
     getData();
@@ -41,7 +41,7 @@ export default function DetailMovie({ id, setData }) {
     return (
       <div className="relative w-full h-[520px] mt-20  mb-50 ">
         <div
-          className="w-full h-full bg-cover rounded-4xl bg-center flex items-end justify-end pb-10 pr-5"
+          className="w-full h-full bg-cover rounded-4xl bg-center bg-gradient-to-b flex items-end justify-end pb-10 pr-5"
           style={{
             backgroundImage: `url(https://image.tmdb.org/t/p/original${
               movies.belongs_to_collection?.backdrop_path ??
@@ -49,6 +49,8 @@ export default function DetailMovie({ id, setData }) {
             })`,
           }}
         >
+          <div className="absolute inset-0 bg-black/20 rounded-4xl"></div>
+
           <div className="flex flex-col justify-end w-[53.1875rem] items-start gap-4">
             <h1 className="text-white text-3xl font-bold">{movies.title}</h1>
             <p className="text-white text-sm">{movies.overview}</p>
@@ -67,9 +69,9 @@ export default function DetailMovie({ id, setData }) {
         <div className="w-auto h-auto">
           <div className="absolute top-60 px-6 md:px-12 py-6 flex items-end gap-6">
             <img
-              src={`https://image.tmdb.org/t/p/w300${movies.poster_path}`}
+              src={`https://image.tmdb.org/t/p/original${movies.poster_path}`}
               alt="Poster"
-              className=" rounded-lg shadow-lg"
+              className=" rounded-lg h-105 shadow-lg"
             />
           </div>
           <div className="detail-container flex w-auto ml-100 mt-6 items-start gap-10">
@@ -90,7 +92,7 @@ export default function DetailMovie({ id, setData }) {
               </div>
               <div className="flex flex-col max-w-90">
                 <p>Cast</p>
-                <p>{cast.join(", ")}</p>
+                <p>{cast?.join(", ")}</p>
               </div>
             </div>
           </div>

@@ -1,0 +1,78 @@
+import React from "react";
+
+export default function Sidebar() {
+  return (
+    <div className="flex flex-col  w-full max-w-3xs  mt-12  bg-white  rounded-xl shadow-md  overflow-hidden">
+      <div className="px-6 py-4 flex justify-between items-center">
+        <span className="text-sm font-medium text-gray-800">INFO</span>
+        <button className="text-purple-600">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="19" cy="12" r="1" />
+            <circle cx="5" cy="12" r="1" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center pb-6">
+        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white shadow-md mb-3">
+          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-white text-4xl">
+            JR
+          </div>
+        </div>
+        <h2 className="font-bold text-xl text-gray-800">Jonas El Rodriguez</h2>
+        <span className="text-gray-500 text-sm">Moviegoers</span>
+      </div>
+
+      {/* Loyalty Card */}
+      <div className="px-6 py-4">
+        <h3 className="text-sm text-gray-700 font-medium mb-3">
+          Loyalty Points
+        </h3>
+        <div className="bg-secondary rounded-lg p-4 shadow-md">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-white font-medium">Moviegoers</span>
+            <div className="bg-yellow-400 text-yellow-800 rounded-full p-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-white text-2xl font-bold">320</span>
+            <span className="text-secondary text-sm">points</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-6 pb-6">
+        <div className="flex justify-between text-sm text-gray-600 mb-2">
+          <span>180 points become a master</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="bg-secondary h-2 rounded-full w-3/5"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
