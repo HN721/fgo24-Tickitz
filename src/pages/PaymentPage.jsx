@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { DataContext } from "../App";
 
 export default function PaymentPage() {
   const [showModal, setShowModal] = useState(false);
+  const { bookings } = useContext(DataContext);
 
-  const paymentInfo = {
-    date: "Tuesday, 07 July 2020 at 02:00pm",
-    movieTitle: "Spider-Man: Homecoming",
-    cinemaName: "CineDine21 Cinema",
-    tickets: 3,
-    totalPayment: "$30.00",
-    personalInfo: {
-      fullName: "Jonas El Rodriguez",
-      email: "jonasrodr123@gmail.com",
-      phoneNumber: "+62    81445587121",
-    },
-  };
-
+  const [profile, setProfile] = useState({});
+  console.log(profile);
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    setProfile(token);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-200">
       <Navbar />
@@ -75,27 +70,27 @@ export default function PaymentPage() {
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">DATE & TIME</p>
-            <p className="text-sm">{paymentInfo.date}</p>
+            <p className="text-sm">{bookings.date}</p>
           </div>
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">MOVIE TITLE</p>
-            <p className="text-sm">{paymentInfo.movieTitle}</p>
+            <p className="text-sm">{bookings.movieName}</p>
           </div>
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">CINEMA NAME</p>
-            <p className="text-sm">{paymentInfo.cinemaName}</p>
+            <p className="text-sm">Cine One</p>
           </div>
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">NUMBER OF TICKETS</p>
-            <p className="text-sm">{paymentInfo.tickets} pieces</p>
+            <p className="text-sm">{bookings?.seat.length} pieces</p>
           </div>
 
           <div className="mb-2 border-b-1  border-border">
             <p className="text-xs text-gray-500">TOTAL PAYMENT</p>
-            <p className="text-sm text-secondary">{paymentInfo.totalPayment}</p>
+            <p className="text-sm text-secondary">{bookings.price}</p>
           </div>
         </div>
 
@@ -107,7 +102,7 @@ export default function PaymentPage() {
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded"
-              value={paymentInfo.personalInfo.fullName}
+              value={profile?.user?.username}
               readOnly
             />
           </div>
@@ -117,7 +112,7 @@ export default function PaymentPage() {
             <input
               type="email"
               className="w-full p-2 border border-gray-300 rounded"
-              value={paymentInfo.personalInfo.email}
+              value={profile?.user?.email}
               readOnly
             />
           </div>
@@ -127,7 +122,7 @@ export default function PaymentPage() {
             <input
               type="tel"
               className="w-full p-2 border border-gray-300 rounded"
-              value={paymentInfo.personalInfo.phoneNumber}
+              value={profile?.user?.phone}
               readOnly
             />
           </div>
