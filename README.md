@@ -1,6 +1,6 @@
-# React Basic
+# Ticketz — Movie Booking App
 
-This repo contains the source code of the React to Todo List Using global state management useContext and how to handle data with context
+Ticketz is a modern movie ticket booking app built using React and Tailwind CSS. The app allows users to view movie listings, movie details, and book tickets in real-time. Global state is managed using useContext for efficiency and ease of cross-component data management.
 
 ## Preview
 
