@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../../assets/logo.png";
 import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function NavbarAdmin() {
   return (
@@ -11,7 +12,9 @@ export default function NavbarAdmin() {
 
       <div className="flex space-x-6 text-lg font-med font-display text-gray-700">
         <p className="text-secondary">Dashboard</p>
-        <p>Movie</p>
+        <Link to={"/dashboard/movies"}>
+          <p>Movie</p>
+        </Link>
       </div>
 
       <div className="flex items-center space-x-4">

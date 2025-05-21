@@ -1,5 +1,7 @@
 @import "tailwindcss";
-
+*{
+  font-family: "DM Sans", sans-serif;
+}
 @theme{
   --font-display:"DM Sans", sans-serif;
   --font-secondary:'Satoshi', sans-serif;

@@ -3,17 +3,23 @@ import arrowRight from "../assets/arrow-right.svg";
 import Movielist from "./Movielist";
 import Button from "./Button";
 import arrow from "../assets/arrow.svg";
+import {
+  ArrowBigRight,
+  ArrowLeftCircle,
+  ArrowRightCircleIcon,
+} from "lucide-react";
+
 export default function Cinema() {
   return (
-    <section className="mt-12 mx-32">
+    <section className="mt-12 mx-10 md:mx-32">
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4">
         <p className="font-display font-med text-primary text-2xl md:text-4xl">
           Now Showing in Cinemas
         </p>
 
-        <div className="flex gap-2 self-end md:self-auto">
-          <img src={arrow} alt="Arrow Right" />
-          <img src={arrowRight} alt="Arrow Right" />
+        <div className="flex gap-2 justify-between md:self-auto">
+          <ArrowLeftCircle width={50} height={50} />
+          <ArrowRightCircleIcon width={50} height={50} />
         </div>
       </div>
 
