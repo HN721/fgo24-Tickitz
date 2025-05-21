@@ -12,6 +12,7 @@ import RegisterPage from "./pages/RegisterPage";
 import TicketPage from "./pages/TicketPage";
 import AuthLayout from "./components/AuthLayout";
 import ProfilePage from "./User/page/ProfilePage";
+import PaymentQr from "./pages/PaymentQr";
 export const DataContext = createContext();
 export default function App() {
   const [bookings, setBookings] = useState([]);
@@ -42,12 +43,29 @@ export default function App() {
           path: "Profile-Page",
           element: <ProfilePage />,
         },
+        {
+          path: "Payment",
+          element: <PaymentPage />,
+        },
+        {
+          path: "dashboard",
+          element: <Dashboard />,
+        },
+        {
+          path: "dashboard/movies",
+          element: <Movie />,
+        },
+        {
+          path: "Ticket",
+          element: <TicketPage />,
+        },
+        {
+          path: "payment/qr-code",
+          element: <PaymentQr />,
+        },
       ],
     },
-    {
-      path: "/Ticket",
-      element: <TicketPage />,
-    },
+
     {
       path: "/Login",
       element: <LoginPage />,
@@ -55,18 +73,6 @@ export default function App() {
     {
       path: "/Register",
       element: <RegisterPage />,
-    },
-    {
-      path: "/Payment",
-      element: <PaymentPage />,
-    },
-    {
-      path: "/dashboard",
-      element: <Dashboard />,
-    },
-    {
-      path: "/dashboard/movies",
-      element: <Movie />,
     },
   ]);
 

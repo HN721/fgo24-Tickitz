@@ -37,7 +37,7 @@ export default function PaymentPage() {
 
             <div className="my-3 text-left">
               <p className="text-sm text-gray-600">Total Payment</p>
-              <p className="font-bold text-lg">{paymentInfo.totalPayment}</p>
+              <p className="font-bold text-lg">{bookings.price}</p>
             </div>
 
             <p className="text-xs text-gray-600 mb-4">
@@ -70,7 +70,7 @@ export default function PaymentPage() {
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">DATE & TIME</p>
-            <p className="text-sm">{bookings.date}</p>
+            <p className="text-sm">{bookings.days}</p>
           </div>
 
           <div className="mb-4 border-b-1  border-border">
@@ -90,7 +90,7 @@ export default function PaymentPage() {
 
           <div className="mb-2 border-b-1  border-border">
             <p className="text-xs text-gray-500">TOTAL PAYMENT</p>
-            <p className="text-sm text-secondary">{bookings.price}</p>
+            <p className="text-sm text-secondary">Rp.{bookings.price}</p>
           </div>
         </div>
 

@@ -22,3 +22,15 @@
   --font-weight-sm:400;
   --font-weight-small:300;
 }
+@layer utilities {
+  .grid-qr {
+    @apply grid grid-cols-2 gap-3;
+  }
+
+  .flex-qr {
+    @apply flex flex-col gap-4;
+  }
+  .qr-code{
+    @apply min-h-screen mt-12  flex items-center justify-center px-4 py-10;
+  }
+}
