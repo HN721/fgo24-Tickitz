@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { DataContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export default function PaymentPage() {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { bookings } = useContext(DataContext);
-
   const [profile, setProfile] = useState({});
   console.log(profile);
   useEffect(() => {
@@ -50,7 +51,10 @@ export default function PaymentPage() {
             </p>
 
             <div className="space-y-2">
-              <button className="w-full bg-secondary text-white py-2 rounded font-medium">
+              <button
+                onClick={() => navigate("/payment/qr-code")}
+                className="w-full bg-secondary text-white py-2 rounded font-medium"
+              >
                 Check Payment
               </button>
               <button

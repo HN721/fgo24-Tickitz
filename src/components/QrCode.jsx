@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
+import { DataContext } from "../App";
 
 export default function QrCode() {
-  const bookingData = {
-    movie: "Spider-Man: No Way Home",
-    category: "PG-13",
-    date: "07 Jul",
-    time: "2:00pm",
-    count: 3,
-    seats: ["C4", "C5", "C6"],
-    total: "$30.00",
-  };
+  const { bookings } = useContext(DataContext);
+  useEffect(() => {
+    const getUser = JSON.parse(localStorage.getItem("token") || "{}");
+    const getItem = JSON.parse(localStorage.getItem("Bookings") || "[]");
+    console.log(bookings);
+    const bookingData = {
+      ...bookings,
+      userId: getUser?.user?.id || null,
+      timestamp: new Date().toISOString(),
+    };
 
-  const qrValue = JSON.stringify(bookingData);
+    getItem.push(bookingData);
+    localStorage.setItem("Bookings", JSON.stringify(getItem));
+  }, [bookings]);
+  const qrValue = bookings.length > 0 ? JSON.stringify(bookings[0]) : "";
+  const bookingData = bookings;
 
   const handleDownload = () => {
     const canvas = document.getElementById("qr-gen");
@@ -38,16 +44,16 @@ export default function QrCode() {
             <div className="flex-qr">
               <span className="text-gray-500">Movie</span>
               <span className="font-semibold truncate max-w-[150px]">
-                {bookingData.movie}
+                {bookingData.movieName}
               </span>
             </div>
             <div className="flex-qr">
               <span className="text-gray-500">Category</span>
-              <span>{bookingData.category}</span>
+              <span>{bookingData.genre.map((g) => g.name).join(", ")}</span>
             </div>
             <div className="flex-qr">
               <span className="text-gray-500">Date</span>
-              <span>{bookingData.date}</span>
+              <span>{bookingData.days}</span>
             </div>
             <div className="flex-qr">
               <span className="text-gray-500">Time</span>
@@ -55,17 +61,17 @@ export default function QrCode() {
             </div>
             <div className="flex-qr">
               <span className="text-gray-500">Count</span>
-              <span>{bookingData.count} pcs</span>
+              <span>{bookingData.seat.length} pcs</span>
             </div>
             <div className="flex-qr">
               <span className="text-gray-500">Seats</span>
-              <span>{bookingData.seats.join(", ")}</span>
+              <span>{bookingData.seat.join(", ")}</span>
             </div>
           </div>
 
           <div className="flex justify-between w-full border-t pt-2 font-semibold">
             <span>Total</span>
-            <span>{bookingData.total}</span>
+            <span>{bookingData.price}</span>
           </div>
         </div>
         <div className="flex flex-col gap-2 p-4">

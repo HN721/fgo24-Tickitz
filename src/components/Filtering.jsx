@@ -25,7 +25,7 @@ export default function Filtering({
   const handleSearch = async (value) => {
     // if (!value.query.trim()) return;
     try {
-      const data = await searchingMovie(value.query);
+      const data = await searchingMovie(value);
       console.log(value.query);
       if (onSearchResults) {
         onSearchResults(data.results);
