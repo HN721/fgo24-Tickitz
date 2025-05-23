@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Sidebar() {
+  const [username, setUsername] = useState();
+  const getItem = JSON.parse(localStorage.getItem("token") || "[]");
+  console.log(getItem);
   return (
     <div className="flex flex-col  w-full max-w-3xs  mt-12  bg-white  rounded-xl shadow-md  overflow-hidden">
       <div className="px-6 py-4 flex justify-between items-center">
@@ -30,8 +33,10 @@ export default function Sidebar() {
             JR
           </div>
         </div>
-        <h2 className="font-bold text-xl text-gray-800">Jonas El Rodriguez</h2>
-        <span className="text-gray-500 text-sm">Moviegoers</span>
+        <h2 className="font-bold text-xl text-gray-800">
+          {getItem.user.username}
+        </h2>
+        <span className="text-gray-500 text-sm">{getItem.user.email}</span>
       </div>
 
       {/* Loyalty Card */}
