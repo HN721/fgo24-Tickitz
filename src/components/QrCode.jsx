@@ -1,9 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { DataContext } from "../App";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addBooking } from "../redux/reducers/bookings";
 
 export default function QrCode() {
   const { bookings } = useContext(DataContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     const getUser = JSON.parse(localStorage.getItem("token") || "{}");
     const getItem = JSON.parse(localStorage.getItem("Bookings") || "[]");
@@ -16,6 +21,7 @@ export default function QrCode() {
 
     getItem.push(bookingData);
     localStorage.setItem("Bookings", JSON.stringify(getItem));
+    dispatch(addBooking(bookingData));
   }, [bookings]);
   const qrValue = bookings.length > 0 ? JSON.stringify(bookings[0]) : "";
   const bookingData = bookings;
@@ -81,7 +87,10 @@ export default function QrCode() {
           >
             ⬇️ Download
           </button>
-          <button className="bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700">
+          <button
+            onClick={() => navigate("/profile-page")}
+            className="bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700"
+          >
             Done
           </button>
         </div>

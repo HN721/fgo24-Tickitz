@@ -13,6 +13,10 @@ import TicketPage from "./pages/TicketPage";
 import AuthLayout from "./components/AuthLayout";
 import ProfilePage from "./User/page/ProfilePage";
 import PaymentQr from "./pages/PaymentQr";
+import EditPages from "./User/page/EditPage";
+import { Provider } from "react-redux";
+import { persistor, store } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 export const DataContext = createContext();
 export default function App() {
   const [bookings, setBookings] = useState([]);
@@ -42,6 +46,10 @@ export default function App() {
         {
           path: "Profile-Page",
           element: <ProfilePage />,
+        },
+        {
+          path: "Edit-Profile",
+          element: <EditPages />,
         },
         {
           path: "Payment",
@@ -79,9 +87,12 @@ export default function App() {
   return (
     <>
       <div className="w-full">
-        <DataContext.Provider value={{ bookings, setBookings }}>
-          <RouterProvider router={router} />
-        </DataContext.Provider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}></PersistGate>
+          <DataContext.Provider value={{ bookings, setBookings }}>
+            <RouterProvider router={router} />
+          </DataContext.Provider>
+        </Provider>
       </div>
     </>
   );

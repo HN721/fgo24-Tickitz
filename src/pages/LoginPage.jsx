@@ -2,27 +2,48 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Login } from "../redux/reducers/auth";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = { email, password };
-    const result = useLogin(data);
-    console.log(result);
-    if (result === true) {
-      Swal.fire({
-        title: "Login Berhasil!",
-        icon: "success",
-      }).then((res) => {
-        navigate("/", { replace: true });
+  const { register, handleSubmit } = useForm();
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
+  const dispatch = useDispatch();
+  function generateFakeToken() {
+    return Math.random().toString(36).substr(2) + Date.now().toString(36);
+  }
+  const submitData = (value) => {
+    const foundUser = user.find((user) => user.email === value.email);
+    if (!foundUser) {
+      return Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: "Wrong Email",
       });
     }
-    return result;
+
+    if (foundUser.password !== value.password) {
+      return Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: "Wrong Password",
+      });
+    }
+    const tokenData = {
+      token: generateFakeToken(),
+      user: {
+        id: foundUser.id,
+        username: foundUser.username,
+        email: foundUser.email,
+        phone: foundUser.phone,
+      },
+      createdAt: new Date().toISOString(),
+      expiredAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    };
+    dispatch(Login(tokenData));
   };
 
   return (
@@ -42,7 +63,7 @@ export default function LoginPage() {
             </a>
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitData)}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -51,30 +72,22 @@ export default function LoginPage() {
               </label>
               <input
                 id="email-address"
-                name="email"
+                {...register("email")}
                 type="email"
-                autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
+              <label className="sr-only">Password</label>
               <input
                 id="password"
-                name="password"
                 type="password"
-                autoComplete="current-password"
+                {...register("password")}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
@@ -83,11 +96,9 @@ export default function LoginPage() {
             <div className="flex items-center">
               <input
                 id="remember-me"
-                name="remember-me"
+                {...register("remember")}
                 type="checkbox"
                 className="h-4 w-4 text-secondary focus:ring-orange-500 border-gray-300 rounded"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
               />
               <label
                 htmlFor="remember-me"

@@ -2,11 +2,10 @@ import React, { useContext, useState } from "react";
 import spiderman from "../assets/spiderman.png";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
-import { AuthContext } from "../Context/AuthContext";
+
 export default function MovieSeatBooking() {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const { token } = useContext(AuthContext);
   const { bookings, setBookings } = useContext(DataContext);
 
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
@@ -70,6 +69,7 @@ export default function MovieSeatBooking() {
       seat: selectedSeats,
       price: totalPayment,
     }));
+
     navigate("/payment");
   }
   return (

@@ -1,31 +1,27 @@
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { AddUserAction } from "../redux/reducers/register";
 
-export function useRegister({ username, email, password, phone }) {
-  const getItem = JSON.parse(localStorage.getItem("Auth") || "[]");
+export function useRegister() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user.user);
+  const error = useSelector((state) => state.user.error);
 
-  const isEmailUsed = getItem.find((item) => item.email === email);
+  return ({ username, email, password, phone }) => {
+    dispatch(AddUserAction({ username, email, password, phone }));
 
-  if (isEmailUsed) {
-    return Swal.fire({
-      icon: "error",
-      title: "Register Failed",
-      text: "Email already used",
-    });
-  }
-
-  const data = {
-    id: Math.floor(Math.random() * 100),
-    username,
-    email,
-    password,
-    phone,
+    const isUsed = users.find((user) => user.email === email);
+    if (isUsed) {
+      Swal.fire({
+        icon: "error",
+        title: "Register Failed",
+        text: "Email already used",
+      });
+    } else {
+      Swal.fire({
+        icon: "success",
+        title: "Register Success",
+      });
+    }
   };
-
-  getItem.push(data);
-  localStorage.setItem("Auth", JSON.stringify(getItem));
-
-  return Swal.fire({
-    title: "Success!",
-    icon: "success",
-  });
 }

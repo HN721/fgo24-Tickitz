@@ -36,7 +36,7 @@ export default function ComingSoon() {
   const genres = ["ACTION", "ADVENTURE", "COMEDY", "SCI-FI"];
 
   return (
-    <div className="bg-back py-8">
+    <div className=" py-8">
       <div className="flex flex-col items-center">
         {/* Teks Header: Atas saat mobile */}
         <div className="block md:hidden text-center px-4 mb-6">

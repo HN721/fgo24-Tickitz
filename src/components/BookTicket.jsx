@@ -320,37 +320,6 @@ export default function BookTicket({ setData }) {
             </div>
           </div>
         </div>
-
-        <div className="flex justify-center gap-2">
-          <button className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center">
-            1
-          </button>
-          <button className="w-8 h-8 rounded-full border border-gray-300 text-gray-600 flex items-center justify-center">
-            2
-          </button>
-          <button className="w-8 h-8 rounded-full border border-gray-300 text-gray-600 flex items-center justify-center">
-            3
-          </button>
-          <button className="w-8 h-8 rounded-full border border-gray-300 text-gray-600 flex items-center justify-center">
-            4
-          </button>
-          <button className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </button>
-        </div>
       </div>
     </form>
   );

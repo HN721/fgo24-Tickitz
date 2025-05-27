@@ -10,7 +10,11 @@ export default function DetailMoviePage() {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const { setBookings } = useContext(DataContext);
-  setBookings(data);
+  useEffect(() => {
+    if (data && Object.keys(data).length > 0) {
+      setBookings(data);
+    }
+  }, [data, setBookings]);
   return (
     <>
       <Navbar />

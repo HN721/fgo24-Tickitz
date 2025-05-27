@@ -8,7 +8,7 @@ export default function Title() {
           MOVIE TICKET PURCHASES #1 IN INDONESIA
         </h1>
       </div>
-
+      x
       <div className="flex flex-col mt-6 items-center gap-2">
         <h1 className="font-display text-4xl md:text-6xl leading-tight md:leading-[4.5rem]">
           Experience the Magic of Cinema:
@@ -17,7 +17,6 @@ export default function Title() {
           Book Your Tickets Today
         </h1>
       </div>
-
       <div className="mt-6">
         <p className="text-base md:text-lg text-font-gray font-small font-display">
           Sign up and get the ticket with a lot of discount

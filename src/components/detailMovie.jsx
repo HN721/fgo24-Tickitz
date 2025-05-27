@@ -39,9 +39,9 @@ export default function DetailMovie({ id, setData }) {
     return <p>Data Tidak Ditemukan</p>;
   } else {
     return (
-      <div className="relative w-full h-[520px] mt-20  mb-50 ">
+      <div className="relative w-full h-auto mt-20 mb-20">
         <div
-          className="w-full h-full bg-cover rounded-4xl bg-center bg-gradient-to-b flex items-end justify-end pb-10 pr-5"
+          className="w-full h-[520px] bg-cover rounded-4xl bg-center"
           style={{
             backgroundImage: `url(https://image.tmdb.org/t/p/original${
               movies.belongs_to_collection?.backdrop_path ??
@@ -49,11 +49,20 @@ export default function DetailMovie({ id, setData }) {
             })`,
           }}
         >
-          <div className="absolute inset-0 bg-black/20 rounded-4xl"></div>
+          <div className="absolute inset-0 "></div>
+        </div>
 
-          <div className="flex flex-col justify-end w-[53.1875rem] items-start gap-4">
-            <h1 className="text-white text-3xl font-bold">{movies.title}</h1>
-            <p className="text-white text-sm">{movies.overview}</p>
+        <div className="relative flex px-6 md:px-12 mt-[-200px] gap-8 z-10">
+          <img
+            src={`https://image.tmdb.org/t/p/original${movies.poster_path}`}
+            alt="Poster"
+            className="rounded-lg h-[400px] shadow-lg"
+          />
+
+          <div className="text-white flex flex-col gap-4 w-full max-w-3xl">
+            <h1 className="text-3xl font-bold">{movies.title}</h1>
+            <p className="text-sm">{movies.overview}</p>
+
             <div className="flex gap-2 flex-wrap">
               {movies.genres?.map((genre) => (
                 <span
@@ -64,34 +73,22 @@ export default function DetailMovie({ id, setData }) {
                 </span>
               ))}
             </div>
-          </div>
-        </div>
-        <div className="w-auto h-auto">
-          <div className="absolute top-60 px-6 md:px-12 py-6 flex items-end gap-6">
-            <img
-              src={`https://image.tmdb.org/t/p/original${movies.poster_path}`}
-              alt="Poster"
-              className=" rounded-lg h-105 shadow-lg"
-            />
-          </div>
-          <div className="detail-container flex w-auto ml-100 mt-6 items-start gap-10">
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <p>Release Date</p>
+
+            <div className="flex text-black flex-wrap gap-9 mt-15">
+              <div>
+                <p className="font-semibold">Release Date</p>
                 <p>{movies.release_date}</p>
               </div>
               <div>
-                <p>Duration</p>
+                <p className="font-semibold">Duration</p>
                 <p>{movies.runtime} Minute</p>
               </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <p>Directed By</p>
+              <div>
+                <p className="font-semibold">Directed By</p>
                 <p>{director}</p>
               </div>
-              <div className="flex flex-col max-w-90">
-                <p>Cast</p>
+              <div className="max-w-sm">
+                <p className="font-semibold">Cast</p>
                 <p>{cast?.join(", ")}</p>
               </div>
             </div>

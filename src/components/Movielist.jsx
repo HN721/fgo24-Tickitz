@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getData } from "../services/fetchMovie";
 import { useNavigate } from "react-router-dom";
 
-// Pemetaan ID genre ke nama genre
 const genreMap = {
   28: "Action",
   12: "Adventure",

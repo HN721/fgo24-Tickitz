@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Content() {
   const bookings = JSON.parse(localStorage.getItem("Bookings") || "[]");
@@ -10,7 +11,9 @@ export default function Content() {
   return (
     <div className="mt-12  flex-1 px-4">
       <div className="flex gap-6 bg-white p-5 rounded-xl shadow-md w-full ">
-        <h1 className="text-gray-500">Account Settings</h1>
+        <Link to={"/Edit-Profile"}>
+          <h1 className="text-gray-500">Account Settings</h1>
+        </Link>
         <h1 className="text-blue-600 border-b-2 border-blue-600">
           Order History
         </h1>
