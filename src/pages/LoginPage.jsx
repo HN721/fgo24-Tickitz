@@ -59,9 +59,9 @@ export default function LoginPage() {
     };
     dispatch(Login(tokenData));
     Swal.fire({
-      icon: "sucess",
-      title: "Login Sucess",
-      text: "Sucessfully Login",
+      title: "Sucess Login!",
+      icon: "success",
+      draggable: true,
     }).then((res) => {
       navigate("/");
     });

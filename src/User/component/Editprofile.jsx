@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,6 +35,7 @@ const validation = yup.object({
 });
 
 export default function Editprofile() {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,

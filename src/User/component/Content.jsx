@@ -30,7 +30,7 @@ export default function Content() {
                 <div className="flex justify-between">
                   <div>
                     <p className="text-gray-400 text-sm">
-                      {order.days} - {order.time}
+                      {order.days} - {order.time} {order.location}
                     </p>
                     <h2 className="font-semibold text-lg">{order.movieName}</h2>
                     <p className="text-sm text-gray-500">
@@ -39,7 +39,7 @@ export default function Content() {
                     </p>
                   </div>
                   <div className="text-black text-xl font-bold italic">
-                    {order.location}
+                    {order.cinema}
                   </div>
                 </div>
 

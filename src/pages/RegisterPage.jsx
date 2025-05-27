@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AddUserAction } from "../redux/reducers/register";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -18,12 +19,20 @@ export default function RegisterPage() {
     const isEmailUsed = users.find((user) => user.email === data.email);
 
     if (isEmailUsed) {
-      alert("Email already used!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Email Already Used",
+      });
       return;
     }
 
     dispatch(AddUserAction(data));
-    alert("Register successful!");
+    Swal.fire({
+      title: "Register successful!",
+      icon: "success",
+      draggable: true,
+    });
     navigate("/login");
   };
 

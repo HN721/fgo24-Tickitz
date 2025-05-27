@@ -1,100 +1,80 @@
-import React, { useEffect, useState } from "react";
-import { Calendar, Eye, Pencil, Trash } from "lucide-react";
-import { getData } from "../../services/fetchMovie";
+import React, { useState } from "react";
+import { Calendar, Trash } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { clearBooking, deleteBooking } from "../../redux/reducers/bookings";
+
 export default function ListMovie() {
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedMonth, setSelectedMonth] = useState("November 2023");
+  const bookings = useSelector((state) => state.booking.bookings);
+  const dispatch = useDispatch();
 
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    const fetchList = async () => {
-      const res = await getData();
+  const handleDelete = (index) => {
+    dispatch(deleteBooking(index));
+  };
 
-      setMovies(res);
-    };
-    fetchList();
-  }, []);
+  const handleDeleteAll = () => {
+    dispatch(clearBooking());
+  };
+
   return (
-    <div className="bg-white p-6 rounded-lg  mt-12 shadow-sm max-w-5xl mx-auto">
+    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-bold">List Movie</h1>
-        <div className="flex gap-2">
-          <div className="relative">
-            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded cursor-pointer">
-              <Calendar className="h-5 w-5 text-gray-600" />
-              <span className="text-gray-700">{selectedMonth}</span>
-            </div>
-          </div>
-          <button className="bg-secondary hover:bg-orange-700 text-white px-4 py-2 rounded">
-            Add Movies
-          </button>
-        </div>
+        <h2 className="text-2xl font-bold text-gray-800">
+          History Transactions
+        </h2>
+        <button
+          onClick={handleDeleteAll}
+          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+        >
+          <Trash className="w-4 h-4" />
+          Delete All
+        </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full">
-          <thead>
-            <tr className="text-left text-gray-600">
-              <th className="py-3 px-2 whitespace-nowrap">No</th>
-              <th className="py-3 px-2 whitespace-nowrap">Thumbnail</th>
-              <th className="py-3 px-2 whitespace-nowrap">Movie Name</th>
-              <th className="py-3 px-2 whitespace-nowrap">Category</th>
-              <th className="py-3 px-2 whitespace-nowrap">Released Date</th>
-              <th className="py-3 px-2 whitespace-nowrap">Duration</th>
-              <th className="py-3 px-2 whitespace-nowrap">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map((movie, index) => (
-              <tr key={movie.id} className="border-t border-gray-100">
-                <td className="py-3 px-2">{index + 1}</td>
-                <td className="py-3 px-2">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                    alt={movie.title}
-                    className="h-10 w-10 rounded object-cover"
-                  />
-                </td>
-                <td className="py-3 px-2 text-secondary">{movie.title}</td>
-                <td className="py-3 px-2 text-secondary">Action</td>
-                <td className="py-3 px-2">{movie.release_date}</td>
-                <td className="py-3 px-2">60 Min</td>
-                <td className="py-3 px-2">
-                  <div className="flex gap-1">
-                    <button className="p-1 bg-blue-500 rounded text-white">
-                      <Eye className="h-4 w-4" />
-                    </button>
-                    <button className="p-1 bg-blue-500 rounded text-white">
-                      <Pencil className="h-4 w-4" />
-                    </button>
-                    <button className="p-1 bg-red-500 rounded text-white">
-                      <Trash className="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="flex items-center gap-2 mb-6">
+        <Calendar className="text-gray-600 w-5 h-5" />
+        <span className="text-gray-700">{selectedMonth}</span>
       </div>
 
-      <div className="flex justify-center mt-6">
-        <div className="flex gap-2">
-          {[1, 2, 3, 4].map((page) => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={`h-8 w-8 flex items-center justify-center rounded ${
-                currentPage === page
-                  ? "bg-secondary text-white"
-                  : "bg-white text-gray-700 border border-gray-300"
-              }`}
+      {bookings.length === 0 ? (
+        <p className="text-gray-500 text-center">No transactions found.</p>
+      ) : (
+        <div className="space-y-4">
+          {bookings.map((item, idx) => (
+            <div
+              key={idx}
+              className="border border-gray-200 p-4 rounded-lg shadow-sm flex gap-4 items-start relative"
             >
-              {page}
-            </button>
+              <img
+                src={item.img}
+                alt={item.movieName}
+                className="w-20 h-28 object-cover rounded-md"
+              />
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-secondary mb-1">
+                  {item.movieName}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  <strong>Date:</strong> {item.days} at {item.time}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <strong>Location:</strong> {item.location}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <strong>Price:</strong> Rp {item.price.toLocaleString()}
+                </p>
+              </div>
+              <button
+                onClick={() => handleDelete(idx)}
+                className="p-2 bg-red-500 hover:bg-red-600 text-white rounded"
+                title="Delete Transaction"
+              >
+                <Trash className="h-4 w-4" />
+              </button>
+            </div>
           ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }
