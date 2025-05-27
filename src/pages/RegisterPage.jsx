@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AddUserAction } from "../redux/reducers/register";
@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.user);
+
   const {
     register,
     handleSubmit,
@@ -45,104 +46,94 @@ export default function RegisterPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
-            <a
-              href="/login"
-              className="font-medium text-secondary hover:text-orange-500"
-            >
-              sign in to your account
-            </a>
+            <Link to={"/login"}>
+              <a className="font-medium text-secondary hover:text-orange-500">
+                sign in to your account
+              </a>
+            </Link>
           </p>
         </div>
+
         <form
           className="mt-8 space-y-6"
           autoComplete="off"
           onSubmit={handleSubmit(onSubmitForm)}
         >
           <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <input
-                type="text"
-                placeholder="Enter Username"
-                {...register("username", { required: true })}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Enter Phone"
-                {...register("phone", { required: true })}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Email address"
-                {...register("email", { required: true })}
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                {...register("password", { required: true })}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-              />
-            </div>
+
+          <div className="rounded-md shadow-sm space-y-4">
+            <input
+              type="text"
+              placeholder="Enter Username"
+              autoComplete="new-username"
+              {...register("username", { required: true })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+
+            <input
+              type="text"
+              placeholder="Enter Phone"
+              {...register("phone", { required: true })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+
+            <input
+              type="email"
+              placeholder="Email address"
+              autoComplete="off"
+              {...register("email", { required: true })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              autoComplete="off"
+              {...register("password", { required: true })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+            />
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
+            <label className="flex items-center text-sm text-gray-900">
               <input
                 id="remember-me"
                 type="checkbox"
                 {...register("rememberMe")}
                 className="h-4 w-4 text-secondary focus:ring-orange-500 border-gray-300 rounded"
               />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Remember me
-              </label>
-            </div>
+              <span className="ml-2">Remember me</span>
+            </label>
 
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-secondary hover:text-orange-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-secondary hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            <a
+              href="#"
+              className="text-sm font-medium text-secondary hover:text-orange-500"
             >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <svg
-                  className="h-5 w-5 text-orange-500 group-hover:text-orange-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-              Register
-            </button>
+              Forgot your password?
+            </a>
           </div>
+
+          <button
+            type="submit"
+            className="relative w-full flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-secondary hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          >
+            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+              <svg
+                className="h-5 w-5 text-orange-500 group-hover:text-orange-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+            Register
+          </button>
         </form>
       </div>
     </div>

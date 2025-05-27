@@ -1,18 +1,13 @@
-import React, { useState } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function AuthLayout() {
-  const user = useSelector((state) => state.auth.Auth);
-  const [token, setToken] = useState(user);
-  if (token) {
-    return (
-      <AuthContext value={{ token, setToken }}>
-        <Outlet />
-      </AuthContext>
-    );
+  const user = useSelector((state) => state.auth.Auth.user);
+
+  if (user) {
+    return <Outlet />;
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 }

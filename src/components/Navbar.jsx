@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import logo from "../assets/react.svg";
+import logo from "../assets/movxar.png";
 import Button from "./Button";
-import { Menu, X } from "lucide-react"; // pastikan kamu install lucide-react
+import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { username } = useSelector((state) => state.auth.Auth.user);
+  const user = useSelector((state) => state.auth.Auth.user);
+  const username = user?.username;
+
   console.log(username);
 
   return (

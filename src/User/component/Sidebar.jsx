@@ -1,10 +1,19 @@
+import { LogOut } from "lucide-react";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout } from "../../redux/reducers/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
   const [username, setUsername] = useState();
   const getItem = useSelector((state) => state.auth.Auth);
+  const navigate = useNavigate();
   console.log(getItem);
+  const dispatch = useDispatch();
+  function handleLogout() {
+    dispatch(Logout());
+    navigate("/");
+  }
   return (
     <div className="flex flex-col  w-full max-w-3xs  mt-12  bg-white  rounded-xl shadow-md  overflow-hidden">
       <div className="px-6 py-4 flex justify-between items-center">
@@ -77,6 +86,10 @@ export default function Sidebar() {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div className="bg-secondary h-2 rounded-full w-3/5"></div>
+        </div>
+        <div className="mt-6 flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg cursor-pointer">
+          <LogOut className="w-5 h-5" />
+          <button onClick={handleLogout}>Logout</button>
         </div>
       </div>
     </div>

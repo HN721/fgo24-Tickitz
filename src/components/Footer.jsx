@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/logo.svg";
+import logo from "../assets/footer.png";
 import Ebu from "../assets/ebu.svg";
 import CineOne from "../assets/cineOne.svg";
 import Hiflix from "../assets/hiflix.svg";
@@ -11,7 +11,7 @@ export default function Footer() {
       {/* === Desktop Version === */}
       <div className="hidden md:flex flex-col gap-8 px-24">
         <div className="flex items-start justify-between">
-          <img src={logo} alt="logo" />
+          <img src={logo} className="w-1/2" alt="logo" />
           <div className="flex gap-12">
             {/* Explore */}
             <div>
