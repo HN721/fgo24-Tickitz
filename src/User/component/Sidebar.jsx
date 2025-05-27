@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function Sidebar() {
   const [username, setUsername] = useState();
-  const getItem = JSON.parse(localStorage.getItem("token") || "[]");
+  const getItem = useSelector((state) => state.auth.Auth);
   console.log(getItem);
   return (
     <div className="flex flex-col  w-full max-w-3xs  mt-12  bg-white  rounded-xl shadow-md  overflow-hidden">

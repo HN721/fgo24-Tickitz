@@ -3,10 +3,12 @@ import logo from "../assets/react.svg";
 import Button from "./Button";
 import { Menu, X } from "lucide-react"; // pastikan kamu install lucide-react
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const tokenData = JSON.parse(localStorage.getItem("token") || "[]");
+  const { username } = useSelector((state) => state.auth.Auth.user);
+  console.log(username);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md px-6 py-4">
@@ -23,27 +25,34 @@ export default function Navbar() {
             <p className="text-primary font-display text-lg">HOME</p>
           </Link>
           <Link to={"/Movie-list"}>
-            {" "}
             <p className="text-font-navbar font-display text-md">MOVIE</p>
           </Link>
           <Link to={"/Detail-movie:id"}>
-            {" "}
             <p className="text-font-navbar font-display text-md">BUY TICKET</p>
           </Link>
         </div>
 
-        <div className="hidden md:flex gap-3">
-          <Link to={"/login"}>
-            <Button className="bg-font-white border border-primary text-primary">
-              LOGIN
-            </Button>
-          </Link>
-          <Link to={"/register"}>
-            <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary">
-              SIGNUP
-            </Button>
-          </Link>
-        </div>
+        {username ? (
+          <div>
+            <Link to={"/profile-page"}>
+              {" "}
+              <h1 className="font-display text-2xl ">{username}</h1>
+            </Link>
+          </div>
+        ) : (
+          <div className="hidden md:flex gap-3">
+            <Link to={"/login"}>
+              <Button className="bg-font-white border border-primary text-primary">
+                LOGIN
+              </Button>
+            </Link>
+            <Link to={"/register"}>
+              <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary">
+                SIGNUP
+              </Button>
+            </Link>
+          </div>
+        )}
 
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)} className="text-primary">
@@ -61,14 +70,18 @@ export default function Navbar() {
             <p className="text-font-navbar font-display text-md">MOVIE</p>
           </Link>
           <p className="text-font-navbar font-display text-md">BUY TICKET</p>
-          <div className="flex flex-col gap-3 mt-4">
-            <Button className="bg-font-white border border-primary text-primary w-full">
-              LOGIN
-            </Button>
-            <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary w-full">
-              SIGNUP
-            </Button>
-          </div>
+          {username ? (
+            <div>{username}</div>
+          ) : (
+            <div className="flex flex-col gap-3 mt-4">
+              <Button className="bg-font-white border border-primary text-primary w-full">
+                LOGIN
+              </Button>
+              <Button className="bg-secondary text-white hover:bg-brand hover:text-font-secondary w-full">
+                SIGNUP
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </nav>

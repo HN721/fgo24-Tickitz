@@ -10,19 +10,19 @@ export default function NavbarAdmin() {
         <img src={Logo} alt="Tickitz Logo" className="h-8 mr-4" />
       </div>
 
-      <div className="flex space-x-6 text-lg font-med font-display text-gray-700">
+      <div className="flex gap-6 text-lg font-med font-display text-gray-700">
         <Link to={"/profile-page"}>
           <p className="text-secondary">Home</p>
         </Link>
-        <Link to={"/profile-page"}>
+        <Link to={"/Movie-list"}>
           <p>Movie</p>
         </Link>
-        <Link to={"/profile-page"}>
+        <Link to={"/Movie-list"}>
           <p>Buy Ticket</p>
         </Link>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-2">
         <select className="border rounded px-2 py-1 font-med font-display text-sm">
           <option value="">Location</option>
         </select>

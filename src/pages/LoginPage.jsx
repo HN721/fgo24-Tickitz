@@ -44,6 +44,13 @@ export default function LoginPage() {
       expiredAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
     };
     dispatch(Login(tokenData));
+    Swal.fire({
+      icon: "sucess",
+      title: "Login Sucess",
+      text: "Sucessfully Login",
+    }).then((res) => {
+      navigate("/");
+    });
   };
 
   return (

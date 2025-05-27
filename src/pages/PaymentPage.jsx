@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { DataContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function PaymentPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const { bookings } = useContext(DataContext);
   const [profile, setProfile] = useState({});
+  const token = useSelector((state) => state.auth.Auth);
+
   console.log(profile);
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
     setProfile(token);
   }, []);
   return (

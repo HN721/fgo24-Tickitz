@@ -1,9 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Content() {
-  const bookings = JSON.parse(localStorage.getItem("Bookings") || "[]");
-  const tokenData = JSON.parse(localStorage.getItem("token") || "[]");
+  const bookings = useSelector((state) => state.booking.bookings);
+  const tokenData = useSelector((state) => state.auth.Auth);
   const userId = tokenData?.user?.id;
 
   const userBookings = bookings.filter((item) => item.userId === userId);

@@ -2,25 +2,23 @@ import React, { useContext, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { DataContext } from "../App";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addBooking } from "../redux/reducers/bookings";
 
 export default function QrCode() {
   const { bookings } = useContext(DataContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.Auth);
+
   useEffect(() => {
-    const getUser = JSON.parse(localStorage.getItem("token") || "{}");
-    const getItem = JSON.parse(localStorage.getItem("Bookings") || "[]");
     console.log(bookings);
     const bookingData = {
       ...bookings,
-      userId: getUser?.user?.id || null,
+      userId: user?.user?.id || null,
       timestamp: new Date().toISOString(),
     };
 
-    getItem.push(bookingData);
-    localStorage.setItem("Bookings", JSON.stringify(getItem));
     dispatch(addBooking(bookingData));
   }, [bookings]);
   const qrValue = bookings.length > 0 ? JSON.stringify(bookings[0]) : "";

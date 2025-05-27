@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Editprofile() {
+  const user = useSelector((state) => state.auth.Auth.user);
   return (
     <div className="mt-12  flex-1 px-4">
       <div className="flex gap-6 bg-white p-5 rounded-xl shadow-md w-full ">
@@ -25,7 +27,7 @@ export default function Editprofile() {
               </label>
               <input
                 type="text"
-                placeholder="Jonas"
+                value={user.username}
                 className="w-full border border-gray-300 rounded-lg p-2"
               />
             </div>
@@ -35,7 +37,7 @@ export default function Editprofile() {
               </label>
               <input
                 type="text"
-                placeholder="El Rodriguez"
+                value={user.username}
                 className="w-full border border-gray-300 rounded-lg p-2"
               />
             </div>
@@ -43,7 +45,7 @@ export default function Editprofile() {
               <label className="block text-sm font-medium mb-1">E-mail</label>
               <input
                 type="email"
-                placeholder="jonasrodrigu123@gmail.com"
+                value={user.email}
                 className="w-full border border-gray-300 rounded-lg p-2"
               />
             </div>
@@ -60,7 +62,7 @@ export default function Editprofile() {
                 />
                 <input
                   type="tel"
-                  placeholder="81445687121"
+                  value={user.phone}
                   className="flex-1 border border-gray-300 rounded-lg p-2"
                 />
               </div>
@@ -80,6 +82,7 @@ export default function Editprofile() {
               <div className="relative">
                 <input
                   type="password"
+                  autoComplete="none"
                   placeholder="Write your password"
                   className="w-full border border-gray-300 rounded-lg p-2 pr-10"
                 />
