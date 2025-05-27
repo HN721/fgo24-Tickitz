@@ -2,30 +2,21 @@ import React, { useContext, useState } from "react";
 import spiderman from "../assets/spiderman.png";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
+import { useSelector } from "react-redux";
 
 export default function MovieSeatBooking() {
   const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const { bookings, setBookings } = useContext(DataContext);
-
+  const seatBook = useSelector((state) => state.booking.bookings);
+  console.log(seatBook);
+  const findMovie = seatBook.filter(
+    (item) => item.IdMovie === bookings.IdMovie
+  );
+  const soldoutBook = findMovie.flatMap((item) => item.seat);
+  console.log(soldoutBook);
   const rows = ["A", "B", "C", "D", "E", "F", "G"];
-
-  const soldSeats = [
-    "A5",
-    "A9",
-    "B1",
-    "B2",
-    "B10",
-    "C8",
-    "D1",
-    "D10",
-    "E3",
-    "E11",
-    "F7",
-    "F12",
-    "G2",
-    "G8",
-  ];
+  const soldSeats = soldoutBook;
 
   const loveSeats = ["F6"];
 
@@ -213,10 +204,10 @@ export default function MovieSeatBooking() {
           <div className="w-full md:w-64">
             <div className="bg-white p-6 rounded-lg shadow-md mb-4">
               <div className="flex justify-center mb-2">
-                <h3 className="text-secondary font-bold">CineOne21</h3>
+                <h3 className="text-secondary font-bold">{bookings.cinema}</h3>
               </div>
               <div className="text-center mb-6">
-                <p className="text-sm">{bookings.cinema}</p>
+                <p className="text-sm">Bioskop {bookings.cinema}</p>
               </div>
 
               <div className="space-y-4 text-sm">
@@ -232,7 +223,9 @@ export default function MovieSeatBooking() {
 
                 <div className="flex justify-between">
                   <span className="text-gray-600">One ticket price</span>
-                  <span className="font-medium">Rp.{bookings.price}</span>
+                  <span className="font-medium">
+                    Rp.{bookings.price.toLocaleString()}
+                  </span>
                 </div>
 
                 <div className="flex justify-between">
@@ -247,7 +240,7 @@ export default function MovieSeatBooking() {
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Total Payment</span>
                   <span className="font-bold text-secondary text-lg">
-                    Rp.{totalPayment}
+                    Rp.{totalPayment.toLocaleString()}
                   </span>
                 </div>
               </div>

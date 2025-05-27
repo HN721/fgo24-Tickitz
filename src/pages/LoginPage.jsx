@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../hooks/useLogin";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Login } from "../redux/reducers/auth";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function LoginPage() {
+  const validation = yup.object({
+    email: yup
+      .string()
+      .email("Format email tidak valid")
+      .required("Email wajib diisi"),
+    password: yup.string().required("Password wajib diisi"),
+  });
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validation),
+  });
   const user = useSelector((state) => state.user.user);
   console.log(user);
   const dispatch = useDispatch();
@@ -85,6 +99,7 @@ export default function LoginPage() {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
+              <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
             <div>
               <label className="sr-only">Password</label>
@@ -96,6 +111,7 @@ export default function LoginPage() {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
+              <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
           </div>
 
