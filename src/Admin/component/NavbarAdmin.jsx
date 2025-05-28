@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/movxar.png";
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -11,9 +11,13 @@ export default function NavbarAdmin() {
       </div>
 
       <div className="flex space-x-6 text-lg font-med font-display text-gray-700">
-        <p className="text-secondary">Dashboard</p>
+        <Link to={"/dashboard"}>
+          <p className="hover:text-secondary active:text-secondary">
+            Dashboard
+          </p>
+        </Link>
         <Link to={"/dashboard/movies"}>
-          <p>Movie</p>
+          <p className="hover:text-secondary active:text-secondary">Movie</p>
         </Link>
       </div>
 

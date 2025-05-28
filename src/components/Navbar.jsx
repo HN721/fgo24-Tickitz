@@ -24,13 +24,19 @@ export default function Navbar() {
 
         <div className="hidden md:flex gap-12 items-center">
           <Link to={"/"}>
-            <p className="text-primary font-display text-lg">HOME</p>
+            <p className="text-primary hover:text-secondary active:text-secondary font-display text-lg">
+              HOME
+            </p>
           </Link>
           <Link to={"/Movie-list"}>
-            <p className="text-font-navbar font-display text-md">MOVIE</p>
+            <p className="text-font-navbar hover:text-secondary active:text-secondary font-display text-md">
+              MOVIE
+            </p>
           </Link>
           <Link to={"/Detail-movie:id"}>
-            <p className="text-font-navbar font-display text-md">BUY TICKET</p>
+            <p className="text-font-navbar hover:text-secondary active:text-secondary font-display text-md">
+              BUY TICKET
+            </p>
           </Link>
         </div>
 
@@ -38,7 +44,9 @@ export default function Navbar() {
           <div>
             <Link to={"/profile-page"}>
               {" "}
-              <h1 className="font-display text-2xl ">{username}</h1>
+              <h1 className="hidden md:block hover:text-secondary active:text-secondary font-display text-2xl ">
+                {username}
+              </h1>
             </Link>
           </div>
         ) : (

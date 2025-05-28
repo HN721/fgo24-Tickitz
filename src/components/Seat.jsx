@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import spiderman from "../assets/spiderman.png";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
 import { useSelector } from "react-redux";
@@ -9,27 +8,24 @@ export default function MovieSeatBooking() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const { bookings, setBookings } = useContext(DataContext);
   const seatBook = useSelector((state) => state.booking.bookings);
-  console.log(seatBook);
+
   const findMovie = seatBook.filter(
     (item) => item.IdMovie === bookings.IdMovie
   );
   const soldoutBook = findMovie.flatMap((item) => item.seat);
-  console.log(soldoutBook);
-  const rows = ["A", "B", "C", "D", "E", "F", "G"];
   const soldSeats = soldoutBook;
 
+  const rows = ["A", "B", "C", "D", "E", "F", "G"];
   const loveSeats = ["F6"];
 
   const toggleSeat = (seatId) => {
-    if (soldSeats.includes(seatId) || loveSeats.includes(seatId)) {
-      return;
-    }
+    if (soldSeats.includes(seatId) || loveSeats.includes(seatId)) return;
 
-    if (selectedSeats.includes(seatId)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
-    } else {
-      setSelectedSeats([...selectedSeats, seatId]);
-    }
+    setSelectedSeats((prev) =>
+      prev.includes(seatId)
+        ? prev.filter((seat) => seat !== seatId)
+        : [...prev, seatId]
+    );
   };
 
   const getSeatStatus = (seatId) => {
@@ -44,34 +40,36 @@ export default function MovieSeatBooking() {
       case "selected":
         return "bg-secondary";
       case "sold":
-        return "bg-gray-500";
+        return "bg-gray-500 cursor-not-allowed";
       case "love":
-        return "bg-pink-500";
+        return "bg-pink-500 cursor-not-allowed";
       default:
         return "bg-gray-200 hover:bg-gray-300";
     }
   };
 
   const totalPayment = selectedSeats.length * bookings.price;
-  function handleSubmit(e) {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setBookings((prev) => ({
       ...prev,
       seat: selectedSeats,
       price: totalPayment,
     }));
-
     navigate("/payment");
-  }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex justify-center p-4 mt-12 bg-gray-100 min-h-screen">
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-4">
+          {/* LEFT PANEL */}
           <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
             <div className="flex items-center mb-6">
               <img
                 src={bookings.img}
-                alt="Spider-Man: Homecoming"
+                alt={bookings.movieName}
                 className="w-24 h-16 rounded-md mr-4"
               />
               <div>
@@ -94,113 +92,62 @@ export default function MovieSeatBooking() {
 
             <h3 className="font-bold text-lg mb-6">Choose Your Seat</h3>
 
-            <div className="text-center flex justify-center items-center w-max-content mb-6 text-xs  bg-gray-500 text-white">
+            <div className="text-center flex justify-center items-center w-full mb-6 text-xs bg-gray-500 text-white py-2 rounded">
               Screen
             </div>
 
-            <div className="mb-8">
-              <div className="flex">
-                <div className="w-6 mr-2">
-                  {rows.map((row, rowIndex) => (
-                    <button
-                      key={rowIndex}
-                      className="h-6 flex items-center justify-center text-xs font-medium text-gray-700"
-                    >
+            {/* SEAT GRID */}
+            <div className="overflow-x-auto">
+              <div className="flex flex-col gap-2 min-w-[600px]">
+                {rows.map((row) => (
+                  <div key={row} className="flex items-center gap-2">
+                    <div className="w-6 text-center font-medium text-sm">
                       {row}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex-1 mr-4">
-                  {rows.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex">
-                      {[1, 2, 3, 4, 5, 6, 7].map((col) => {
-                        const seatId = `${row}${col}`;
-                        const status = getSeatStatus(seatId);
-                        return (
-                          <div
-                            key={`${row}${col}`}
-                            className={`w-6 h-6 m-0.5 rounded cursor-pointer ${getSeatClass(
-                              status
-                            )}`}
-                            onClick={() => toggleSeat(seatId)}
-                          />
-                        );
-                      })}
                     </div>
-                  ))}
-                </div>
-
-                {/* Right section seats */}
-                <div className="flex-1">
-                  {rows.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex">
-                      {[8, 9, 10, 11, 12, 13, 14].map((col) => {
-                        const seatId = `${row}${col}`;
-                        const status = getSeatStatus(seatId);
-                        return (
-                          <div
-                            key={`${row}${col}`}
-                            className={`w-6 h-6 m-0.5 rounded cursor-pointer ${getSeatClass(
-                              status
-                            )}`}
-                            onClick={() => toggleSeat(seatId)}
-                          />
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="w-6 mr-2"></div>
-              <div className="flex-1 flex mr-4">
-                {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-                  <div
-                    key={num}
-                    className="w-6 text-center text-xs text-gray-700"
-                  >
-                    {num}
-                  </div>
-                ))}
-              </div>
-              <div className="flex-1 flex">
-                {[8, 9, 10, 11, 12, 13, 14].map((num) => (
-                  <div
-                    key={num}
-                    className="w-6 text-center text-xs text-gray-700"
-                  >
-                    {num}
+                    {[...Array(14)].map((_, i) => {
+                      const col = i + 1;
+                      const seatId = `${row}${col}`;
+                      const status = getSeatStatus(seatId);
+                      return (
+                        <div
+                          key={seatId}
+                          className={`w-8 h-8 rounded cursor-pointer ${getSeatClass(
+                            status
+                          )}`}
+                          onClick={() => toggleSeat(seatId)}
+                        />
+                      );
+                    })}
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* SEATING KEY */}
             <div className="mt-8">
               <h4 className="text-sm font-medium mb-2">Seating key</h4>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4 text-xs">
                 <div className="flex items-center">
                   <div className="w-5 h-5 bg-gray-200 rounded mr-2"></div>
-                  <span className="text-xs">Available</span>
+                  Available
                 </div>
                 <div className="flex items-center">
                   <div className="w-5 h-5 bg-secondary rounded mr-2"></div>
-                  <span className="text-xs">Selected</span>
+                  Selected
                 </div>
                 <div className="flex items-center">
                   <div className="w-5 h-5 bg-pink-500 rounded mr-2"></div>
-                  <span className="text-xs">Love seat</span>
+                  Love seat
                 </div>
                 <div className="flex items-center">
                   <div className="w-5 h-5 bg-gray-500 rounded mr-2"></div>
-                  <span className="text-xs">Sold</span>
+                  Sold
                 </div>
               </div>
             </div>
           </div>
 
+          {/* RIGHT PANEL */}
           <div className="w-full md:w-64">
             <div className="bg-white p-6 rounded-lg shadow-md mb-4">
               <div className="flex justify-center mb-2">
@@ -215,23 +162,20 @@ export default function MovieSeatBooking() {
                   <span className="text-gray-600">Movie selected</span>
                   <span className="font-medium">{bookings.movieName}</span>
                 </div>
-
                 <div className="flex justify-between">
                   <span className="text-gray-600">{bookings.days}</span>
                   <span className="font-medium">{bookings.time}</span>
                 </div>
-
                 <div className="flex justify-between">
                   <span className="text-gray-600">One ticket price</span>
                   <span className="font-medium">
                     Rp.{bookings.price.toLocaleString()}
                   </span>
                 </div>
-
                 <div className="flex justify-between">
                   <span className="text-gray-600">Seat chosen</span>
                   <span className="font-medium">
-                    {selectedSeats.join(", ")}
+                    {selectedSeats.join(", ") || "-"}
                   </span>
                 </div>
               </div>
@@ -249,6 +193,7 @@ export default function MovieSeatBooking() {
             <button
               type="submit"
               className="w-full bg-secondary text-white py-3 rounded-lg font-medium"
+              disabled={selectedSeats.length === 0}
             >
               Checkout now
             </button>

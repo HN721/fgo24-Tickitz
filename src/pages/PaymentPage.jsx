@@ -3,7 +3,10 @@ import Navbar from "../components/Navbar";
 import { DataContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import dana from "../assets/dana.png";
+import visa from "../assets/visa.png";
+import gopay from "../assets/gopay.png";
+import bca from "../assets/bca.png";
 export default function PaymentPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -72,7 +75,7 @@ export default function PaymentPage() {
         </div>
       )}
 
-      <div className="max-w-md bg-gray-100 mx-auto mt-20 rounded-lg shadow-md p-6">
+      <div className="max-w-md bg-gray-100 mx-auto mt-10 rounded-lg shadow-md p-6">
         <div className="mb-6 ">
           <h2 className="text-lg font-semibold mb-4">Payment Info</h2>
 
@@ -144,24 +147,22 @@ export default function PaymentPage() {
           <div className="flex space-x-2 mb-4">
             <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
               <div className="text-sm font-medium flex items-center">
-                <span className="text-secondary font-bold">G</span>
-                <span className="text-red-500 font-bold">Pay</span>
+                <img src={gopay} alt="" srcset="" />
               </div>
             </div>
 
             <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <div className="text-blue-800 font-bold text-xl">VISA</div>
+              <img src={visa} alt="" srcset="" />
             </div>
 
             <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
               <div className="font-medium text-sm">
-                <span className="text-green-500">go</span>
-                <span className="text-blue-500">pay</span>
+                <img src={dana} alt="" srcset="" />
               </div>
             </div>
 
             <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <div className="text-blue-600 font-bold text-xl">P</div>
+              <img src={bca} alt="" srcset="" />
             </div>
           </div>
 

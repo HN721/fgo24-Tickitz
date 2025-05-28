@@ -40,19 +40,19 @@ export default function Footer() {
               <div className="flex flex-col gap-3 pt-3 text-white text-sm">
                 <div className="flex items-center gap-2">
                   <Facebook size={18} />
-                  <p>tickitz.cinema.id</p>
+                  <p>Moxtar.cinema.id</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Instagram size={18} />
-                  <p>tickitz.cinema.id</p>
+                  <p>Moxtar.cinema.id</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Twitter size={18} />
-                  <p>tickitz.cinema.id</p>
+                  <p>Moxtar.cinema.id</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Youtube size={18} />
-                  <p>tickitz.cinema.id</p>
+                  <p>Moxtar.cinema.id</p>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@ export default function Footer() {
             quietly.
           </p>
           <p className="text-white text-xs">
-            © 2025 Tickitz. All Rights Reserved.
+            © 2025 Movxtar. All Rights Reserved.
           </p>
         </div>
       </div>
@@ -108,19 +108,19 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 justify-center">
                 <Facebook size={18} />
-                <p>tickitz.cinema.id</p>
+                <p>Movxtar.cinema.id</p>
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Instagram size={18} />
-                <p>tickitz.cinema.id</p>
+                <p>Movxtar.cinema.id</p>
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Twitter size={18} />
-                <p>tickitz.cinema.id</p>
+                <p>Movxtar.cinema.id</p>
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Youtube size={18} />
-                <p>tickitz.cinema.id</p>
+                <p>Movxtar.cinema.id</p>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-white text-xs mt-8 text-center">
-          © 2025 Tickitz. All Rights Reserved.
+          © 2025 Movxtar. All Rights Reserved.
         </div>
       </div>
     </div>
