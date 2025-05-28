@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { AddUserAction } from "../redux/reducers/register";
+import { AddUserAction, DeleteUserAction } from "../redux/reducers/register";
 import Swal from "sweetalert2";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Eye, EyeClosed } from "lucide-react";
+
+const schema = yup.object().shape({
+  username: yup.string().min(3).required("Username is required"),
+  phone: yup
+    .string()
+    .required("Phone is required")
+    .matches(/^[0-9]{10,15}$/, "Phone must be 10–15 digits"),
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+  rememberMe: yup.boolean(),
+});
 
 export default function RegisterPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.user);
@@ -14,7 +36,9 @@ export default function RegisterPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmitForm = (data) => {
     const isEmailUsed = users.find((user) => user.email === data.email);
@@ -46,10 +70,11 @@ export default function RegisterPage() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
-            <Link to={"/login"}>
-              <a className="font-medium text-secondary hover:text-orange-500">
-                sign in to your account
-              </a>
+            <Link
+              to="/login"
+              className="font-medium text-secondary hover:text-orange-500"
+            >
+              sign in to your account
             </Link>
           </p>
         </div>
@@ -59,41 +84,102 @@ export default function RegisterPage() {
           autoComplete="off"
           onSubmit={handleSubmit(onSubmitForm)}
         >
-          <input type="hidden" name="remember" value="true" />
+          <div className="space-y-4">
+            {/* Username */}
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Enter Username"
+                {...register("username")}
+                className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
+                  errors.username ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.username && (
+                <p className="text-sm text-red-600">
+                  {errors.username.message}
+                </p>
+              )}
+            </div>
 
-          <div className="rounded-md shadow-sm space-y-4">
-            <input
-              type="text"
-              placeholder="Enter Username"
-              autoComplete="new-username"
-              {...register("username", { required: true })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            />
+            {/* Phone */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Phone
+              </label>
+              <input
+                id="phone"
+                type="text"
+                placeholder="Enter Phone"
+                {...register("phone")}
+                className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
+                  errors.phone ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.phone && (
+                <p className="text-sm text-red-600">{errors.phone.message}</p>
+              )}
+            </div>
 
-            <input
-              type="text"
-              placeholder="Enter Phone"
-              {...register("phone", { required: true })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            />
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Email address"
+                {...register("email")}
+                className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.email && (
+                <p className="text-sm text-red-600">{errors.email.message}</p>
+              )}
+            </div>
 
-            <input
-              type="email"
-              placeholder="Email address"
-              autoComplete="off"
-              {...register("email", { required: true })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-              {...register("password", { required: true })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-            />
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                {...register("password")}
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
+                placeholder="Password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-9 text-sm text-gray-500 hover:text-orange-500 focus:outline-none"
+              >
+                {showPassword ? <EyeClosed /> : <Eye />}
+              </button>
+              <p className="text-red-500 text-sm">{errors.password?.message}</p>
+            </div>
           </div>
 
+          {/* Remember Me */}
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-900">
               <input
@@ -104,7 +190,6 @@ export default function RegisterPage() {
               />
               <span className="ml-2">Remember me</span>
             </label>
-
             <a
               href="#"
               className="text-sm font-medium text-secondary hover:text-orange-500"
@@ -113,6 +198,7 @@ export default function RegisterPage() {
             </a>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             className="relative w-full flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-secondary hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"

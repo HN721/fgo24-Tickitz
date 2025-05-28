@@ -23,22 +23,19 @@ const UsersSlice = createSlice({
       }
     },
     UpdateUserAction: (state, action) => {
-      const index = state.user.findIndex(
-        (u) => u.email === action.payload.email
-      );
+      const index = state.user.findIndex((u) => u.id === action.payload.id);
       if (index !== -1) {
-        state.user[index] = {
-          ...state.user[index],
-          ...action.payload,
-        };
-      } else {
-        state.error = "User not found";
+        state.user[index] = { ...state.user[index], ...action.payload };
       }
+    },
+    DeleteUserAction: (state) => {
+      state.user = [];
     },
   },
 });
 
-export const { AddUserAction, UpdateUserAction } = UsersSlice.actions;
+export const { AddUserAction, UpdateUserAction, DeleteUserAction } =
+  UsersSlice.actions;
 const UserReducer = UsersSlice.reducer;
 
 export default UserReducer;

@@ -187,7 +187,7 @@ export default function BookTicket({ setData }) {
               onClick={() => handleCinemaClick("Hiflix")}
               className={`relative border rounded-lg p-4 flex items-center justify-center h-[153px] bg-primary cursor-pointer ${
                 selectedCinema === "Hiflix"
-                  ? "border-4 border-secondary"
+                  ? "border-4 bg-secondary"
                   : "border-gray-200 hover:bg-secondary"
               }`}
             >
@@ -198,7 +198,7 @@ export default function BookTicket({ setData }) {
               onClick={() => handleCinemaClick("CineOne")}
               className={`relative border rounded-lg p-4 flex items-center justify-center h-[153px] bg-primary cursor-pointer ${
                 selectedCinema === "CineOne"
-                  ? "border-4 border-secondary"
+                  ? "border-4 bg-secondary"
                   : "border-gray-200 hover:bg-secondary"
               }`}
             >
@@ -209,7 +209,7 @@ export default function BookTicket({ setData }) {
               onClick={() => handleCinemaClick("Ebu")}
               className={`relative border rounded-lg p-4 flex items-center justify-center h-[153px] bg-primary cursor-pointer ${
                 selectedCinema === "Ebu"
-                  ? "border-4 border-secondary"
+                  ? "border-4 bg-secondary"
                   : "border-gray-200 hover:bg-secondary"
               }`}
             >
@@ -219,7 +219,7 @@ export default function BookTicket({ setData }) {
               onClick={() => handleCinemaClick("CineOne")}
               className={`relative border rounded-lg p-4 flex items-center justify-center h-[153px] bg-primary cursor-pointer ${
                 selectedCinema === "CineOne"
-                  ? "border-4 border-secondary"
+                  ? "border-4 bg-secondary"
                   : "border-gray-200 hover:bg-secondary"
               }`}
             >

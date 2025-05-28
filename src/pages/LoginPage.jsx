@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Login } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const validation = yup.object({
     email: yup
       .string()
@@ -75,13 +78,12 @@ export default function LoginPage() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{" "}
-            <a
-              href="#"
-              className="font-medium text-secondary hover:text-orange-500"
-            >
-              create a new account
-            </a>
+            Or
+            <Link to={"/register"}>
+              <a className="font-medium text-secondary hover:text-orange-500">
+                create a new account
+              </a>
+            </Link>
           </p>
         </div>
         <form
@@ -90,31 +92,46 @@ export default function LoginPage() {
           onSubmit={handleSubmit(submitData)}
         >
           <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md  space-y-4">
             <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
+              <label
+                htmlFor="email-address"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Email
               </label>
               <input
                 id="email-address"
                 {...register("email")}
                 type="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
               <p className="text-red-500 text-sm">{errors.email?.message}</p>
             </div>
-            <div>
-              <label className="sr-only">Password</label>
+            <div className="relative">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Password
+              </label>
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password")}
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
                 placeholder="Password"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-9 text-sm text-gray-500 hover:text-orange-500 focus:outline-none"
+              >
+                {showPassword ? <EyeClosed /> : <Eye />}
+              </button>
               <p className="text-red-500 text-sm">{errors.password?.message}</p>
             </div>
           </div>

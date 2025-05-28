@@ -52,6 +52,11 @@ export default function MovieSeatBooking() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (selectedSeats.length === 0) {
+      Swal.fire("Silakan pilih kursi terlebih dahulu sebelum melanjutkan.");
+
+      return;
+    }
     setBookings((prev) => ({
       ...prev,
       seat: selectedSeats,
@@ -64,7 +69,6 @@ export default function MovieSeatBooking() {
     <form onSubmit={handleSubmit}>
       <div className="flex justify-center p-4 mt-12 bg-gray-100 min-h-screen">
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-4">
-          {/* LEFT PANEL */}
           <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
             <div className="flex items-center mb-6">
               <img
@@ -96,7 +100,6 @@ export default function MovieSeatBooking() {
               Screen
             </div>
 
-            {/* SEAT GRID */}
             <div className="overflow-x-auto">
               <div className="flex flex-col gap-2 min-w-[600px]">
                 {rows.map((row) => (
@@ -123,7 +126,6 @@ export default function MovieSeatBooking() {
               </div>
             </div>
 
-            {/* SEATING KEY */}
             <div className="mt-8">
               <h4 className="text-sm font-medium mb-2">Seating key</h4>
               <div className="flex flex-wrap gap-4 text-xs">

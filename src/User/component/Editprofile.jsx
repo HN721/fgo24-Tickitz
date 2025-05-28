@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { UpdateUserAction } from "../../redux/reducers/register";
+import { UpdateAction } from "../../redux/reducers/auth";
 
 // Validasi schema
 const validation = yup.object({
@@ -48,13 +50,31 @@ export default function Editprofile() {
   const user = useSelector((state) => state.auth.Auth.user);
 
   function submitData(value) {
-    console.log(value);
+    const data = {
+      id: user.id,
+      username: value.firstName + " " + value.lastName,
+      email: value.email,
+      password: value.newPassword,
+      phone: value.phone,
+      rememberMe: false,
+    };
+    console.log(data);
+    dispatch(UpdateUserAction(data));
+    dispatch(
+      UpdateAction({
+        id: data.id,
+        username: data.username,
+        email: data.email,
+        phone: data.phone,
+      })
+    );
+    alert("User Berhasil di Update");
   }
 
   return (
     <div className="mt-12 flex-1 px-4">
       <div className="flex gap-6 bg-white p-5 rounded-xl shadow-md w-full">
-        <h1 className="text-blue-600 border-b-2 border-blue-600">
+        <h1 className="text-secondary border-b-2 border-secondary">
           Account Settings
         </h1>
         <Link to={"/Profile-Page"}>
@@ -186,7 +206,7 @@ export default function Editprofile() {
           <div className="flex justify-start">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg"
+              className="bg-secondary hover:bg-secondary text-white font-semibold py-2 px-6 rounded-lg"
             >
               Update changes
             </button>

@@ -8,7 +8,10 @@ export default function Sidebar() {
   const [username, setUsername] = useState();
   const getItem = useSelector((state) => state.auth.Auth);
   const navigate = useNavigate();
-  console.log(getItem);
+  const char = getItem.user.username;
+  const fistName = char.charAt(0);
+  const lastName = getItem.user.username.charAt(char.length - 1);
+  const sidename = fistName + lastName;
   const dispatch = useDispatch();
   function handleLogout() {
     dispatch(Logout());
@@ -40,7 +43,7 @@ export default function Sidebar() {
       <div className="flex flex-col items-center pb-6">
         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white shadow-md mb-3">
           <div className="w-full h-full bg-gray-300 flex items-center justify-center text-white text-4xl">
-            JR
+            {sidename}
           </div>
         </div>
         <h2 className="font-bold text-xl text-gray-800">

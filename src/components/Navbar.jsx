@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/movxar.png";
 import Button from "./Button";
-import { Menu, X } from "lucide-react";
+import { CircleUser, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -33,7 +33,7 @@ export default function Navbar() {
               MOVIE
             </p>
           </Link>
-          <Link to={"/Detail-movie:id"}>
+          <Link to={"/Movie-list"}>
             <p className="text-font-navbar hover:text-secondary active:text-secondary font-display text-md">
               BUY TICKET
             </p>
@@ -43,10 +43,12 @@ export default function Navbar() {
         {username ? (
           <div>
             <Link to={"/profile-page"}>
-              {" "}
-              <h1 className="hidden md:block hover:text-secondary active:text-secondary font-display text-2xl ">
-                {username}
-              </h1>
+              <div className=" hidden  md:flex items-center gap-4">
+                <CircleUser width={30} height={30} />
+                <h1 className=" hover:text-secondary active:text-secondary font-display text-2xl ">
+                  {username}
+                </h1>
+              </div>
             </Link>
           </div>
         ) : (
