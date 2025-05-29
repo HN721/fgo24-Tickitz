@@ -38,7 +38,6 @@ export default function ComingSoon() {
   return (
     <div className=" py-8">
       <div className="flex flex-col items-center">
-        {/* Teks Header: Atas saat mobile */}
         <div className="block md:hidden text-center px-4 mb-6">
           <div className="bg-brand text-secondary px-4 py-2 rounded-full font-medium text-sm inline-block mb-3">
             UPCOMING MOVIES
@@ -103,7 +102,6 @@ export default function ComingSoon() {
           ))}
         </div>
 
-        {/* Genre & Control Buttons */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 px-4 mt-10 w-full max-w-6xl">
           <div className="flex flex-wrap justify-center gap-3">
             {genres.map((genre, index) => (

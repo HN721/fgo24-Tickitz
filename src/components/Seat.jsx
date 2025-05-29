@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
 import { useSelector } from "react-redux";
+import Stepper from "./Stepper";
 
 export default function MovieSeatBooking() {
   const navigate = useNavigate();
@@ -66,142 +67,149 @@ export default function MovieSeatBooking() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex justify-center p-4 mt-12 bg-gray-100 min-h-screen">
-        <div className="w-full max-w-5xl flex flex-col md:flex-row gap-4">
-          <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
-            <div className="flex items-center mb-6">
-              <img
-                src={bookings.img}
-                alt={bookings.movieName}
-                className="w-24 h-16 rounded-md mr-4"
-              />
-              <div>
-                <h2 className="font-bold text-lg">{bookings.movieName}</h2>
-                <div className="flex gap-2 text-xs text-gray-500">
-                  {bookings.genre.map((genre, id) => (
-                    <span key={id}>{genre.name}</span>
-                  ))}
-                </div>
-                <div className="flex items-center mt-2">
-                  <span className="text-sm text-gray-700 mr-2">
-                    Regular - {bookings.time}
-                  </span>
-                  <button className="bg-secondary text-white text-xs px-4 py-1 rounded">
-                    Change
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <h3 className="font-bold text-lg mb-6">Choose Your Seat</h3>
-
-            <div className="text-center flex justify-center items-center w-full mb-6 text-xs bg-gray-500 text-white py-2 rounded">
-              Screen
-            </div>
-
-            <div className="overflow-x-auto">
-              <div className="flex flex-col gap-2 min-w-[600px]">
-                {rows.map((row) => (
-                  <div key={row} className="flex items-center gap-2">
-                    <div className="w-6 text-center font-medium text-sm">
-                      {row}
+    <>
+      <div className="pt-22 bg-gray-100">
+        <Stepper currentStep={2} />
+        <form onSubmit={handleSubmit}>
+          <div className="flex justify-center p-4 pt-2 bg-gray-100 min-h-screen">
+            <div className="w-full max-w-5xl flex flex-col md:flex-row gap-4">
+              <div className="bg-white p-6 rounded-lg shadow-md flex-grow">
+                <div className="flex items-center mb-6">
+                  <img
+                    src={bookings.img}
+                    alt={bookings.movieName}
+                    className="w-24 h-16 rounded-md mr-4"
+                  />
+                  <div>
+                    <h2 className="font-bold text-lg">{bookings.movieName}</h2>
+                    <div className="flex gap-2 text-xs text-gray-500">
+                      {bookings.genre.map((genre, id) => (
+                        <span key={id}>{genre.name}</span>
+                      ))}
                     </div>
-                    {[...Array(14)].map((_, i) => {
-                      const col = i + 1;
-                      const seatId = `${row}${col}`;
-                      const status = getSeatStatus(seatId);
-                      return (
-                        <div
-                          key={seatId}
-                          className={`w-8 h-8 rounded cursor-pointer ${getSeatClass(
-                            status
-                          )}`}
-                          onClick={() => toggleSeat(seatId)}
-                        />
-                      );
-                    })}
+                    <div className="flex items-center mt-2">
+                      <span className="text-sm text-gray-700 mr-2">
+                        Regular - {bookings.time}
+                      </span>
+                      <button className="bg-secondary text-white text-xs px-4 py-1 rounded">
+                        Change
+                      </button>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            <div className="mt-8">
-              <h4 className="text-sm font-medium mb-2">Seating key</h4>
-              <div className="flex flex-wrap gap-4 text-xs">
-                <div className="flex items-center">
-                  <div className="w-5 h-5 bg-gray-200 rounded mr-2"></div>
-                  Available
+                <h3 className="font-bold text-lg mb-6">Choose Your Seat</h3>
+
+                <div className="text-center flex justify-center items-center w-full mb-6 text-xs bg-gray-500 text-white py-2 rounded">
+                  Screen
                 </div>
-                <div className="flex items-center">
-                  <div className="w-5 h-5 bg-secondary rounded mr-2"></div>
-                  Selected
+
+                <div className="overflow-x-auto">
+                  <div className="flex flex-col gap-2 min-w-[600px]">
+                    {rows.map((row) => (
+                      <div key={row} className="flex items-center gap-2">
+                        <div className="w-6 text-center font-medium text-sm">
+                          {row}
+                        </div>
+                        {[...Array(14)].map((_, i) => {
+                          const col = i + 1;
+                          const seatId = `${row}${col}`;
+                          const status = getSeatStatus(seatId);
+                          return (
+                            <div
+                              key={seatId}
+                              className={`w-8 h-8 rounded cursor-pointer ${getSeatClass(
+                                status
+                              )}`}
+                              onClick={() => toggleSeat(seatId)}
+                            />
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-5 h-5 bg-pink-500 rounded mr-2"></div>
-                  Love seat
+
+                <div className="mt-8">
+                  <h4 className="text-sm font-medium mb-2">Seating key</h4>
+                  <div className="flex flex-wrap gap-4 text-xs">
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-gray-200 rounded mr-2"></div>
+                      Available
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-secondary rounded mr-2"></div>
+                      Selected
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-pink-500 rounded mr-2"></div>
+                      Love seat
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-5 h-5 bg-gray-500 rounded mr-2"></div>
+                      Sold
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-5 h-5 bg-gray-500 rounded mr-2"></div>
-                  Sold
+              </div>
+
+              {/* RIGHT PANEL */}
+              <div className="w-full md:w-64">
+                <div className="bg-white p-6 rounded-lg shadow-md mb-4">
+                  <div className="flex justify-center mb-2">
+                    <h3 className="text-secondary font-bold">
+                      {bookings.cinema}
+                    </h3>
+                  </div>
+                  <div className="text-center mb-6">
+                    <p className="text-sm">Bioskop {bookings.cinema}</p>
+                  </div>
+
+                  <div className="space-y-4 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Movie selected</span>
+                      <span className="font-medium">{bookings.movieName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">{bookings.days}</span>
+                      <span className="font-medium">{bookings.time}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">One ticket price</span>
+                      <span className="font-medium">
+                        Rp.{bookings.price.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Seat chosen</span>
+                      <span className="font-medium">
+                        {selectedSeats.join(", ") || "-"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">Total Payment</span>
+                      <span className="font-bold text-secondary text-lg">
+                        Rp.{totalPayment.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
                 </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-secondary text-white py-3 rounded-lg font-medium"
+                  disabled={selectedSeats.length === 0}
+                >
+                  Checkout now
+                </button>
               </div>
             </div>
           </div>
-
-          {/* RIGHT PANEL */}
-          <div className="w-full md:w-64">
-            <div className="bg-white p-6 rounded-lg shadow-md mb-4">
-              <div className="flex justify-center mb-2">
-                <h3 className="text-secondary font-bold">{bookings.cinema}</h3>
-              </div>
-              <div className="text-center mb-6">
-                <p className="text-sm">Bioskop {bookings.cinema}</p>
-              </div>
-
-              <div className="space-y-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Movie selected</span>
-                  <span className="font-medium">{bookings.movieName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{bookings.days}</span>
-                  <span className="font-medium">{bookings.time}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">One ticket price</span>
-                  <span className="font-medium">
-                    Rp.{bookings.price.toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Seat chosen</span>
-                  <span className="font-medium">
-                    {selectedSeats.join(", ") || "-"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-gray-200">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Total Payment</span>
-                  <span className="font-bold text-secondary text-lg">
-                    Rp.{totalPayment.toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-secondary text-white py-3 rounded-lg font-medium"
-              disabled={selectedSeats.length === 0}
-            >
-              Checkout now
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
-    </form>
+    </>
   );
 }

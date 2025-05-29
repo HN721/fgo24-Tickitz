@@ -34,7 +34,6 @@ export default function BookTicket({ setData }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* Date Selector */}
           <div>
             <label className="block text-gray-800 font-medium mb-2">
               Choose Date

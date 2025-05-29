@@ -5,7 +5,6 @@ import { Logout } from "../../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
-  const [username, setUsername] = useState();
   const getItem = useSelector((state) => state.auth.Auth);
   const navigate = useNavigate();
   const char = getItem.user.username;

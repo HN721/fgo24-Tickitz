@@ -39,7 +39,7 @@ export default function DetailMovie({ id, setData }) {
     return <p>Data Tidak Ditemukan</p>;
   } else {
     return (
-      <div className="relative w-full h-auto mt-20 mb-20">
+      <div className="relative w-full h-auto pt-15 mb-20">
         <div
           className="w-full h-[520px] bg-cover rounded-4xl bg-center"
           style={{

@@ -23,7 +23,6 @@ export default function Cinema() {
         </div>
       </div>
 
-      {/* Movie List + Button */}
       <div className="mx-auto flex flex-col items-center gap-6 w-fit">
         <Movielist
           classType="flex space-x-6 overflow-x-auto pb-4 scrollbar-thin 

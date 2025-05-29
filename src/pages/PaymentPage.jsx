@@ -7,6 +7,7 @@ import dana from "../assets/dana.png";
 import visa from "../assets/visa.png";
 import gopay from "../assets/gopay.png";
 import bca from "../assets/bca.png";
+import Stepper from "../components/Stepper";
 export default function PaymentPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -74,10 +75,15 @@ export default function PaymentPage() {
           </div>
         </div>
       )}
+      <div className="pt-20">
+        <Stepper currentStep={3} />
+      </div>
 
-      <div className="max-w-md bg-gray-100 mx-auto mt-10 rounded-lg shadow-md p-6">
-        <div className="mb-6 ">
-          <h2 className="text-lg font-semibold mb-4">Payment Info</h2>
+      <div className="max-w-2xl mt-10 bg-white mx-auto  rounded-lg shadow-md p-6">
+        <div className="mb-6   ">
+          <h2 className="text-lg text-center font-semibold mb-4">
+            Payment Info
+          </h2>
 
           <div className="mb-4 border-b-1  border-border">
             <p className="text-xs text-gray-500">DATE & TIME</p>
