@@ -8,12 +8,10 @@ import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 export default function Footer() {
   return (
     <div className="bg-primary rounded-t-4xl pb-12 pt-8 px-6 md:px-0">
-      {/* === Desktop Version === */}
       <div className="hidden md:flex flex-col gap-8 px-24">
         <div className="flex items-start justify-between">
           <img src={logo} className="w-1/2" alt="logo" />
           <div className="flex gap-12">
-            {/* Explore */}
             <div>
               <h1 className="text-white font-display font-lg">EXPLORE</h1>
               <div className="flex flex-col gap-2 pt-3">
@@ -24,7 +22,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Sponsor */}
             <div>
               <h1 className="text-white font-display font-lg">OUR SPONSOR</h1>
               <div className="flex flex-col gap-2 pt-3">
@@ -34,7 +31,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Follow Us */}
             <div>
               <h1 className="text-white font-display font-lg">FOLLOW US</h1>
               <div className="flex flex-col gap-3 pt-3 text-white text-sm">
@@ -59,7 +55,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="flex justify-between">
           <p className="text-white text-xs">
             Stop waiting in line. Buy tickets conveniently, watch movies
@@ -71,17 +66,13 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* === Mobile Version === */}
       <div className="flex flex-col gap-10 md:hidden text-center items-center">
-        {/* Logo & Description */}
         <img src={logo} alt="logo" />
         <p className="text-white text-sm max-w-md">
           Stop waiting in line. Buy tickets conveniently, watch movies quietly.
         </p>
 
-        {/* Content */}
         <div className="flex flex-col gap-8 text-white text-sm">
-          {/* Explore */}
           <div>
             <h1 className="font-semibold mb-2">EXPLORE</h1>
             <div className="flex flex-col gap-1">
@@ -92,7 +83,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Sponsor */}
           <div>
             <h1 className="font-semibold mb-2">OUR SPONSOR</h1>
             <div className="flex flex-col gap-2 items-center">
@@ -102,7 +92,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Follow Us */}
           <div>
             <h1 className="font-semibold mb-2">FOLLOW US</h1>
             <div className="flex flex-col gap-3">
@@ -126,7 +115,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="text-white text-xs mt-8 text-center">
           © 2025 Movxtar. All Rights Reserved.
         </div>

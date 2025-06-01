@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { DataContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { ScrollRestoration, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import dana from "../assets/dana.png";
 import visa from "../assets/visa.png";
@@ -21,6 +21,7 @@ export default function PaymentPage() {
   }, []);
   return (
     <div className="min-h-screen bg-gray-200">
+      <ScrollRestoration />
       <Navbar />
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-600/50 backdrop-blur-sm z-50">

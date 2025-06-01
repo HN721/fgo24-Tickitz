@@ -3,6 +3,7 @@ import { Search, ChevronDown, Check } from "lucide-react";
 import { searchingMovie } from "../services/searching";
 import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { filterByGenre } from "../services/filtering";
 
 const sortOptions = [
   { label: "POPULAR", value: "popular" },
@@ -10,11 +11,29 @@ const sortOptions = [
   { label: "Name (A–Z)", value: "az" },
   { label: "Name (Z–A)", value: "za" },
 ];
-
+const genreList = [
+  {
+    id: 28,
+    name: "ACTION",
+  },
+  {
+    id: 1,
+    name: "ADVENTURE",
+  },
+  {
+    id: 35,
+    name: "COMEDY",
+  },
+  {
+    id: 878,
+    name: "SCI-FI",
+  },
+];
 export default function Filtering({
   sortOption,
   onSortChange,
   onSearchResults,
+  onGenre,
 }) {
   const [count, setCount] = useState(0);
 
@@ -23,7 +42,7 @@ export default function Filtering({
   const { register, handleSubmit } = useForm();
 
   const handleSearch = async (value) => {
-    // if (!value.query.trim()) return;
+    if (!value.query.trim()) return;
     try {
       const data = await searchingMovie(value);
       console.log(value.query);
@@ -34,6 +53,16 @@ export default function Filtering({
       setCount(data.results.length);
     } catch (error) {
       console.error("Error fetching search results:", error);
+    }
+  };
+  const handleGenre = async (value) => {
+    try {
+      const data = await filterByGenre(value);
+      onSearchResults(null);
+      onGenre(data.results);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -97,12 +126,15 @@ export default function Filtering({
         </form>
 
         <div className="flex flex-wrap gap-3">
-          {["ACTION", "ADVENTURE", "COMEDY", "SCI-FI"].map((genre) => (
+          {genreList.map((genre) => (
             <button
-              key={genre}
+              key={genre.id}
+              onClick={() => {
+                handleGenre(genre.id);
+              }}
               className="px-4 py-2 border border-gray-400 rounded-full text-sm font-semibold hover:bg-gray-100"
             >
-              {genre}
+              {genre.name}
             </button>
           ))}
         </div>

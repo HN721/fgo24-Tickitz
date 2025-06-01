@@ -7,11 +7,13 @@ import Subscribe from "../components/Subscribe";
 import Footer from "../components/Footer";
 import { getPage, getData } from "../services/fetchMovie";
 import Pagination from "../components/Pagination";
+import { ScrollRestoration } from "react-router-dom";
 
 export default function MoviePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState("popular");
   const [searchResults, setSearchResults] = useState(null);
+  const [genre, setGenre] = useState(null);
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
@@ -23,21 +25,23 @@ export default function MoviePage() {
       fetchMovies();
     }
   }, [currentPage, searchResults, sortOption]);
-
+  console.log(genre);
   return (
     <div className="flex-col mx-12">
+      <ScrollRestoration />
       <Navbar />
       <Movieweek />
       <Filtering
         sortOption={sortOption}
         onSortChange={setSortOption}
         onSearchResults={setSearchResults}
+        onGenre={setGenre}
       />
       <div className="flex flex-col justify-center w-full mb-12">
         <Movielist
           classType="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-6 gap-y-3"
           sortOption={sortOption}
-          movies={searchResults || movieList}
+          movies={searchResults || genre || movieList}
         />
         {!searchResults && (
           <Pagination

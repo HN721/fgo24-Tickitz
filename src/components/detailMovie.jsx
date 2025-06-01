@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { getMovieCredits, getMoviebyId } from "../services/fetchMovie";
-import { DataContext } from "../App";
 
 export default function DetailMovie({ id, setData }) {
   const [director, setDirector] = useState("");

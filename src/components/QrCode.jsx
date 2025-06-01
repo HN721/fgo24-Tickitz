@@ -10,7 +10,8 @@ export default function QrCode() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.Auth);
-
+  const img = bookings.img;
+  console.log(img);
   useEffect(() => {
     console.log(bookings);
     const bookingData = {
@@ -38,59 +39,78 @@ export default function QrCode() {
   };
 
   return (
-    <div className="qr-code bg-[#f1f2f6]">
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden max-w-sm w-full text-center relative">
-        <div className="p-6 flex justify-center border-b">
-          <QRCodeCanvas id="qr-gen" value={qrValue} size={150} />
+    <div className="flex pt-16 min-h-screen">
+      <div className="w-1/2 relative text-white">
+        <img
+          src={img}
+          alt="Movie Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0  bg-opacity-30 flex flex-col justify-center items-center text-center px-8">
+          <h1 className="text-4xl font-bold mb-2">Tickitz</h1>
+          <h2 className="text-2xl font-semibold mb-4">
+            Thankyou For Purchasing
+          </h2>
+          <p className="text-gray-200 mb-4">
+            Lorem ipsum dolor sit amet consectetur. Quam pretium pretium tempor
+            integer sed magna et.
+          </p>
+          <p className="text-sm text-blue-300">Please Download Your Ticket</p>
         </div>
-        <div className="p-6 space-y-2  text-left text-sm">
-          <div className="grid-qr">
-            <div className="flex-qr">
+      </div>
+
+      <div className="w-1/2 flex justify-center items-center bg-[#f1f2f6] p-8">
+        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+          <div className="flex justify-center mb-4">
+            <QRCodeCanvas id="qr-gen" value={qrValue} size={150} />
+          </div>
+
+          <div className="space-y-2 text-sm text-gray-700">
+            <div className="flex justify-between">
               <span className="text-gray-500">Movie</span>
-              <span className="font-semibold truncate max-w-[150px]">
-                {bookingData.movieName}
-              </span>
+              <span className="font-semibold">{bookingData.movieName}</span>
             </div>
-            <div className="flex-qr">
+            <div className="flex justify-between">
               <span className="text-gray-500">Category</span>
               <span>{bookingData.genre.map((g) => g.name).join(", ")}</span>
             </div>
-            <div className="flex-qr">
+            <div className="flex justify-between">
               <span className="text-gray-500">Date</span>
               <span>{bookingData.days}</span>
             </div>
-            <div className="flex-qr">
+            <div className="flex justify-between">
               <span className="text-gray-500">Time</span>
               <span>{bookingData.time}</span>
             </div>
-            <div className="flex-qr">
+            <div className="flex justify-between">
               <span className="text-gray-500">Count</span>
               <span>{bookingData.seat.length} pcs</span>
             </div>
-            <div className="flex-qr">
+            <div className="flex justify-between">
               <span className="text-gray-500">Seats</span>
               <span>{bookingData.seat.join(", ")}</span>
             </div>
           </div>
 
-          <div className="flex justify-between w-full border-t pt-2 font-semibold">
+          <div className="border-t mt-4 pt-2 flex justify-between font-semibold">
             <span>Total</span>
-            <span>{bookingData.price}</span>
+            <span>${bookingData.price}</span>
           </div>
-        </div>
-        <div className="flex flex-col gap-2 p-4">
-          <button
-            onClick={handleDownload}
-            className="border border-blue-600 text-blue-600 font-medium py-2 rounded hover:bg-blue-50"
-          >
-            ⬇️ Download
-          </button>
-          <button
-            onClick={() => navigate("/profile-page")}
-            className="bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700"
-          >
-            Done
-          </button>
+
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              onClick={handleDownload}
+              className="border border-blue-600 text-blue-600 font-medium py-2 rounded hover:bg-blue-50"
+            >
+              ⬇️ Download
+            </button>
+            <button
+              onClick={() => navigate("/profile-page")}
+              className="bg-blue-600 text-white py-2 rounded font-medium hover:bg-blue-700"
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </div>

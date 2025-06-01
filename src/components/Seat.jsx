@@ -107,25 +107,28 @@ export default function MovieSeatBooking() {
                 <div className="overflow-x-auto">
                   <div className="flex flex-col gap-2 min-w-[600px]">
                     {rows.map((row) => (
-                      <div key={row} className="flex items-center gap-2">
+                      <button key={row} className="flex items-center gap-2">
                         <div className="w-6 text-center font-medium text-sm">
                           {row}
                         </div>
-                        {[...Array(14)].map((_, i) => {
+                        {[...Array(17)].map((_, i) => {
                           const col = i + 1;
                           const seatId = `${row}${col}`;
                           const status = getSeatStatus(seatId);
                           return (
-                            <div
+                            <button
                               key={seatId}
                               className={`w-8 h-8 rounded cursor-pointer ${getSeatClass(
                                 status
                               )}`}
-                              onClick={() => toggleSeat(seatId)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                toggleSeat(seatId);
+                              }}
                             />
                           );
                         })}
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>

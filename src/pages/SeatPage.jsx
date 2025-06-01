@@ -1,13 +1,13 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Seat from "../components/seat";
+import MovieSeatBooking from "../components/Seat";
 
 export default function SeatPage() {
   return (
     <div>
       <Navbar />;
-      <Seat />
+      <MovieSeatBooking />
       <Footer />
     </div>
   );
