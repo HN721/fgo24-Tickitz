@@ -17,6 +17,7 @@ import EditPages from "./User/page/EditPage";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import LoginAdmin from "./Admin/page/LoginAdmin";
 
 export const DataContext = createContext();
 export default function App() {
@@ -55,6 +56,10 @@ export default function App() {
         {
           path: "Payment",
           element: <PaymentPage />,
+        },
+        {
+          path: "/login/admin",
+          element: <LoginAdmin />,
         },
         {
           path: "dashboard",

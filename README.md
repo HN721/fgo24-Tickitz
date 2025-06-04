@@ -1,6 +1,6 @@
-# Ticketz — Movie Booking App
+# Movxtar — Movie Booking App
 
-Ticketz is a modern movie ticket booking app built using React and Tailwind CSS. The app allows users to view movie listings, movie details, and book tickets in real-time. Global state is managed using useContext for efficiency and ease of cross-component data management.
+Movxtar is a modern movie ticket booking app built using React and Tailwind CSS. The app allows users to view movie listings, movie details, and book tickets in real-time. Global state is managed using useContext for efficiency and ease of cross-component data management.
 
 ## Preview
 
@@ -14,34 +14,57 @@ Ticketz is a modern movie ticket booking app built using React and Tailwind CSS.
 
 ## How To Run This Project
 
-1. Clone this repository:
+### Manual
 
-   ```bash
-   git clone "https://github.com/HN721/fgo24-react-todo.git"
-   ```
+1. Clone this repository
 
-2. Install dependencies:
+```bash
+git clone https://github.com/HN721/fgo24-Tickitz.git
+```
 
-   ```bash
-   npm install
-   ```
+2. Get into the path
 
-3. Make sure you have installed the following dependency:
+```bash
+cd fgo24-Tickitz
+```
 
-   ```
-   vite
-   tailwind
-   ```
+3. Install the dependencies
 
-4. Start the project with:
+```bash
+npm install
+```
 
-   ```bash
-    npm run dev
-   ```
+4. Run the project
 
-5. The project will run at: http://localhost:5501
+```bash
+npm run dev
+```
 
----
+### With Docker
+
+1. Clone this repository
+
+```bash
+git clone https://github.com/HN721/fgo24-Tickitz.git
+```
+
+2. Get into the path
+
+```bash
+cd fgo24-Tickitz
+```
+
+3. Build image
+
+```bash
+docker build . -t ubuntu:Tickitz
+```
+
+4. Run image with docker
+
+```bash
+docker run -p 8080:80 -d ubuntu:Tickitz
+```
 
 ## Contributing
 

@@ -9,6 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 
 ChartJS.register(
   CategoryScale,
@@ -20,8 +21,12 @@ ChartJS.register(
 );
 
 export default function Chart() {
+  const bookings = useSelector((state) => state.booking.bookings);
+  let movieData = [];
+  bookings.map((item) => movieData.push(item.movieName));
+  console.log(movieData);
   const data = {
-    labels: ["Spiderman", "Avengers", "MinceCraft", "The Monkey", "Jumbo"],
+    labels: movieData,
     datasets: [
       {
         label: "Penjualan Ticket",
@@ -43,7 +48,7 @@ export default function Chart() {
   };
 
   return (
-    <div className="w-full max-w-4xl  mx-12">
+    <div className="w-full max-w-2xl  mx-12">
       <Bar options={options} data={data} />
     </div>
   );

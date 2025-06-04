@@ -2,14 +2,29 @@ import React, { useState } from "react";
 import { Calendar, Trash } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearBooking, deleteBooking } from "../../redux/reducers/bookings";
+import Swal from "sweetalert2";
 
 export default function ListMovie() {
-  const [selectedMonth, setSelectedMonth] = useState("November 2023");
+  const [selectedMonth, setSelectedMonth] = useState("Jun 2025");
   const bookings = useSelector((state) => state.booking.bookings);
   const dispatch = useDispatch();
 
   const handleDelete = (index) => {
-    dispatch(deleteBooking(index));
+    Swal.fire({
+      title: "Do you want to Delete Transactions?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      denyButtonText: `Don't Delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Sucess Delete!", "", "success");
+        dispatch(deleteBooking(index));
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
 
   const handleDeleteAll = () => {
