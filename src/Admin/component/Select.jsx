@@ -8,7 +8,7 @@ export default function SalesChart() {
   const bookings = useSelector((state) => state.booking.bookings);
   console.log(bookings);
   return (
-    <div className="w-full p-4">
+    <div className=" p-4">
       <h2 className="text-xl font-bold mb-4">Sales Chart</h2>
       <div className="flex flex-row gap-2 items-center">
         <div className="relative">

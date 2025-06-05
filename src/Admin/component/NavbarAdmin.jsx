@@ -10,16 +10,7 @@ export default function NavbarAdmin() {
         <img src={Logo} alt="Tickitz Logo" className="h-8 mr-4" />
       </div>
 
-      <div className="flex space-x-6 text-lg font-med font-display text-gray-700">
-        <Link to={"/dashboard"}>
-          <p className="hover:text-secondary active:text-secondary">
-            Dashboard
-          </p>
-        </Link>
-        <Link to={"/dashboard/movies"}>
-          <p className="hover:text-secondary active:text-secondary">Movie</p>
-        </Link>
-      </div>
+      <div className="flex space-x-6 text-lg font-med font-display text-gray-700"></div>
 
       <div className="flex items-center space-x-4">
         <select className="border rounded px-2 py-1 font-med font-display text-sm">

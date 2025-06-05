@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, Trash } from "lucide-react";
+import { Calendar, Edit, Plus, PlusSquare, Trash } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearBooking, deleteBooking } from "../../redux/reducers/bookings";
 import Swal from "sweetalert2";
@@ -17,7 +17,6 @@ export default function ListMovie() {
       confirmButtonText: "Yes",
       denyButtonText: `Don't Delete`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         Swal.fire("Sucess Delete!", "", "success");
         dispatch(deleteBooking(index));
@@ -32,18 +31,24 @@ export default function ListMovie() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    <div className="w-full mt-10 p-6 bg-white rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
           History Transactions
         </h2>
-        <button
-          onClick={handleDeleteAll}
-          className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-        >
-          <Trash className="w-4 h-4" />
-          Delete All
-        </button>
+        <div className="flex gap-2 items-center">
+          <button className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            <Plus className="w-4 h-4" />
+            Add Movie
+          </button>
+          <button
+            onClick={handleDeleteAll}
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+          >
+            <Trash className="w-4 h-4" />
+            Delete All
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 mb-6">
@@ -85,6 +90,20 @@ export default function ListMovie() {
                 title="Delete Transaction"
               >
                 <Trash className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => handleDelete(idx)}
+                className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
+                title="Edit Transaction"
+              >
+                <Edit className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => handleDelete(idx)}
+                className="p-2 bg-secondary hover:bg-orange-600 text-white rounded"
+                title="Add Transaction"
+              >
+                <PlusSquare className="h-4 w-4" />
               </button>
             </div>
           ))}

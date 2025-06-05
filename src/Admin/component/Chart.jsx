@@ -48,7 +48,7 @@ export default function Chart() {
   };
 
   return (
-    <div className="w-full max-w-2xl  mx-12">
+    <div className=" mx-12">
       <Bar options={options} data={data} />
     </div>
   );
