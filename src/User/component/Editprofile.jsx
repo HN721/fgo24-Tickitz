@@ -72,20 +72,20 @@ export default function Editprofile() {
   }
 
   return (
-    <div className="mt-12 flex-1 px-4">
-      <div className="flex gap-6 bg-white p-5 rounded-xl shadow-md w-full">
-        <h1 className="text-secondary border-b-2 border-secondary">
+    <div className="mt-12 flex-1 px-4 sm:px-6 lg:px-8">
+      {/* Tab Header */}
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 bg-white p-5 rounded-xl shadow-md w-full">
+        <h1 className="text-secondary border-b-2 border-secondary pb-1 text-base sm:text-lg">
           Account Settings
         </h1>
         <Link to={"/Profile-Page"}>
-          <h1 className="text-gray-500">Order History</h1>
+          <h1 className="text-gray-500 text-base sm:text-lg">Order History</h1>
         </Link>
       </div>
 
       <form onSubmit={handleSubmit(submitData)}>
         <div className="mt-8 space-y-6">
-          {/* Details Information */}
-          <div className="bg-white p-6 rounded-xl shadow-md">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md">
             <h2 className="text-lg font-semibold mb-4">Details Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -102,6 +102,7 @@ export default function Editprofile() {
                   {errors.firstName?.message}
                 </p>
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Last Name
@@ -116,6 +117,7 @@ export default function Editprofile() {
                   {errors.lastName?.message}
                 </p>
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">E-mail</label>
                 <input
@@ -127,22 +129,23 @@ export default function Editprofile() {
                 />
                 <p className="text-red-500 text-sm">{errors.email?.message}</p>
               </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1">
                   Phone Number
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     value="+62"
-                    className="w-20 border border-gray-300 rounded-lg p-2 text-center"
+                    className="w-full sm:w-20 border border-gray-300 rounded-lg p-2 text-center"
                     readOnly
                   />
                   <input
                     type="tel"
                     {...register("phone")}
                     placeholder={`${user.phone}`}
-                    className="flex-1 border border-gray-300 rounded-lg p-2"
+                    className="w-full border border-gray-300 rounded-lg p-2"
                   />
                 </div>
                 <p className="text-red-500 text-sm">{errors.phone?.message}</p>
@@ -150,8 +153,7 @@ export default function Editprofile() {
             </div>
           </div>
 
-          {/* Account and Privacy */}
-          <div className="bg-white p-6 rounded-xl shadow-md">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md">
             <h2 className="text-lg font-semibold mb-4">Account and Privacy</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -202,7 +204,6 @@ export default function Editprofile() {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-start">
             <button
               type="submit"

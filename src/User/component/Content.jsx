@@ -10,8 +10,8 @@ export default function Content() {
   const userBookings = bookings.filter((item) => item.userId === userId);
 
   return (
-    <div className="mt-12 flex-1 px-4">
-      <div className="flex gap-6 bg-white p-5 rounded-xl shadow-md w-full">
+    <div className="mt-12 flex-1 px-4 w-full max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 bg-white p-5 rounded-xl shadow-md w-full">
         <Link to={"/Edit-Profile"}>
           <h1 className="text-gray-500">Account Settings</h1>
         </Link>
@@ -27,7 +27,7 @@ export default function Content() {
 
             return (
               <div key={i} className="bg-white p-5 rounded-xl shadow-md">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
                   <div>
                     <p className="text-gray-400 text-sm">
                       {order.days} - {order.time} {order.location}
@@ -38,13 +38,13 @@ export default function Content() {
                       {order.price.toLocaleString()}
                     </p>
                   </div>
-                  <div className="text-black text-xl font-bold italic">
+                  <div className="text-black text-lg font-bold italic sm:text-right">
                     {order.cinema}
                   </div>
                 </div>
 
-                <div className="flex justify-between mt-4 items-center">
-                  <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row justify-between mt-4 items-start sm:items-center gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
                       Ticket in active
                     </span>
@@ -61,48 +61,27 @@ export default function Content() {
                 </div>
 
                 {showDetail && (
-                  <div className="mt-4 bg-gray-50 rounded-lg p-4 text-sm space-y-2">
-                    <div className="flex items-center gap-4">
+                  <div className="mt-4 bg-gray-50 rounded-lg p-4 text-sm space-y-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                       <img
                         src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=TicketID"
                         alt="QR Code"
                         className="w-20 h-20"
                       />
-                      <div className="grid grid-cols-4 gap-4">
-                        <div>
-                          <p className="text-gray-400">Category</p>
-                          <p className="font-semibold">PG-13</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Time</p>
-                          <p className="font-semibold">{order.time}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Seats</p>
-                          <p className="font-semibold">
-                            {order.seat.join(", ")}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Movie</p>
-                          <p className="font-semibold">{order.movieName}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Date</p>
-                          <p className="font-semibold">{order.days}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Count</p>
-                          <p className="font-semibold">
-                            {order.seat.length} pcs
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-400">Total</p>
-                          <p className="font-semibold">
-                            Rp {order.price.toLocaleString()}
-                          </p>
-                        </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full">
+                        <Detail label="Category" value="PG-13" />
+                        <Detail label="Time" value={order.time} />
+                        <Detail label="Seats" value={order.seat.join(", ")} />
+                        <Detail label="Movie" value={order.movieName} />
+                        <Detail label="Date" value={order.days} />
+                        <Detail
+                          label="Count"
+                          value={`${order.seat.length} pcs`}
+                        />
+                        <Detail
+                          label="Total"
+                          value={`Rp ${order.price.toLocaleString()}`}
+                        />
                       </div>
                     </div>
                   </div>
@@ -114,6 +93,15 @@ export default function Content() {
           <p className="text-gray-500">You have no order history.</p>
         )}
       </div>
+    </div>
+  );
+}
+
+function Detail({ label, value }) {
+  return (
+    <div>
+      <p className="text-gray-400">{label}</p>
+      <p className="font-semibold break-words">{value}</p>
     </div>
   );
 }
