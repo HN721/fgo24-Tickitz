@@ -57,13 +57,13 @@ cd fgo24-Tickitz
 3. Pull image
 
 ```bash
-docker pull ghcr.io/hn721/ubuntu:movxtar2
+docker pull ghcr.io/hn721/movie-ticket-app:latest
 ```
 
 4. Run image with docker
 
 ```bash
-docker run -d -p 9202:80 ghcr.io/hn721/ubuntu:movxtar2
+docker run -d -p 9202:80 ghcr.io/hn721/movie-ticket-app:latest
 ```
 
 ## Contributing
