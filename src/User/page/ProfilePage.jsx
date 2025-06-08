@@ -8,7 +8,7 @@ export default function ProfilePage() {
     <div className="bg-gray-50 min-h-screen">
       <ScrollRestoration />
       <Navbar />
-      <div className="flex flex-col justify-center  lg:flex-row gap-6 mb-6 mx-4 lg:mx-16 mt-8">
+      <div className="flex flex-col justify-center items-center lg:items-start  lg:flex-row gap-6 mb-6 mx-4 lg:mx-16 mt-8">
         <Sidebar />
         <Content />
       </div>
