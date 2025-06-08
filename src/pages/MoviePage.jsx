@@ -5,7 +5,7 @@ import Filtering from "../components/Filtering";
 import Movielist from "../components/Movielist";
 import Subscribe from "../components/Subscribe";
 import Footer from "../components/Footer";
-import { getPage, getData } from "../services/fetchMovie";
+import { getPage } from "../services/fetchMovie";
 import Pagination from "../components/Pagination";
 import { ScrollRestoration } from "react-router-dom";
 
@@ -25,9 +25,9 @@ export default function MoviePage() {
       fetchMovies();
     }
   }, [currentPage, searchResults, sortOption]);
-  console.log(genre);
+
   return (
-    <div className="flex-col mx-12">
+    <div className="flex flex-col mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-24 2xl:mx-32">
       <ScrollRestoration />
       <Navbar />
       <Movieweek />
@@ -37,9 +37,10 @@ export default function MoviePage() {
         onSearchResults={setSearchResults}
         onGenre={setGenre}
       />
-      <div className="flex flex-col justify-center w-full mb-12">
+
+      <div className="flex flex-col items-center justify-center w-full mb-12">
         <Movielist
-          classType="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-6 gap-y-3"
+          classType="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 place-items-center"
           sortOption={sortOption}
           movies={searchResults || genre || movieList}
         />
@@ -51,6 +52,7 @@ export default function MoviePage() {
           />
         )}
       </div>
+
       <Subscribe />
       <Footer />
     </div>

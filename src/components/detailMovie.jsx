@@ -59,11 +59,11 @@ export default function DetailMovie({ id, setData, setLoading }) {
           <div className="absolute inset-0 "></div>
         </div>
 
-        <div className="relative md:flex flex-col px-6 md:px-12 mt-[-200px] gap-8 z-10">
+        <div className="relative flex flex-col md:flex-row items-center md:items-start justify-center px-4 sm:px-6 md:px-12 mt-[-200px] gap-8 z-10">
           <img
             src={`https://image.tmdb.org/t/p/original${movies.poster_path}`}
             alt="Poster"
-            className="rounded-lg lg:h-[400px]  shadow-lg"
+            className="rounded-lg sm:h-[400px]  shadow-lg"
           />
 
           <div className="lg:text-white flex flex-col gap-4 w-full max-w-3xl">
