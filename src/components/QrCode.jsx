@@ -11,17 +11,16 @@ export default function QrCode() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.Auth);
   const img = bookings.img;
-  console.log(img);
+
   useEffect(() => {
-    console.log(bookings);
     const bookingData = {
       ...bookings,
       userId: user?.user?.id || null,
       timestamp: new Date().toISOString(),
     };
-
     dispatch(addBooking(bookingData));
   }, [bookings]);
+
   const qrValue = bookings.length > 0 ? JSON.stringify(bookings[0]) : "";
   const bookingData = bookings;
 
@@ -39,28 +38,27 @@ export default function QrCode() {
   };
 
   return (
-    <div className="flex pt-16 min-h-screen">
-      <div className="w-1/2 relative text-white">
+    <div className="flex  flex-col lg:flex-row min-h-screen">
+      <div className="relative w-full lg:w-1/2 h-80 lg:h-auto">
         <img
           src={img}
           alt="Movie Background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0  bg-opacity-30 flex flex-col justify-center items-center text-center px-8">
-          <h1 className="text-4xl font-bold mb-2">Tickitz</h1>
-          <h2 className="text-2xl font-semibold mb-4">
-            Thankyou For Purchasing
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center text-white px-6 py-8">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">Tickitz</h1>
+          <h2 className="text-xl sm:text-2xl font-semibold mb-4">
+            Thank You For Purchasing
           </h2>
-          <p className="text-gray-200 mb-4">
-            Lorem ipsum dolor sit amet consectetur. Quam pretium pretium tempor
-            integer sed magna et.
+          <p className="text-sm sm:text-base text-gray-200 mb-4">
+            Enjoy your movie and don’t forget your popcorn! 🎬🍿
           </p>
           <p className="text-sm text-blue-300">Please Download Your Ticket</p>
         </div>
       </div>
 
-      <div className="w-1/2 flex justify-center items-center bg-[#f1f2f6] p-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+      <div className="w-full  lg:w-1/2 flex justify-center items-center bg-[#f1f2f6] p-6 sm:p-8">
+        <div className="bg-white  mt-10 rounded-2xl shadow-lg p-6 w-full max-w-md">
           <div className="flex justify-center mb-4">
             <QRCodeCanvas id="qr-gen" value={qrValue} size={150} />
           </div>
