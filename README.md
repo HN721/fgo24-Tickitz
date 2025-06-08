@@ -54,16 +54,16 @@ git clone https://github.com/HN721/fgo24-Tickitz.git
 cd fgo24-Tickitz
 ```
 
-3. Build image
+3. Pull image
 
 ```bash
-docker build . -t ubuntu:Tickitz
+docker pull ghcr.io/hn721/ubuntu:movxtar2
 ```
 
 4. Run image with docker
 
 ```bash
-docker run -p 8080:80 -d ubuntu:Tickitz
+docker run -d -p 9202:80 ghcr.io/hn721/ubuntu:movxtar2
 ```
 
 ## Contributing
