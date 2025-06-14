@@ -18,10 +18,11 @@ export default function Cinema() {
         </div>
       </div>
 
-      {/* Movie List */}
       <div className="w-full overflow-hidden">
         <div className="mx-auto flex flex-col items-center gap-6 max-w-full">
-          <Movielist classType="flex space-x-4 sm:space-x-6 overflow-x-auto pb-4 px-1 scrollbar-thin scrollbar-thumb-secondary scrollbar-track-gray-200" />
+          <div className="w-full overflow-x-auto px-1 pb-4 scrollbar-thin scrollbar-thumb-secondary scrollbar-track-gray-200">
+            <Movielist classType="flex w-max space-x-4 sm:space-x-6" />
+          </div>
 
           <Button className="text-sm sm:text-base mb-4 bg-secondary px-4 py-2 text-white hover:bg-brand hover:text-font-secondary">
             VIEW ALL
