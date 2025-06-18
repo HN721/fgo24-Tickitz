@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/footer.png";
+import logo from "../assets/mv-logos.png";
 import Ebu from "../assets/ebu.svg";
 import CineOne from "../assets/cineOne.svg";
 import Hiflix from "../assets/hiflix.svg";
