@@ -74,7 +74,7 @@ export default function Filtering({
         <div className="relative inline-block text-left">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="bg-orange-600 text-white px-4 py-2 rounded-md flex items-center gap-2 font-semibold"
+            className="bg-secondary text-white px-4 py-2 rounded-md flex items-center gap-2 font-semibold"
           >
             {sortOptions.find((o) => o.value === sortOption)?.label || "Sort"}
             <ChevronDown size={16} />
@@ -89,9 +89,9 @@ export default function Filtering({
                     onSortChange(option.value);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2 hover:bg-orange-100 flex justify-between items-center ${
+                  className={`w-full text-left px-4 py-2 hover:bg-hover flex justify-between items-center ${
                     sortOption === option.value
-                      ? "text-orange-600 font-semibold"
+                      ? "text-secondary font-semibold"
                       : ""
                   }`}
                 >

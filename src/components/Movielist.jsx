@@ -80,7 +80,7 @@ export default function Movielist({ classType, movies }) {
                   >
                     View Details
                   </button>
-                  <button className="px-4 py-1 rounded-full font-display bg-secondary text-white text-lg font-lg hover:bg-orange-500 transition">
+                  <button className="px-4 py-1 rounded-full font-display bg-secondary text-white text-lg font-lg hover:bg-hover transition">
                     Buy Ticket
                   </button>
                 </div>

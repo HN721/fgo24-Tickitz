@@ -5,7 +5,7 @@ import { ArrowLeftCircle, ArrowRightCircleIcon } from "lucide-react";
 
 export default function Cinema() {
   return (
-    <section className="mt-12 px-4 sm:px-6 lg:px-20">
+    <section className="mt-12 px-4 sm:px-6 lg:mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <p className="font-display font-medium text-primary text-2xl sm:text-3xl md:text-4xl">

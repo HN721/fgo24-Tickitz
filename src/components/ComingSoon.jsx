@@ -63,7 +63,7 @@ export default function ComingSoon() {
                 </div>
                 <h3 className="font-bold text-center text-sm">{movie.title}</h3>
                 <div className="flex justify-center mt-2">
-                  <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs">
+                  <span className="bg-brand text-secondary px-3 py-1 rounded-full text-xs">
                     {movie.releaseDate}
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function ComingSoon() {
                 className="w-full rounded-lg border border-gray-200 mb-2"
               />
               <h3 className="font-bold text-center text-sm">{movie.title}</h3>
-              <span className="mt-2 bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs">
+              <span className="mt-2 bg-brand text-secondary px-3 py-1 rounded-full text-xs">
                 {movie.releaseDate}
               </span>
             </div>
@@ -109,7 +109,7 @@ export default function ComingSoon() {
                 key={index}
                 className={`px-6 py-2 rounded-full text-sm font-medium ${
                   index === 0
-                    ? "bg-orange-600 text-white"
+                    ? "bg-secondary text-white"
                     : "bg-white text-gray-800 border border-gray-300"
                 }`}
               >
@@ -123,7 +123,7 @@ export default function ComingSoon() {
               <button className="w-10 h-10 rounded-full bg-white border border-gray-300 flex items-center justify-center">
                 <ChevronLeft size={20} className="text-gray-600" />
               </button>
-              <Button className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center">
+              <Button className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
                 <ChevronRight size={20} className="text-white" />
               </Button>
             </div>

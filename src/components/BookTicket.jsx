@@ -27,7 +27,7 @@ export default function BookTicket({ setData }) {
             onClick={() => {
               navigate("/Seat");
             }}
-            className="bg-secondary hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-full"
+            className="bg-secondary hover:bg-hover text-white font-medium py-2 px-4 rounded-full"
           >
             BOOK NOW
           </button>
