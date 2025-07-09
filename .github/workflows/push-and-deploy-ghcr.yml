@@ -1,4 +1,4 @@
-name: Push Frontend Image to GHCR and Deploy to VPS
+name: Push Frontend Image to GHCR
 run-name: Release Image GHCR
 
 on:
