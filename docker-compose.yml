@@ -1,6 +1,6 @@
 
-services:
-  frontend:
+service:
+  movxtar:
     image: ghcr.io/hn721/fgo24-tickitz:latest
     ports:
       - "9202:80" 

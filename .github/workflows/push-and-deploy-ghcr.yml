@@ -37,7 +37,7 @@ jobs:
         with:
           host: 146.190.102.54
           username: hosea
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          key: ${{ secrets.PRIVATE_KEY}}
           port: 9201
           script: |
             echo "Pulling latest image from GHCR..."
