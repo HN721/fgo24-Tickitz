@@ -9,18 +9,7 @@ const UsersSlice = createSlice({
   initialState,
   reducers: {
     AddUserAction: (state, action) => {
-      const isEmailUsed = state.user.find(
-        (u) => u.email === action.payload.email
-      );
-
-      if (!isEmailUsed) {
-        state.user.push({
-          ...action.payload,
-          id: Math.floor(Math.random() * 100),
-        });
-      } else {
-        state.error = "Email already used";
-      }
+      state.user.push(action);
     },
     UpdateUserAction: (state, action) => {
       const index = state.user.findIndex((u) => u.id === action.payload.id);

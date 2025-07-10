@@ -1,36 +1,37 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { AddUserAction, DeleteUserAction } from "../redux/reducers/register";
+import { useDispatch } from "react-redux";
+import { AddUserAction } from "../redux/reducers/register";
 import Swal from "sweetalert2";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Eye, EyeClosed } from "lucide-react";
+import http from "../lib/http";
 
+// Validation schema
 const schema = yup.object().shape({
   username: yup.string().min(3).required("Username is required"),
-  phone: yup
-    .string()
-    .required("Phone is required")
-    .matches(/^[0-9]{10,15}$/, "Phone must be 10–15 digits"),
+
   email: yup
     .string()
     .email("Invalid email format")
     .required("Email is required"),
   password: yup
     .string()
-    .required("Password is required")
-    .min(6, "Password must be at least 8 characters"),
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
   rememberMe: yup.boolean(),
 });
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.user.user);
 
   const {
     register,
@@ -39,17 +40,28 @@ export default function RegisterPage() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const onSubmitForm = async (data) => {
+    try {
+      const res = await http().post("/auth/register", data);
+      console.log(res.data);
 
-  const onSubmitForm = (data) => {
-    dispatch(AddUserAction(data));
-    Swal.fire({
-      title: "Register successful!",
-      icon: "success",
-      draggable: true,
-    });
-    navigate("/login");
+      dispatch(AddUserAction(res.data));
+
+      Swal.fire({
+        title: "Register successful!",
+        icon: "success",
+      });
+
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Register failed",
+        text: error.response?.data?.message || "Something went wrong",
+        icon: "error",
+      });
+    }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -69,9 +81,9 @@ export default function RegisterPage() {
         </div>
 
         <form
+          onSubmit={handleSubmit(onSubmitForm)}
           className="mt-8 space-y-6"
           autoComplete="off"
-          onSubmit={handleSubmit(onSubmitForm)}
         >
           <div className="space-y-4">
             {/* Username */}
@@ -98,7 +110,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Phone */}
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -112,15 +124,15 @@ export default function RegisterPage() {
                 placeholder="Enter email"
                 {...register("email")}
                 className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
-                  errors.phone ? "border-red-500" : "border-gray-300"
+                  errors.email ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.phone && (
-                <p className="text-sm text-red-600">{errors.phone.message}</p>
+              {errors.email && (
+                <p className="text-sm text-red-600">{errors.email.message}</p>
               )}
             </div>
 
-            {/* password */}
+            {/* Password */}
             <div className="relative">
               <label
                 htmlFor="password"
@@ -132,7 +144,6 @@ export default function RegisterPage() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
-                required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
                 placeholder="Password"
               />
@@ -143,23 +154,27 @@ export default function RegisterPage() {
               >
                 {showPassword ? <EyeClosed /> : <Eye />}
               </button>
-              <p className="text-red-500 text-sm">{errors.password?.message}</p>
+              {errors.password && (
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
+            {/* Confirm Password */}
             <div className="relative">
               <label
-                htmlFor="confirm-password"
+                htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Confirm Password
               </label>
               <input
-                id="confirm-password"
-                type={showPassword ? "text" : "confirm-password"}
-                {...register("confirm-password")}
-                required
+                id="confirmPassword"
+                type={showPassword ? "text" : "password"}
+                {...register("confirmPassword")}
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
-                placeholder="confirm-password"
+                placeholder="Confirm Password"
               />
               <button
                 type="button"
@@ -168,7 +183,11 @@ export default function RegisterPage() {
               >
                 {showPassword ? <EyeClosed /> : <Eye />}
               </button>
-              <p className="text-red-500 text-sm">{errors.password?.message}</p>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -196,21 +215,6 @@ export default function RegisterPage() {
             type="submit"
             className="relative w-full flex justify-center items-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-secondary hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
-            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-              <svg
-                className="h-5 w-5 text-orange-500 group-hover:text-orange-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
             Register
           </button>
         </form>
