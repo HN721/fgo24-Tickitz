@@ -3,10 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Login } from "../redux/reducers/auth";
+import { Login, Logout } from "../redux/reducers/auth";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Eye, EyeClosed } from "lucide-react";
+import http from "../lib/http";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +20,8 @@ export default function LoginPage() {
     password: yup.string().required("Password wajib diisi"),
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -26,48 +29,10 @@ export default function LoginPage() {
   } = useForm({
     resolver: yupResolver(validation),
   });
-  const user = useSelector((state) => state.user.user);
-  console.log(user);
-  const dispatch = useDispatch();
-  function generateFakeToken() {
-    return Math.random().toString(36).substr(2) + Date.now().toString(36);
-  }
-  const submitData = (value) => {
-    const foundUser = user.find((user) => user.email === value.email);
-    if (!foundUser) {
-      return Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: "Wrong Email",
-      });
-    }
-
-    if (foundUser.password !== value.password) {
-      return Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: "Wrong Password",
-      });
-    }
-    const tokenData = {
-      token: generateFakeToken(),
-      user: {
-        id: foundUser.id,
-        username: foundUser.username,
-        email: foundUser.email,
-        phone: foundUser.phone,
-      },
-      createdAt: new Date().toISOString(),
-      expiredAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-    };
-    dispatch(Login(tokenData));
-    Swal.fire({
-      title: "Sucess Login!",
-      icon: "success",
-      draggable: true,
-    }).then((res) => {
-      navigate("/");
-    });
+  const submitData = async (value) => {
+    const { data } = await http().post("/auth/login", value);
+    dispatch(Login(data));
+    navigate("/");
   };
 
   return (

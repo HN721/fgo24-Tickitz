@@ -3,7 +3,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function AuthLayout() {
-  const user = useSelector((state) => state.auth.Auth.user);
+  const user = useSelector((state) => state.auth.Auth.token);
+  console.log(user);
 
   if (user) {
     return <Outlet />;

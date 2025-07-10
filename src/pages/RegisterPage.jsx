@@ -41,17 +41,6 @@ export default function RegisterPage() {
   });
 
   const onSubmitForm = (data) => {
-    const isEmailUsed = users.find((user) => user.email === data.email);
-
-    if (isEmailUsed) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Email Already Used",
-      });
-      return;
-    }
-
     dispatch(AddUserAction(data));
     Swal.fire({
       title: "Register successful!",
@@ -112,16 +101,16 @@ export default function RegisterPage() {
             {/* Phone */}
             <div>
               <label
-                htmlFor="phone"
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Phone
+                Email
               </label>
               <input
-                id="phone"
+                id="email"
                 type="text"
-                placeholder="Enter Phone"
-                {...register("phone")}
+                placeholder="Enter email"
+                {...register("email")}
                 className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
                   errors.phone ? "border-red-500" : "border-gray-300"
                 }`}
@@ -131,28 +120,7 @@ export default function RegisterPage() {
               )}
             </div>
 
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Email address"
-                {...register("email")}
-                className={`w-full px-3 py-2 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-600">{errors.email.message}</p>
-              )}
-            </div>
-
+            {/* password */}
             <div className="relative">
               <label
                 htmlFor="password"
@@ -167,6 +135,31 @@ export default function RegisterPage() {
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
                 placeholder="Password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-9 text-sm text-gray-500 hover:text-orange-500 focus:outline-none"
+              >
+                {showPassword ? <EyeClosed /> : <Eye />}
+              </button>
+              <p className="text-red-500 text-sm">{errors.password?.message}</p>
+            </div>
+
+            <div className="relative">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Confirm Password
+              </label>
+              <input
+                id="confirm-password"
+                type={showPassword ? "text" : "confirm-password"}
+                {...register("confirm-password")}
+                required
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm pr-10"
+                placeholder="confirm-password"
               />
               <button
                 type="button"

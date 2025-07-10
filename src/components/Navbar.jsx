@@ -8,8 +8,7 @@ import Button from "./Button";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const user = useSelector((state) => state.auth.Auth.user);
-  const username = user?.username;
+  const username = useSelector((state) => state.auth.Auth.results);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleMenu = () => setIsOpen(!isOpen);

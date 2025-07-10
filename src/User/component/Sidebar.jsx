@@ -5,11 +5,11 @@ import { Logout } from "../../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
-  const getItem = useSelector((state) => state.auth.Auth);
+  const getItem = useSelector((state) => state.auth.Auth.results);
   const navigate = useNavigate();
-  const char = getItem.user.username;
+  const char = getItem;
   const fistName = char.charAt(0);
-  const lastName = getItem.user.username.charAt(char.length - 1);
+  const lastName = getItem.charAt(char.length - 1);
   const sidename = fistName + lastName;
   const dispatch = useDispatch();
   function handleLogout() {
@@ -45,10 +45,8 @@ export default function Sidebar() {
             {sidename}
           </div>
         </div>
-        <h2 className="font-bold text-xl text-gray-800">
-          {getItem.user.username}
-        </h2>
-        <span className="text-gray-500 text-sm">{getItem.user.email}</span>
+        <h2 className="font-bold text-xl text-gray-800">{getItem}</h2>
+        <span className="text-gray-500 text-sm">{getItem}</span>
       </div>
 
       {/* Loyalty Card */}
