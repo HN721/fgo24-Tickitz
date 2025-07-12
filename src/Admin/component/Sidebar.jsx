@@ -25,7 +25,7 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 bg-white h-auto shadow-md p-4 mt-1 space-y-1">
+    <aside className="w-69 bg-white  shadow-md p-4 mt-1 space-y-1">
       {menuItems.map((item) => (
         <SidebarItem key={item.label} {...item} />
       ))}

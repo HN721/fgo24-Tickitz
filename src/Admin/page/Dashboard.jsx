@@ -8,14 +8,10 @@ import List from "../component/List";
 export default function Dashboard() {
   return (
     <div>
-      <NavbarAdmin />
-      <div className="flex">
-        <Sidebar />
-        <div className="w-full">
-          <List />
-          <Select />
-          <Chart />
-        </div>
+      <div className="w-full">
+        <List />
+        <Select />
+        {/* <Chart /> */}
       </div>
     </div>
   );

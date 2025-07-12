@@ -11,7 +11,6 @@ import { ScrollRestoration } from "react-router-dom";
 
 export default function MoviePage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState("popular");
   const [searchResults, setSearchResults] = useState(null);
   const [genre, setGenre] = useState(null);
   const [movieList, setMovieList] = useState([]);

@@ -64,11 +64,7 @@ export default function Movielist({ classType, movies }) {
 
                 {/* Poster */}
                 <img
-                  src={
-                    item.poster_path
-                      ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
-                      : "https://via.placeholder.com/192x288?text=Poster"
-                  }
+                  src={item.poster}
                   alt={item.title}
                   className="w-full h-72 object-cover rounded-lg"
                 />
@@ -85,18 +81,17 @@ export default function Movielist({ classType, movies }) {
                   </button>
                 </div>
 
-                {/* Title & Genres */}
                 <div className="p-2 text-center bg-white">
                   <h3 className="text-sm font-bold uppercase truncate">
                     {item.title}
                   </h3>
                   <div className="flex justify-center space-x-2 mt-2 flex-wrap">
-                    {(item.genre_ids || []).slice(0, 2).map((genreId) => (
+                    {(item.genres || []).slice(0, 2).map((genreId) => (
                       <span
                         key={genreId}
                         className="text-xs text-gray-700 bg-gray rounded-full px-2 py-0.5"
                       >
-                        {genreMap[genreId] || "Unknown"}
+                        {genreId || "Unknown"}
                       </span>
                     ))}
                   </div>

@@ -5,12 +5,8 @@ import Sidebar from "../component/Sidebar";
 
 export default function Movie() {
   return (
-    <div>
-      <NavbarAdmin />
-      <div className="flex">
-        <Sidebar />
-        <ListMovie />
-      </div>
+    <div className="w-full h-max">
+      <ListMovie />
     </div>
   );
 }

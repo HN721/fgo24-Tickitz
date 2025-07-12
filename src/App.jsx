@@ -7,6 +7,7 @@ import SeatPage from "./pages/SeatPage";
 import LoginPage from "./pages/LoginPage";
 import PaymentPage from "./pages/PaymentPage";
 import Dashboard from "./Admin/page/Dashboard";
+import AddMovie from "./Admin/component/AddMovie";
 import Movie from "./Admin/page/Movie";
 import RegisterPage from "./pages/RegisterPage";
 import TicketPage from "./pages/TicketPage";
@@ -18,6 +19,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import LoginAdmin from "./Admin/page/LoginAdmin";
+import LayoutAdmin from "./Admin/page/LayoutAdmin";
 
 export const DataContext = createContext();
 export default function App() {
@@ -63,11 +65,21 @@ export default function App() {
         },
         {
           path: "dashboard",
-          element: <Dashboard />,
-        },
-        {
-          path: "dashboard/movies",
-          element: <Movie />,
+          element: <LayoutAdmin />,
+          children: [
+            {
+              index: true,
+              element: <Dashboard />,
+            },
+            {
+              path: "movies",
+              element: <Movie />,
+            },
+            {
+              path: "add-movies",
+              element: <AddMovie />,
+            },
+          ],
         },
         {
           path: "Ticket",
