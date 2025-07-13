@@ -4,6 +4,7 @@ import { getMoviebyId } from "../services/fetchMovie";
 
 export default function DetailMovie({ id, setData, setLoading }) {
   const [movies, setMovies] = useState();
+  console.log("movie background", movies);
 
   useEffect(() => {
     const getData = async () => {
@@ -22,16 +23,17 @@ export default function DetailMovie({ id, setData, setLoading }) {
 
     getData();
   }, [id, setLoading]);
-
   if (!movies) {
     return <p>Data Tidak Ditemukan</p>;
   } else {
     return (
       <div className="relative w-full h-auto pt-15 mb-20">
         <div
-          className="w-full h-[520px] bg-cover rounded-4xl bg-center"
+          className="w-full h-96 bg-cover bg-center rounded-xl"
           style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original${movies.background})`,
+            backgroundImage: movies.background?.startsWith("http")
+              ? `url(${movies.background})`
+              : `url(http://localhost:8888/uploads/profile/${movies.background})`,
           }}
         >
           <div className="absolute inset-0 "></div>
@@ -39,7 +41,11 @@ export default function DetailMovie({ id, setData, setLoading }) {
 
         <div className="relative flex flex-col md:flex-row items-center md:items-start justify-center px-4 sm:px-6 md:px-12 mt-[-200px] gap-8 z-10">
           <img
-            src={movies.poster}
+            src={
+              movies.poster.startsWith("http")
+                ? movies.poster
+                : `http://localhost:8888/uploads/profile/${movies.poster}`
+            }
             alt="Poster"
             className="rounded-lg sm:h-[400px]  shadow-lg"
           />

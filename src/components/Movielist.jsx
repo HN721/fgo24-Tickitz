@@ -64,11 +64,14 @@ export default function Movielist({ classType, movies }) {
 
                 {/* Poster */}
                 <img
-                  src={item.poster}
+                  src={
+                    item.poster.startsWith("http")
+                      ? item.poster
+                      : `http://localhost:8888/uploads/profile/${item.poster}`
+                  }
                   alt={item.title}
                   className="w-full h-72 object-cover rounded-lg"
                 />
-
                 <div className="absolute top-0 left-0 w-full h-72 backdrop-blur-sm bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center">
                   <button
                     onClick={() => handleClick(item.id)}
