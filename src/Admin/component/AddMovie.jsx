@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 import AddCast from "./AddCast";
+import AddDirector from "./AddDirector";
 
 export default function AddMovie() {
   const [formData, setFormData] = useState({
@@ -113,7 +114,6 @@ export default function AddMovie() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary rounded-full mb-4 shadow-lg">
             <Film className="w-8 h-8 text-white" />
@@ -314,21 +314,6 @@ export default function AddMovie() {
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Director *
-                    </label>
-                    <input
-                      type="text"
-                      name="director"
-                      value={formData.director}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/30 transition-all duration-200"
-                      placeholder="Enter director name"
-                      required
-                    />
-                  </div>
-
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center">
@@ -378,6 +363,7 @@ export default function AddMovie() {
                   </div>
                 </div>
               </div>
+              <AddDirector />
               <AddCast />
             </div>
           </div>

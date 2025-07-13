@@ -8,17 +8,46 @@ import visa from "../assets/visa.png";
 import gopay from "../assets/gopay.png";
 import bca from "../assets/bca.png";
 import Stepper from "../components/Stepper";
+import http from "../lib/http";
 export default function PaymentPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const { bookings } = useContext(DataContext);
-  const [profile, setProfile] = useState({});
-  const token = useSelector((state) => state.auth.Auth);
-
-  console.log(profile);
+  const { bookings, setBookings } = useContext(DataContext);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [selectedPayment, setSelectedPayment] = useState(null);
   useEffect(() => {
-    setProfile(token);
+    const fetchPayment = async () => {
+      try {
+        const res = await http().get("/payment");
+        const result = await res.data.results;
+        setPaymentMethods(result);
+
+        console.log(result);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchPayment();
   }, []);
+  const handleConfirmPayment = () => {
+    setBookings({
+      ...bookings,
+      fullname,
+      email,
+      phone,
+      payment: selectedPayment,
+    });
+    setShowModal(true);
+  };
+
+  const paymentLogos = {
+    GoPay: gopay,
+    DANA: dana,
+    BRI: bca,
+  };
   return (
     <div className="min-h-screen bg-gray-200">
       <ScrollRestoration />
@@ -53,7 +82,7 @@ export default function PaymentPage() {
             <p className="text-xs text-gray-600 mb-4">
               Pay this payment bill before it is due,{" "}
               <span className="text-red-500 font-semibold">
-                on June 23, 2023
+                on June 23, 2025
               </span>
               . If the bill has not been paid by the specified time, it will be
               forfeited.
@@ -118,63 +147,61 @@ export default function PaymentPage() {
           <h2 className="text-lg font-semibold mb-4">Personal Information</h2>
 
           <div className="mb-4 border-b-1  border-border">
-            <label className="block text-sm mb-1">Full Name</label>
+            <label className=" text-sm mb-1">Full Name</label>
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded"
-              value={profile?.user?.username}
-              readOnly
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
             />
           </div>
 
           <div className="mb-4 border-b-1  border-border">
-            <label className="block text-sm mb-1">Email</label>
+            <label className=" text-sm mb-1">Email</label>
             <input
               type="email"
               className="w-full p-2 border border-gray-300 rounded"
-              value={profile?.user?.email}
-              readOnly
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="mb-4 border-b-1  border-border">
-            <label className="block text-sm mb-1">Phone Number</label>
+            <label className=" text-sm mb-1">Phone Number</label>
             <input
               type="tel"
               className="w-full p-2 border border-gray-300 rounded"
-              value={profile?.user?.phone}
-              readOnly
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
         </div>
 
         <div>
           <h2 className="text-lg font-semibold mb-4">Payment Method</h2>
-
-          <div className="flex space-x-2 mb-4">
-            <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <div className="text-sm font-medium flex items-center">
-                <img src={gopay} alt="" srcset="" />
-              </div>
-            </div>
-
-            <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <img src={visa} alt="" srcset="" />
-            </div>
-
-            <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <div className="font-medium text-sm">
-                <img src={dana} alt="" srcset="" />
-              </div>
-            </div>
-
-            <div className="border border-gray-300 rounded p-2 flex items-center justify-center w-20 h-12">
-              <img src={bca} alt="" srcset="" />
-            </div>
+          <div className="flex flex-wrap gap-3 mb-4">
+            {paymentMethods.map((method) => (
+              <button
+                key={method.id}
+                onClick={() => setSelectedPayment(method)}
+                className={`border rounded p-2 flex items-center justify-center w-24 h-14 
+        ${
+          selectedPayment?.id === method.id
+            ? "border-secondary ring-2 ring-secondary"
+            : "border-gray-300"
+        }`}
+              >
+                <img
+                  src={paymentLogos[method.name] || visa}
+                  alt={method.name}
+                  className="h-8 object-contain"
+                />
+              </button>
+            ))}
           </div>
 
           <button
-            onClick={() => setShowModal(true)}
+            onClick={handleConfirmPayment}
             className="w-full bg-secondary font-display text-white rounded py-3 font-medium"
           >
             Confirm Payment

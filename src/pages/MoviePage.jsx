@@ -14,7 +14,7 @@ export default function MoviePage() {
   const [searchResults, setSearchResults] = useState(null);
   const [genre, setGenre] = useState(null);
   const [movieList, setMovieList] = useState([]);
-
+  const [sortOption, setSortOption] = useState([]);
   useEffect(() => {
     if (!searchResults) {
       const fetchMovies = async () => {

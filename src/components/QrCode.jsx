@@ -4,20 +4,44 @@ import { DataContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addBooking } from "../redux/reducers/bookings";
+import http from "../lib/http";
 
 export default function QrCode() {
   const { bookings } = useContext(DataContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.Auth);
-  const img = bookings.img;
+  const user = useSelector((state) => state.auth.Auth.token);
+  const img = bookings.background;
 
+  const dataReq = {
+    priceTotal: bookings.price,
+    location: bookings.location,
+    movieId: bookings.id,
+    cinemaId: bookings.cinemaId,
+    paymentMethodId: bookings.payment.id,
+    days: bookings.days,
+    time: bookings.time,
+    details: bookings.seat.map((seat) => ({
+      customerName: bookings.fullname,
+      customerPhone: bookings.phone,
+      seat: seat,
+    })),
+  };
+  console.log(dataReq);
   useEffect(() => {
     const bookingData = {
       ...bookings,
-      userId: user?.user?.id || null,
-      timestamp: new Date().toISOString(),
+      userId: user,
     };
+    const addData = async () => {
+      try {
+        const res = await http(user).post("/trx/", dataReq);
+        console.log("Transaction success:", res.data);
+      } catch (err) {
+        console.error("Transaction error:", err);
+      }
+    };
+    addData();
     dispatch(addBooking(bookingData));
   }, [bookings]);
 
@@ -66,11 +90,11 @@ export default function QrCode() {
           <div className="space-y-2 text-sm text-gray-700">
             <div className="flex justify-between">
               <span className="text-gray-500">Movie</span>
-              <span className="font-semibold">{bookingData.movieName}</span>
+              <span className="font-semibold">{bookingData.title}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Category</span>
-              <span>{bookingData.genre.map((g) => g.name).join(", ")}</span>
+              <span>{bookingData.genres.map((g) => g).join(", ")}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Date</span>

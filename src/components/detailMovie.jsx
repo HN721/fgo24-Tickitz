@@ -11,6 +11,7 @@ export default function DetailMovie({ id, setData, setLoading }) {
       try {
         const res = await getMoviebyId(id);
         setMovies(res);
+        setData(res);
       } catch (err) {
         console.error("Failed to fetch movie:", err);
         setMovies(null);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { UpdateUserAction } from "../../redux/reducers/register";
 import { UpdateAction } from "../../redux/reducers/auth";
+import axios from "axios";
 
 // Validasi schema
 const validation = yup.object({
@@ -39,6 +40,7 @@ const validation = yup.object({
 export default function Editprofile() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState({});
   const {
     register,
     handleSubmit,
@@ -46,19 +48,44 @@ export default function Editprofile() {
   } = useForm({
     resolver: yupResolver(validation),
   });
+  const token = useSelector((state) => state.auth.Auth?.token);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get("http://localhost:8888/profile", {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = await res.data.results;
+      setUser(user);
+      console.log(user);
+    };
+    fetchUser();
+  }, []);
 
-  const user = useSelector((state) => state.auth.Auth.user);
-
-  function submitData(value) {
+  async function submitData(value) {
     const data = {
       id: user.id,
-      username: value.firstName + " " + value.lastName,
-      email: value.email,
-      password: value.newPassword,
-      phone: value.phone,
-      rememberMe: false,
+      fullname: value.firstName + " " + value.lastName,
+      phone_number: value.phone,
     };
+    const passwordRes = {
+      password: value.newPassword,
+    };
+    const submitProfile = await axios.patch(
+      "http://localhost:8888/profile",
+      data,
+      {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const submitPassword = await axios;
     console.log(data);
+
     dispatch(UpdateUserAction(data));
     dispatch(
       UpdateAction({
