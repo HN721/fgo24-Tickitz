@@ -3,6 +3,7 @@ FROM node:lts-alpine AS builder
 WORKDIR /workspace
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .

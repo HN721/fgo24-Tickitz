@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Login, Logout } from "../redux/reducers/auth";
@@ -8,7 +7,6 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Eye, EyeClosed } from "lucide-react";
 import http from "../lib/http";
-import { Value } from "sass";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
