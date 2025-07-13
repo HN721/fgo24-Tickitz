@@ -1,150 +1,126 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Plus, User } from "lucide-react";
+import http from "../../lib/http";
 
-const AddDirector = () => {
-  const [formData, setFormData] = useState({
-    cast: [],
-  });
-
-  const [newCast, setNewCast] = useState("");
+const AddDirector = ({ selectedDirectors, setSelectedDirectors }) => {
+  const [newDirector, setNewDirector] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [availableDirectors, setAvailableDirectors] = useState([]);
 
-  const popularCasts = [
-    "Leonardo DiCaprio",
-    "Scarlett Johansson",
-    "Robert Downey Jr.",
-    "Emma Stone",
-    "Tom Holland",
-    "Margot Robbie",
-    "Ryan Reynolds",
-    "Jennifer Lawrence",
-    "Chris Evans",
-    "Natalie Portman",
-  ];
+  useEffect(() => {
+    const fetchDirectors = async () => {
+      try {
+        const res = await http().get("/movie/director");
+        setAvailableDirectors(res.data.results);
+      } catch (err) {
+        console.error("Failed to fetch directors:", err);
+      }
+    };
+    fetchDirectors();
+  }, []);
 
-  const availableCasts = popularCasts.filter(
-    (cast) => !formData.cast.includes(cast)
-  );
-
-  const handleAddCast = (castName) => {
-    if (castName && !formData.cast.includes(castName)) {
-      setFormData((prev) => ({
-        ...prev,
-        cast: [...prev.cast, castName],
-      }));
-      setNewCast("");
+  const handleAddDirector = (director) => {
+    if (director && !selectedDirectors.some((d) => d.id === director.id)) {
+      setSelectedDirectors((prev) => [...prev, director]);
+      setNewDirector("");
       setShowInput(false);
     }
   };
 
-  const handleRemoveCast = (castToRemove) => {
-    setFormData((prev) => ({
-      ...prev,
-      cast: prev.cast.filter((cast) => cast !== castToRemove),
-    }));
+  const handleRemoveDirector = (idToRemove) => {
+    setSelectedDirectors((prev) => prev.filter((d) => d.id !== idToRemove));
   };
 
   const handleInputSubmit = (e) => {
     if (e) e.preventDefault();
-    if (newCast.trim()) {
-      handleAddCast(newCast.trim());
-    }
+    const match = availableDirectors.find(
+      (d) => d.fullname.toLowerCase() === newDirector.toLowerCase()
+    );
+    if (match) handleAddDirector(match);
   };
+
+  const unusedDirectors = availableDirectors.filter(
+    (d) => !selectedDirectors.some((dir) => dir.id === d.id)
+  );
 
   return (
     <div className="max-w-2xl mx-auto p-6 rounded-2xl bg-secondary text-white">
-      <div>
-        <label className="text-sm font-medium text-gray-300 mb-2 flex items-center">
-          <User className="w-4 h-4 mr-2" />
-          Director
-        </label>
+      <label className="text-sm font-medium text-gray-300 mb-2 flex items-center">
+        <User className="w-4 h-4 mr-2" />
+        Director
+      </label>
 
-        <div className="mb-4">
-          {formData.cast.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-3">
-              {formData.cast.map((cast, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-3 py-1 bg-purple-600 text-white rounded-full text-sm"
-                >
-                  {cast}
-                  <button
-                    onClick={() => handleRemoveCast(cast)}
-                    className="ml-2 hover:bg-purple-700 rounded-full p-1 transition-colors"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {showInput ? (
-          <div className="mb-4">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={newCast}
-                onChange={(e) => setNewCast(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleInputSubmit(e)}
-                className="flex-1 px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/30 transition-all duration-200"
-                placeholder="Enter cast name..."
-                autoFocus
-              />
+      {selectedDirectors.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-3">
+          {selectedDirectors.map((d) => (
+            <span
+              key={d.id}
+              className="inline-flex items-center px-3 py-1 bg-purple-600 text-white rounded-full text-sm"
+            >
+              {d.fullname}
               <button
-                onClick={handleInputSubmit}
-                className="px-4 py-3 bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors"
+                onClick={() => handleRemoveDirector(d.id)}
+                className="ml-2 hover:bg-purple-700 rounded-full p-1"
               >
-                Add
+                <X className="w-3 h-3" />
               </button>
-              <button
-                onClick={() => {
-                  setShowInput(false);
-                  setNewCast("");
-                }}
-                className="px-4 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => setShowInput(true)}
-            className="w-full px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-gray-300 hover:border-pink-400 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add Director
-          </button>
-        )}
-
-        {availableCasts.length > 0 && (
-          <div className="mt-4">
-            <p className="text-sm text-gray-400 mb-2">Top Director:</p>
-            <div className="flex flex-wrap gap-2">
-              {availableCasts.slice(0, 6).map((cast) => (
-                <button
-                  key={cast}
-                  onClick={() => handleAddCast(cast)}
-                  className="px-3 py-1 bg-gray-700 hover:bg-purple-600 text-sm rounded-full transition-colors"
-                >
-                  + {cast}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="mt-3 text-sm text-gray-400">
-          {formData.cast.length > 0 && (
-            <span>
-              {formData.cast.length} Director
-              {formData.cast.length > 1 ? "s" : ""} selected
             </span>
-          )}
+          ))}
         </div>
-      </div>
+      )}
+
+      {showInput ? (
+        <form onSubmit={handleInputSubmit} className="mb-4 flex gap-2">
+          <input
+            type="text"
+            value={newDirector}
+            onChange={(e) => setNewDirector(e.target.value)}
+            placeholder="Enter director name..."
+            className="flex-1 px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-gray-300 focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="px-4 py-3 bg-pink-600 hover:bg-pink-700 rounded-lg"
+          >
+            Add
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setShowInput(false);
+              setNewDirector("");
+            }}
+            className="px-4 py-3 bg-gray-600 hover:bg-gray-700 rounded-lg"
+          >
+            Cancel
+          </button>
+        </form>
+      ) : (
+        <button
+          onClick={() => setShowInput(true)}
+          className="w-full px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-gray-300 hover:border-pink-400"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add Director
+        </button>
+      )}
+
+      {unusedDirectors.length > 0 && (
+        <div className="mt-4">
+          <p className="text-sm text-gray-400 mb-2">Available Directors:</p>
+          <div className="flex flex-wrap gap-2">
+            {unusedDirectors.slice(0, 6).map((d) => (
+              <button
+                key={d.id}
+                onClick={() => handleAddDirector(d)}
+                className="px-3 py-1 bg-gray-700 hover:bg-purple-600 text-sm rounded-full"
+              >
+                + {d.fullname}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ const getData = async () => {
   return result.results;
 };
 
-const getPage = async (page = 1, sort = "popular") => {
+const getPage = async () => {
   const url = `http://localhost:8888/movie`;
   const res = await fetch(url);
   const json = await res.json();

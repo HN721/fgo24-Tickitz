@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Plus,
   Upload,
@@ -11,8 +11,13 @@ import {
 } from "lucide-react";
 import AddCast from "./AddCast";
 import AddDirector from "./AddDirector";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 export default function AddMovie() {
+  const [selectedDirectors, setSelectedDirectors] = useState([]);
+  const [selectedCasts, setSelectedCasts] = useState([]);
+
   const [formData, setFormData] = useState({
     title: "",
     director: "",
@@ -21,30 +26,33 @@ export default function AddMovie() {
     genre: "",
     rating: "",
     description: "",
+    price: "",
+
     poster: null,
   });
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [dragActive, setDragActive] = useState(false);
+  const token = useSelector((state) => state.auth.Auth.token);
+  const [genres, setGenres] = useState([]);
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const res = await fetch("http://localhost:8888/movie/genre");
+        const data = await res.json();
 
-  const genres = [
-    "Action",
-    "Adventure",
-    "Comedy",
-    "Drama",
-    "Horror",
-    "Romance",
-    "Sci-Fi",
-    "Thriller",
-    "Fantasy",
-    "Mystery",
-    "Animation",
-    "Documentary",
-    "Crime",
-    "Family",
-    "War",
-  ];
+        if (data.success) {
+          setGenres(data.results);
+        } else {
+          console.error("Gagal ambil data genre:", data.message);
+        }
+      } catch (error) {
+        console.error("Error saat fetch genre:", error);
+      }
+    };
 
+    fetchGenres();
+  }, []);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -85,30 +93,79 @@ export default function AddMovie() {
     }
   };
 
-  const handleFileInput = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+  const handleFileInput = (e, type) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
       setFormData((prev) => ({
         ...prev,
-        poster: file,
+        [type]: file,
       }));
     }
   };
 
-  const handleSubmit = (e) => {
-    console.log("Form submitted:", { ...formData, genres: selectedGenres });
-    // Reset form
-    setFormData({
-      title: "",
-      director: "",
-      year: "",
-      duration: "",
-      genre: "",
-      rating: "",
-      description: "",
-      poster: null,
-    });
-    setSelectedGenres([]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const form = new FormData();
+      form.append("title", formData.title);
+      console.log("Form Title:", formData.title);
+
+      form.append("releaseDate", formData.year); // date
+      form.append("duration", formData.duration);
+      form.append("description", formData.description);
+      form.append("price", formData.price);
+      form.append("rating", formData.rating);
+
+      if (formData.poster) {
+        form.append("poster", formData.poster); // file
+      }
+
+      if (formData.background) {
+        form.append("background", formData.background); // file
+      }
+
+      form.append(
+        "directors",
+        JSON.stringify(selectedDirectors.map((d) => d.id))
+      );
+      form.append("actor", JSON.stringify(selectedCasts.map((c) => c.id)));
+      console.log("actor", selectedCasts);
+      form.append("genres", JSON.stringify(selectedGenres));
+
+      const res = await axios.post("http://localhost:8888/movie", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 201 && res.data.success) {
+        alert("Movie successfully added!");
+        setFormData({
+          title: "",
+          year: "",
+          duration: "",
+          description: "",
+          price: "",
+          rating: "",
+          poster: null,
+          background: null,
+        });
+        setSelectedGenres([]);
+        setSelectedDirectors([]);
+        setSelectedCasts([]);
+      } else {
+        console.error("Gagal tambah movie:", res.data.message);
+        alert("Failed to add movie");
+      }
+    } catch (err) {
+      console.error(
+        "Error saat tambah movie:",
+        err.response?.data || err.message
+      );
+      alert("Error submitting form");
+    }
   };
 
   return (
@@ -180,7 +237,7 @@ export default function AddMovie() {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={handleFileInput}
+                    onChange={(e) => handleFileInput(e, "poster")}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
                 </div>
@@ -203,17 +260,17 @@ export default function AddMovie() {
                   onDragOver={handleDrag}
                   onDrop={handleDrop}
                 >
-                  {formData.poster ? (
+                  {formData.background ? (
                     <div className="space-y-3">
                       <div className="w-32 h-48 mx-auto bg-gray-800 rounded-lg flex items-center justify-center">
                         <span className="text-white text-sm text-center px-2">
-                          {formData.poster.name}
+                          {formData.background.name}
                         </span>
                       </div>
                       <button
                         type="button"
                         onClick={() =>
-                          setFormData((prev) => ({ ...prev, poster: null }))
+                          setFormData((prev) => ({ ...prev, background: null }))
                         }
                         className="text-pink-400 hover:text-pink-300 text-sm underline"
                       >
@@ -237,7 +294,7 @@ export default function AddMovie() {
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={handleFileInput}
+                    onChange={(e) => handleFileInput(e, "background")}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
                 </div>
@@ -251,16 +308,16 @@ export default function AddMovie() {
                 <div className="flex flex-wrap gap-2">
                   {genres.map((genre) => (
                     <button
-                      key={genre}
+                      key={genre.id}
                       type="button"
-                      onClick={() => handleGenreToggle(genre)}
+                      onClick={() => handleGenreToggle(genre.id)}
                       className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
-                        selectedGenres.includes(genre)
+                        selectedGenres.includes(genre.id)
                           ? "bg-secondary text-white shadow-lg scale-105"
                           : "bg-purple-600/50 text-gray-300 hover:bg-purple-500/60 hover:text-white border border-purple-400/50"
                       }`}
                     >
-                      {genre}
+                      {genre.name}
                     </button>
                   ))}
                 </div>
@@ -318,19 +375,18 @@ export default function AddMovie() {
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
-                        Year
+                        Release Date
                       </label>
                       <input
-                        type="number"
+                        type="date"
                         name="year"
                         value={formData.year}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/30 transition-all duration-200"
-                        placeholder="2024"
-                        min="1900"
-                        max="2030"
+                        placeholder="YYYY-MM-DD"
                       />
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
@@ -347,7 +403,21 @@ export default function AddMovie() {
                       />
                     </div>
                   </div>
-
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center">
+                      <Tag className="w-4 h-4 mr-1" />
+                      Price (IDR)
+                    </label>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/30 transition-all duration-200"
+                      placeholder="e.g. 50000"
+                      min="0"
+                    />
+                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       Description
@@ -363,8 +433,15 @@ export default function AddMovie() {
                   </div>
                 </div>
               </div>
-              <AddDirector />
-              <AddCast />
+              <AddDirector
+                selectedDirectors={selectedDirectors}
+                setSelectedDirectors={setSelectedDirectors}
+              />
+
+              <AddCast
+                selectedCasts={selectedCasts}
+                setSelectedCasts={setSelectedCasts}
+              />
             </div>
           </div>
 

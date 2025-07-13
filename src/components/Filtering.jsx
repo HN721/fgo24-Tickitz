@@ -1,149 +1,111 @@
-import React, { useState } from "react";
-import { Search, ChevronDown, Check } from "lucide-react";
-import { searchingMovie } from "../services/searching";
+import React, { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { filterByGenre } from "../services/filtering";
+import {
+  filterByGenre,
+  searchingMovie,
+  getAllGenres,
+} from "../services/searching";
 
-const sortOptions = [
-  { label: "POPULAR", value: "popular" },
-  { label: "LATEST", value: "latest" },
-  { label: "Name (A–Z)", value: "az" },
-  { label: "Name (Z–A)", value: "za" },
-];
-const genreList = [
-  {
-    id: 28,
-    name: "ACTION",
-  },
-  {
-    id: 1,
-    name: "ADVENTURE",
-  },
-  {
-    id: 35,
-    name: "COMEDY",
-  },
-  {
-    id: 878,
-    name: "SCI-FI",
-  },
-];
-export default function Filtering({
-  sortOption,
-  onSortChange,
-  onSearchResults,
-  onGenre,
-}) {
-  const [count, setCount] = useState(0);
-
-  const [isOpen, setIsOpen] = useState(false);
+export default function Filtering({ onSearchResults, onGenre }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [count, setCount] = useState(0);
+  const [genreList, setGenreList] = useState([]);
   const { register, handleSubmit } = useForm();
 
-  const handleSearch = async (value) => {
-    if (!value.query.trim()) return;
-    try {
-      const data = await searchingMovie(value);
-      console.log(value.query);
-      if (onSearchResults) {
-        onSearchResults(data.results);
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        const res = await getAllGenres();
+        setGenreList(res.results);
+      } catch (err) {
+        console.error("Failed to fetch genres:", err);
       }
-      setSearchParams(value);
-      setCount(data.results.length);
-    } catch (error) {
-      console.error("Error fetching search results:", error);
+    };
+    fetchGenres();
+  }, []);
+
+  // Fungsi pencarian
+  const handleSearch = async ({ query }) => {
+    try {
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set("query", query);
+        newParams.delete("genre");
+        return newParams;
+      });
+
+      const res = await searchingMovie(query);
+      onGenre(null);
+      onSearchResults(res.results);
+      setCount(res.results.length);
+    } catch (err) {
+      console.error("Search Error:", err);
     }
   };
-  const handleGenre = async (value) => {
+
+  // Fungsi filter genre
+  const handleGenre = async (genreName) => {
     try {
-      const data = await filterByGenre(value);
-      onSearchResults(null);
-      onGenre(data.results);
-      console.log(data);
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        newParams.set("genre", genreName.toLowerCase());
+        newParams.delete("query");
+        return newParams;
+      });
+
+      const res = await filterByGenre(genreName.toLowerCase());
+      onSearchResults(res.results);
+      onGenre(res.results);
+      setCount(res.results.length);
     } catch (err) {
-      console.log(err);
+      console.error("Genre Filter Error:", err);
     }
   };
 
   return (
     <div className="px-6 py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 relative">
-        <h2 className="text-2xl font-bold">Now Showing in Cinemas</h2>
+      <h2 className="text-2xl font-bold mb-6">Now Showing in Cinemas</h2>
 
-        <div className="relative inline-block text-left">
+      {/* Search Form */}
+      <form
+        className="w-full relative md:w-1/3 mb-6"
+        onSubmit={handleSubmit(handleSearch)}
+      >
+        <Search
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+          size={16}
+        />
+        <input
+          type="text"
+          placeholder="Search Your Movie"
+          defaultValue={searchParams.get("query")}
+          {...register("query")}
+          className="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 outline-none"
+        />
+        <button className="hidden" type="submit" />
+      </form>
+
+      {/* Genre Filter */}
+      <div className="flex flex-wrap gap-3">
+        {genreList.map((genre) => (
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="bg-secondary text-white px-4 py-2 rounded-md flex items-center gap-2 font-semibold"
+            key={genre.id}
+            onClick={() => handleGenre(genre.name)}
+            className="px-4 py-2 border border-gray-400 rounded-full text-sm font-semibold hover:bg-gray-100"
           >
-            {sortOptions.find((o) => o.value === sortOption)?.label || "Sort"}
-            <ChevronDown size={16} />
+            {genre.name}
           </button>
+        ))}
+      </div>
 
-          {isOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-              {sortOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => {
-                    onSortChange(option.value);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-4 py-2 hover:bg-hover flex justify-between items-center ${
-                    sortOption === option.value
-                      ? "text-secondary font-semibold"
-                      : ""
-                  }`}
-                >
-                  {option.label}
-                  {sortOption === option.value && <Check size={16} />}
-                </button>
-              ))}
-            </div>
-          )}
+      {/* Search Result Info */}
+      {searchParams.get("query") && (
+        <div className="mt-5 font-display font-md text-2xl">
+          Hasil pencarian untuk "{searchParams.get("query")}" ({count})
         </div>
-      </div>
-
-      <div className="mt-6 flex flex-col md:flex-row md:items-center gap-4">
-        <form
-          className=" w-full relative md:w-1/3"
-          onSubmit={handleSubmit(handleSearch)}
-        >
-          <div>
-            <Search
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={16}
-            />
-            <input
-              type="text"
-              placeholder="Search Your Movie"
-              defaultValue={searchParams.get("query")}
-              {...register("query")}
-              className="w-full border border-gray-300 rounded-full py-2 pl-10 pr-4 outline-none"
-            />{" "}
-            <button className="hidden" type="submit" />
-          </div>
-        </form>
-
-        <div className="flex flex-wrap gap-3">
-          {genreList.map((genre) => (
-            <button
-              key={genre.id}
-              onClick={() => {
-                handleGenre(genre.id);
-              }}
-              className="px-4 py-2 border border-gray-400 rounded-full text-sm font-semibold hover:bg-gray-100"
-            >
-              {genre.name}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className=" mt-5 font-display font-md text-2xl">
-        {searchParams.get("query") &&
-          `Hasil Pencarian dari
-            ${searchParams.get("query")} "(${count})"`}
-      </div>
+      )}
     </div>
   );
 }

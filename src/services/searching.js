@@ -1,19 +1,15 @@
-const TMDB_API_URL =
-  "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1";
-const TMDB_OPTIONS = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MmVhOGUwYjY1MGIyMDJkMTRlYmI1MjI5ZGQwZmRmOSIsIm5iZiI6MTc0NzM3Njk3NC42OTUwMDAyLCJzdWIiOiI2ODI2ZGI0ZTkxMTY1ZjYzYmE2ZWZjODAiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.UVz4N682u9la2B2SkINIeIYfKNJm8lvWBUzLCrs-3Wo",
-  },
+import axios from "axios";
+
+export const searchingMovie = async (query) => {
+  const res = await axios.get(`http://localhost:8888/movie?search=${query}`);
+  return res.data;
 };
-async function searchingMovie(query) {
-  const response = await fetch(
-    `${TMDB_API_URL}&query=${encodeURIComponent(query)}`,
-    TMDB_OPTIONS
-  );
-  const data = await response.json();
+export const filterByGenre = async (genreId) => {
+  const res = await axios.get(`http://localhost:8888/movie?genre=${genreId}`);
+  return res.data;
+};
+export const getAllGenres = async () => {
+  const res = await fetch("http://localhost:8888/movie/genre");
+  const data = await res.json();
   return data;
-}
-export { searchingMovie };
+};

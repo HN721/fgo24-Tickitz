@@ -14,36 +14,31 @@ export default function MoviePage() {
   const [searchResults, setSearchResults] = useState(null);
   const [genre, setGenre] = useState(null);
   const [movieList, setMovieList] = useState([]);
-  const [sortOption, setSortOption] = useState([]);
+
   useEffect(() => {
-    if (!searchResults) {
+    if (!searchResults && !genre) {
       const fetchMovies = async () => {
-        const movies = await getPage(currentPage, sortOption);
+        const movies = await getPage();
         setMovieList(movies);
       };
       fetchMovies();
     }
-  }, [currentPage, searchResults, sortOption]);
+  }, [currentPage, searchResults, genre]);
 
   return (
     <div className="flex flex-col mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-24 2xl:mx-32">
       <ScrollRestoration />
       <Navbar />
       <Movieweek />
-      <Filtering
-        sortOption={sortOption}
-        onSortChange={setSortOption}
-        onSearchResults={setSearchResults}
-        onGenre={setGenre}
-      />
+
+      <Filtering onSearchResults={setSearchResults} onGenre={setGenre} />
 
       <div className="flex flex-col items-center justify-center w-full mb-12">
         <Movielist
           classType="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 place-items-center"
-          sortOption={sortOption}
           movies={searchResults || genre || movieList}
         />
-        {!searchResults && (
+        {!searchResults && !genre && (
           <Pagination
             currentPage={currentPage}
             onPageChange={setCurrentPage}
