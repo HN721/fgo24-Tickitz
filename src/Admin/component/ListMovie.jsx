@@ -72,7 +72,6 @@ export default function ListMovie() {
 
   const handleDelete = (id) => {
     console.log("Delete movie with id:", id);
-    // Tambahan konfirmasi atau fungsi delete API di sini
   };
 
   if (loading) {

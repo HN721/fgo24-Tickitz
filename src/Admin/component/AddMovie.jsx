@@ -141,7 +141,7 @@ export default function AddMovie() {
       });
 
       if (res.status === 201 && res.data.success) {
-        alert("Movie successfully added!");
+        alert("Anjay ");
         setFormData({
           title: "",
           year: "",

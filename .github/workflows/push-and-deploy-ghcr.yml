@@ -41,10 +41,15 @@ jobs:
           port: 9201
           script: |
             echo "Pulling latest image from GHCR..."
-            echo "Pulling latest image from GHCR..."
             docker login ghcr.io -u ${{ github.actor }} --password ${{ secrets.HOSEA_TOKEN }}
             docker pull ghcr.io/hn721/fgo24-tickitz:latest
+
             echo "Stopping existing container..."
-            docker compose down || true
-            echo "Starting Docker Compose..."
-            docker compose up -d
+            docker stop tickitz-container || true
+            docker rm tickitz-container || true
+
+            echo "Starting container with docker run..."
+            docker run -d \
+            --name tickitz-container \
+            -p 9202:80 \
+            ghcr.io/hn721/fgo24-tickitz:latest
