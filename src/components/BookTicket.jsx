@@ -43,6 +43,7 @@ export default function BookTicket({ setData }) {
         setCinemas(res.data.results);
       } catch (err) {
         console.error("Failed to fetch cinemas:", err);
+        setCinemas([]);
       }
     };
     fetchCinemas();
@@ -117,7 +118,7 @@ export default function BookTicket({ setData }) {
           <div className="flex justify-between items-center mb-4">
             <label className="font-medium">Choose Cinema</label>
             <span className="text-sm text-gray-500">
-              {cinemas?.length} Results
+              {cinemas.length} Results
             </span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
