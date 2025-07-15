@@ -38,7 +38,7 @@ export default function AddMovie() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const res = await fetch("http://localhost:8888/movie/genre");
+        const res = await fetch("http://146.190.102.54:9203/movie/genre");
         const data = await res.json();
 
         if (data.success) {
@@ -133,7 +133,7 @@ export default function AddMovie() {
       console.log("actor", selectedCasts);
       form.append("genres", JSON.stringify(selectedGenres));
 
-      const res = await axios.post("http://localhost:8888/movie", form, {
+      const res = await axios.post("http://146.190.102.54:9203/movie", form, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

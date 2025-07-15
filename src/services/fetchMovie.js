@@ -1,6 +1,6 @@
 // fetchMovie.js
 const getData = async () => {
-  const url = "http://localhost:8888/movie/now-showing";
+  const url = "http://146.190.102.54:9203/movie/now-showing";
   const res = await fetch(url);
   const result = await res.json();
   console.log(result);
@@ -8,7 +8,7 @@ const getData = async () => {
 };
 
 const getPage = async () => {
-  const url = `http://localhost:8888/movie`;
+  const url = `http://146.190.102.54:9203/movie`;
   const res = await fetch(url);
   const json = await res.json();
   console.log(json.results);
@@ -16,7 +16,7 @@ const getPage = async () => {
 };
 
 async function getMoviebyId(id) {
-  const fetching = await fetch(`http://localhost:8888/movie/detail/${id}`);
+  const fetching = await fetch(`http://146.190.102.54:9203/movie/detail/${id}`);
 
   const res = await fetching.json();
   console.log(res.results);
