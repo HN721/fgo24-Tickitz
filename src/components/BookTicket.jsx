@@ -12,6 +12,7 @@ export default function BookTicket({ setData }) {
   const { register, handleSubmit, setValue } = useForm();
   const [cinemas, setCinemas] = useState([]);
   const [selectedCinemaId, setSelectedCinemaId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { setBookings } = useContext(DataContext);
 
   const logoMap = {
@@ -40,10 +41,18 @@ export default function BookTicket({ setData }) {
     const fetchCinemas = async () => {
       try {
         const res = await http().get("/cinema");
-        setCinemas(res.data.results);
+        const data = res.data?.results;
+        if (Array.isArray(data)) {
+          setCinemas(data);
+        } else {
+          console.error("Invalid cinema data:", data);
+          setCinemas([]);
+        }
       } catch (err) {
         console.error("Failed to fetch cinemas:", err);
         setCinemas([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCinemas();
@@ -52,7 +61,6 @@ export default function BookTicket({ setData }) {
   const onSubmit = (form) => {
     setData((prev) => ({ ...prev, ...form }));
     setBookings((prev) => ({ ...prev, ...form }));
-
     navigate("/Seat");
   };
 
@@ -98,7 +106,6 @@ export default function BookTicket({ setData }) {
             </select>
           </div>
 
-          {/* Lokasi */}
           <div>
             <label className="font-medium mb-2 block">Choose Location</label>
             <select
@@ -113,7 +120,6 @@ export default function BookTicket({ setData }) {
           </div>
         </div>
 
-        {/* Pilihan cinema */}
         <div>
           <div className="flex justify-between items-center mb-4">
             <label className="font-medium">Choose Cinema</label>
@@ -121,28 +127,35 @@ export default function BookTicket({ setData }) {
               {cinemas?.length || 0} Results
             </span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {cinemas.map((cinema) => (
-              <div
-                key={cinema.id}
-                onClick={() => {
-                  setSelectedCinemaId(cinema.id);
-                  setValue("cinemaId", cinema.id);
-                }}
-                className={`border rounded-lg p-4 flex items-center justify-center h-[153px] cursor-pointer transition ${
-                  selectedCinemaId === cinema.id
-                    ? "border-4 bg-secondary"
-                    : "border-gray-200 hover:bg-secondary/40"
-                }`}
-              >
-                <img
-                  src={logoMap[cinema.name] || cinema.logo}
-                  alt={cinema.name}
-                  className="max-h-16 object-contain"
-                />
-              </div>
-            ))}
-          </div>
+
+          {loading ? (
+            <p className="text-gray-500">Loading cinemas...</p>
+          ) : cinemas.length === 0 ? (
+            <p className="text-red-500">No cinemas available.</p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {cinemas.map((cinema) => (
+                <div
+                  key={cinema.id}
+                  onClick={() => {
+                    setSelectedCinemaId(cinema.id);
+                    setValue("cinemaId", cinema.id);
+                  }}
+                  className={`border rounded-lg p-4 flex items-center justify-center h-[153px] cursor-pointer transition ${
+                    selectedCinemaId === cinema.id
+                      ? "border-4 bg-secondary"
+                      : "border-gray-200 hover:bg-secondary/40"
+                  }`}
+                >
+                  <img
+                    src={logoMap[cinema.name] || cinema.logo}
+                    alt={cinema.name}
+                    className="max-h-16 object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </form>
