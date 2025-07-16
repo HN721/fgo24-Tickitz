@@ -67,7 +67,7 @@ export default function Movielist({ classType, movies }) {
                   src={
                     item.poster.startsWith("http")
                       ? item.poster
-                      : `http://localhost:8888/uploads/profile/${item.poster}`
+                      : `http://146.190.102.54:9202/uploads/profile/${item.poster}`
                   }
                   alt={item.title}
                   className="w-full h-72 object-cover rounded-lg"
